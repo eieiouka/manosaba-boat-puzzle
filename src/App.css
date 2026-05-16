@@ -459,3 +459,7 @@ h1 {
     padding: 7px;
   }
 }
+
+body {
+  outline: 8px solid red;
+}
