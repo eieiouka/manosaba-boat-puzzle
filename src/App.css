@@ -460,6 +460,34 @@ h1 {
   }
 }
 
-body {
-  outline: 8px solid red;
+@media (max-width: 820px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .app {
+    width: 100%;
+    padding: 8px;
+    display: block;
+  }
+
+  .game-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .river-area {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .people-list {
+    max-width: 100%;
+    overflow: hidden;
+  }
 }
