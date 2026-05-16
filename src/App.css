@@ -285,7 +285,7 @@ h1 {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 9999;
 
   display: grid;
   place-items: center;
@@ -422,17 +422,21 @@ h1 {
     left: 50%;
     width: 180px;
     min-height: 116px;
+
     bottom: auto;
-    transform: translateX(-50%);
-    transition: top 0.7s linear;
+    top: 18px;
+
+    transform: translate(-50%, 0);
+
+    transition: transform 0.7s linear;
   }
 
   .boat-left {
-    top: 18px;
+    transform: translate(-50%, 0);
   }
 
   .boat-right {
-    top: 166px;
+    transform: translate(-50%, 148px);
   }
 
   .boat-people {
