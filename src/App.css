@@ -257,44 +257,88 @@ h1 {
 
 @media (max-width: 820px) {
   .app {
-    padding: 14px;
+    padding: 12px;
   }
 
   .game-card {
-    padding: 18px;
+    padding: 16px;
   }
 
   .river-area {
     grid-template-columns: 1fr;
-
+    grid-template-rows: auto 300px auto;
     min-height: auto;
   }
 
-  .river {
-    height: 270px;
+  .bank {
+    padding: 14px;
   }
 
-  .boat {
-    bottom: 48px;
+  .bank h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+
+  .people-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: center;
   }
 
   .person {
-    width: 76px;
-    height: 96px;
+    width: 58px;
+    height: 78px;
+    border-radius: 16px;
   }
 
   .person img {
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
+  }
+
+  .person small {
+    font-size: 11px;
+  }
+
+  .river {
+    height: 300px;
+  }
+
+  .boat {
+    left: 50%;
+    width: 180px;
+    min-height: 116px;
+    bottom: auto;
+    transform: translateX(-50%);
+    transition: top 0.7s linear;
+  }
+
+  .boat-left {
+    top: 18px;
+  }
+
+  .boat-right {
+    top: 166px;
+  }
+
+  .boat-people {
+    min-height: 58px;
+    gap: 8px;
   }
 
   .in-boat {
-    width: 64px;
-    height: 64px;
+    width: 58px;
+    height: 58px;
   }
 
   .in-boat img {
-    width: 64px;
-    height: 64px;
+    width: 58px;
+    height: 58px;
+  }
+
+  .move-button {
+    margin-top: 8px;
+    padding: 7px;
   }
 }
