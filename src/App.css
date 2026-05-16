@@ -508,7 +508,7 @@ h1 {
   }
 
   .bank {
-    height: 170px;
+    height: 150px;
   }
 
   .bank h2 {
@@ -564,7 +564,7 @@ h1 {
   }
 
   .boat-right {
-    transform: translate(-50%, 92px);
+    transform: translate(-50%, 76px);
   }
 
   .boat-people {
