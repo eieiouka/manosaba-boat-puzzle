@@ -83,6 +83,11 @@ h1 {
   border-radius: 24px;
   padding: 18px;
   border: 1px solid rgba(255, 255, 255, 0.12);
+
+  height: 430px;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .bank h2 {
@@ -93,6 +98,10 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
+
+  align-content: flex-start;
+
+  flex: 1;
 }
 
 .person {
@@ -271,7 +280,7 @@ h1 {
   }
 
   .bank {
-    padding: 14px;
+    height: 140px;
   }
 
   .bank h2 {
