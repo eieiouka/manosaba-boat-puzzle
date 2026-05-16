@@ -105,6 +105,7 @@ h1 {
   display: grid;
   place-items: center;
   cursor: pointer;
+
   transition:
     transform 0.16s ease,
     opacity 0.16s ease;
@@ -120,12 +121,10 @@ h1 {
 }
 
 .person img {
-  width: 62px;
-  height: 62px;
+  width: 74px;
+  height: 74px;
   object-fit: cover;
   border-radius: 50%;
-  background: #fff;
-  border: 3px solid rgba(255, 255, 255, 0.9);
 }
 
 .person small {
@@ -184,12 +183,12 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 10px;
-  min-height: 66px;
+  min-height: 74px;
 }
 
 .in-boat {
-  width: 62px;
-  height: 62px;
+  width: 74px;
+  height: 74px;
 
   border-radius: 50%;
 
@@ -199,8 +198,10 @@ h1 {
 }
 
 .in-boat img {
-  width: 62px;
-  height: 62px;
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .in-boat small {
@@ -283,7 +284,17 @@ h1 {
   }
 
   .person img {
-    width: 54px;
-    height: 54px;
+    width: 64px;
+    height: 64px;
+  }
+
+  .in-boat {
+    width: 64px;
+    height: 64px;
+  }
+
+  .in-boat img {
+    width: 64px;
+    height: 64px;
   }
 }
