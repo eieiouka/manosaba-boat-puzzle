@@ -1,285 +1,457 @@
-import { useMemo, useState } from "react";
-import "./App.css";
-
-const CHARACTERS = [
-  { id: "ema", name: "エマ", img: "/images/ema.png" },
-  { id: "sherry", name: "シェリー", img: "/images/sherry.png" },
-  { id: "hanna", name: "ハンナ", img: "/images/hanna.png" },
-  { id: "hiro", name: "ヒロ", img: "/images/hiro.png" },
-  { id: "nanoka", name: "ナノカ", img: "/images/nanoka.png" },
-];
-
-const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
-  ...c,
-  side: "left",
-}));
-
-const BOAT_TIME = 700;
-
-export default function App() {
-  const [people, setPeople] = useState(INITIAL_PEOPLE);
-  const [boat, setBoat] = useState([]);
-  const [boatSide, setBoatSide] = useState("left");
-  const [boatPosition, setBoatPosition] = useState("left");
-  const [isMoving, setIsMoving] = useState(false);
-  const [moves, setMoves] = useState(0);
-
-  const [showRules, setShowRules] = useState(false);
-
-  const clear = useMemo(
-    () => people.every((p) => p.side === "right") && boat.length === 0,
-    [people, boat]
-  );
-
-  const peopleOnSide = (side) =>
-    people.filter((p) => p.side === side);
-
-  const boardPerson = (person) => {
-    if (isMoving) return;
-    if (person.side !== boatSide) return;
-    if (boat.length >= 2) return;
-
-    setPeople((prev) =>
-      prev.filter((p) => p.id !== person.id)
-    );
-
-    setBoat((prev) => [...prev, person]);
-  };
-
-  const leaveBoat = (person) => {
-    if (isMoving) return;
-
-    setBoat((prev) =>
-      prev.filter((p) => p.id !== person.id)
-    );
-
-    setPeople((prev) => [
-      ...prev,
-      { ...person, side: boatSide },
-    ]);
-  };
-
-  const checkDeathAtCenter = () => {
-    // 後で死亡条件を書く
-    return false;
-  };
-
-  const moveBoat = () => {
-    if (isMoving) return;
-    if (boat.length === 0) return;
-
-    const nextSide =
-      boatSide === "left" ? "right" : "left";
-
-    setIsMoving(true);
-
-    // 一気に反対側へ移動
-    setBoatPosition(nextSide);
-
-    // 中央通過タイミングで死亡判定
-    setTimeout(() => {
-      const isDead = checkDeathAtCenter();
-
-      if (isDead) {
-        setIsMoving(false);
-        return;
-      }
-    }, BOAT_TIME / 2);
-
-    // 到着処理
-    setTimeout(() => {
-      setBoatSide(nextSide);
-
-      setMoves((m) => m + 1);
-
-      setIsMoving(false);
-    }, BOAT_TIME);
-  };
-
-  const resetGame = () => {
-    setPeople(INITIAL_PEOPLE);
-
-    setBoat([]);
-
-    setBoatSide("left");
-
-    setBoatPosition("left");
-
-    setIsMoving(false);
-
-    setMoves(0);
-  };
-
-  return (
-    <main className="app">
-      <section className="game-card">
-        <header className="header">
-          <h1>まのさば 船渡りパズル</h1>
-
-          <button
-            className="rule-button"
-            onClick={() => setShowRules(true)}
-          >
-            ルール説明
-          </button>
-        </header>
-
-        <div className="status">
-          <span>手数：{moves}</span>
-
-          <button
-            onClick={resetGame}
-            disabled={isMoving}
-          >
-            リセット
-          </button>
-        </div>
-
-        <div className="river-area">
-          <Bank
-            title="こちら岸"
-            side="left"
-            people={peopleOnSide("left")}
-            boatSide={boatSide}
-            isMoving={isMoving}
-            onBoard={boardPerson}
-          />
-
-          <div className="river">
-            <div
-              className={`boat boat-${boatPosition}`}
-            >
-              <div className="boat-people">
-                {boat.map((p) => (
-                  <button
-                    key={p.id}
-                    className="person in-boat"
-                    onClick={() => leaveBoat(p)}
-                    disabled={isMoving}
-                  >
-                    <img
-                      src={p.img}
-                      alt={p.name}
-                    />
-                  </button>
-                ))}
-              </div>
-
-              <button
-                className="move-button"
-                onClick={moveBoat}
-                disabled={
-                  isMoving || boat.length === 0
-                }
-              >
-                {isMoving
-                  ? "移動中..."
-                  : "出航"}
-              </button>
-            </div>
-          </div>
-
-          <Bank
-            title="向こう岸"
-            side="right"
-            people={peopleOnSide("right")}
-            boatSide={boatSide}
-            isMoving={isMoving}
-            onBoard={boardPerson}
-          />
-        </div>
-
-        {clear && (
-          <div className="clear">
-            <h2>クリア！</h2>
-
-            <p>
-              {moves}
-              手で全員を向こう岸へ運びました。
-            </p>
-
-            <button onClick={resetGame}>
-              もう一度
-            </button>
-          </div>
-        )}
-
-        {showRules && (
-          <div
-            className="modal-backdrop"
-            onClick={() =>
-              setShowRules(false)
-            }
-          >
-            <div
-              className="modal"
-              onClick={(e) =>
-                e.stopPropagation()
-              }
-            >
-              <h2>ルール説明</h2>
-
-              <p>
-                船には最大2人まで乗れます。
-              </p>
-
-              <p>
-                誰も乗っていない状態では、
-                船は動きません。
-              </p>
-
-              <p>
-                特定条件を満たすと、
-                川の中央で死亡判定が
-                発生します。
-              </p>
-
-              <button
-                onClick={() =>
-                  setShowRules(false)
-                }
-              >
-                閉じる
-              </button>
-            </div>
-          </div>
-        )}
-      </section>
-    </main>
-  );
+* {
+  box-sizing: border-box;
 }
 
-function Bank({
-  title,
-  side,
-  people,
-  boatSide,
-  isMoving,
-  onBoard,
-}) {
-  return (
-    <section className="bank">
-      <h2>{title}</h2>
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #101820;
+  color: #fff;
 
-      <div className="people-list">
-        {people.map((p) => (
-          <button
-            key={p.id}
-            className="person"
-            onClick={() => onBoard(p)}
-            disabled={
-              isMoving || boatSide !== side
-            }
-          >
-            <img
-              src={p.img}
-              alt={p.name}
-            />
+  overflow-x: hidden;
+}
 
-            <small>{p.name}</small>
-          </button>
-        ))}
-      </div>
-    </section>
-  );
+button {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.game-card {
+  width: 100%;
+  max-width: 1120px;
+
+  background: #182531;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 28px;
+
+  padding: 28px;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+
+  margin-bottom: 8px;
+}
+
+h1 {
+  margin: 0;
+
+  font-size: clamp(28px, 5vw, 46px);
+
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    sans-serif;
+
+  font-weight: 900;
+
+  letter-spacing: 0.04em;
+
+  color: #8fd3ff;
+
+  text-shadow:
+    0 0 10px rgba(143, 211, 255, 0.3),
+    0 0 24px rgba(143, 211, 255, 0.18);
+}
+
+.rule-button {
+  border: 0;
+  border-radius: 999px;
+
+  padding: 9px 16px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  color: #dff5ff;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.rule-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+
+  transform: translateY(-2px);
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 28px 0 18px;
+}
+
+.status button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: #fff;
+  color: #182531;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.status button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.river-area {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr 1fr;
+  gap: 18px;
+  min-height: 430px;
+}
+
+.bank {
+  background: #223545;
+  border-radius: 24px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  height: 430px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.bank h2 {
+  margin: 0 0 16px;
+}
+
+.people-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  align-content: flex-start;
+
+  flex: 1;
+}
+
+.person {
+  width: 88px;
+  height: 108px;
+  border: 0;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.11);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+
+  transition:
+    transform 0.16s ease,
+    opacity 0.16s ease;
+}
+
+.person:hover:not(:disabled) {
+  transform: translateY(-4px);
+}
+
+.person:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.person img {
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.person small {
+  font-weight: 800;
+}
+
+.river {
+  position: relative;
+  overflow: hidden;
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    ),
+    repeating-linear-gradient(
+      135deg,
+      #2072a2 0,
+      #2072a2 20px,
+      #1c638e 20px,
+      #1c638e 40px
+    );
+}
+
+.boat {
+  position: absolute;
+  bottom: 64px;
+
+  width: 210px;
+  min-height: 128px;
+
+  padding: 14px;
+
+  border-radius: 24px 24px 48px 48px;
+
+  background: #8b5a2b;
+
+  border-bottom: 12px solid #5d3517;
+
+  transform: translateX(-50%);
+
+  transition: left 0.7s linear;
+}
+
+.boat-left {
+  left: 31%;
+}
+
+.boat-right {
+  left: 69%;
+}
+
+.boat-people {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  min-height: 74px;
+}
+
+.in-boat {
+  width: 74px;
+  height: 74px;
+
+  border-radius: 50%;
+
+  padding: 0;
+
+  background: transparent;
+}
+
+.in-boat img {
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.in-boat small {
+  display: none;
+}
+
+.move-button {
+  width: 100%;
+
+  margin-top: 10px;
+
+  border: 0;
+  border-radius: 999px;
+
+  padding: 8px;
+
+  background: #ffe48a;
+  color: #3b260f;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.move-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.modal {
+  width: min(420px, 100%);
+
+  background: #182531;
+
+  border-radius: 24px;
+
+  padding: 22px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  text-align: left;
+}
+
+.modal h2 {
+  margin: 0 0 14px;
+
+  font-family:
+    "Trebuchet MS",
+    "Segoe UI",
+    sans-serif;
+
+  font-size: clamp(28px, 5vw, 40px);
+
+  font-weight: 900;
+
+  letter-spacing: 0.05em;
+
+  color: #ff8fd3;
+
+  text-align: center;
+
+  text-shadow:
+    0 0 10px rgba(255, 143, 211, 0.35),
+    0 0 24px rgba(255, 143, 211, 0.22);
+}
+
+.modal p {
+  margin: 8px 0;
+  color: #d8e4ee;
+}
+
+.modal button {
+  width: 100%;
+
+  margin-top: 16px;
+
+  border: 0;
+  border-radius: 999px;
+
+  padding: 10px;
+
+  background: #fff;
+  color: #182531;
+
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+@media (max-width: 820px) {
+  .app {
+    padding: 12px;
+  }
+
+  .game-card {
+    padding: 16px;
+  }
+
+  .header {
+    gap: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+  }
+
+  .rule-button {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+
+  .river-area {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 300px auto;
+    min-height: auto;
+  }
+
+  .bank {
+    height: 140px;
+  }
+
+  .bank h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+
+  .people-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .person {
+    width: 58px;
+    height: 78px;
+    border-radius: 16px;
+  }
+
+  .person img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .person small {
+    font-size: 11px;
+  }
+
+  .river {
+    height: 300px;
+  }
+
+  .boat {
+    left: 50%;
+    width: 180px;
+    min-height: 116px;
+    bottom: auto;
+    transform: translateX(-50%);
+    transition: top 0.7s linear;
+  }
+
+  .boat-left {
+    top: 18px;
+  }
+
+  .boat-right {
+    top: 166px;
+  }
+
+  .boat-people {
+    min-height: 58px;
+    gap: 8px;
+  }
+
+  .in-boat {
+    width: 58px;
+    height: 58px;
+  }
+
+  .in-boat img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .move-button {
+    margin-top: 8px;
+    padding: 7px;
+  }
 }
