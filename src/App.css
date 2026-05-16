@@ -481,13 +481,109 @@ h1 {
     border-radius: 20px;
   }
 
-  .river-area {
-    width: 100%;
+  .header {
     gap: 10px;
   }
 
+  h1 {
+    font-size: 28px;
+  }
+
+  .rule-button {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+
+  .river-area {
+    width: 100%;
+
+    grid-template-columns: 1fr;
+
+    /* ← ここ重要 */
+    grid-template-rows: auto 220px auto;
+
+    gap: 10px;
+
+    min-height: auto;
+  }
+
+  .bank {
+    height: 170px;
+  }
+
+  .bank h2 {
+    margin: 0 0 10px;
+    font-size: 18px;
+  }
+
   .people-list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    justify-content: center;
+
     max-width: 100%;
     overflow: hidden;
+  }
+
+  .person {
+    width: 58px;
+    height: 78px;
+    border-radius: 16px;
+  }
+
+  .person img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .person small {
+    font-size: 11px;
+  }
+
+  .river {
+    height: 220px;
+  }
+
+  .boat {
+    left: 50%;
+
+    width: 180px;
+    min-height: 116px;
+
+    bottom: auto;
+    top: 18px;
+
+    transform: translate(-50%, 0);
+
+    transition: transform 0.7s linear;
+  }
+
+  .boat-left {
+    transform: translate(-50%, 0);
+  }
+
+  .boat-right {
+    transform: translate(-50%, 92px);
+  }
+
+  .boat-people {
+    min-height: 58px;
+    gap: 8px;
+  }
+
+  .in-boat {
+    width: 58px;
+    height: 58px;
+  }
+
+  .in-boat img {
+    width: 58px;
+    height: 58px;
+  }
+
+  .move-button {
+    margin-top: 8px;
+    padding: 7px;
   }
 }
