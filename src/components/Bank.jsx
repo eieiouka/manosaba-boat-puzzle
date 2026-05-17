@@ -28,7 +28,7 @@ export default function Bank({
             onLongPressCancel={onLongPressCancel}
             buttonRef={(el) => {
               if (characterRefs) {
-                characterRefs.current[p.id] = el;
+                characterRefs.current[`${side}-${p.id}`] = el;
               }
             }}
             showName

@@ -51,8 +51,13 @@ export default function App() {
 
   const characterRefs = useRef({});
 
-  const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.22);
-  const { playVoice, unlockVoice } = useVoice(0.55);
+  const { playBgm } = useBgm(
+    "/bgm/BGM_puzzle.mp3",
+    0.22
+  );
+
+  const { playVoice, unlockVoice } =
+    useVoice(0.55);
 
   const clear = useMemo(
     () =>
@@ -68,15 +73,78 @@ export default function App() {
 
   const makeNanokaShotStyle = () => {
     const containerEl = gameCardRef.current;
-    const nanokaEl = characterRefs.current.nanoka;
-    const emaEl = characterRefs.current.ema;
 
-    if (!containerEl || !nanokaEl || !emaEl) {
+    const getVisibleCharacterEl = (id) => {
+      const candidates = [
+        characterRefs.current[`boat-${id}`],
+        characterRefs.current[`left-${id}`],
+        characterRefs.current[`right-${id}`],
+      ];
+
+      return candidates.find((el) => {
+        if (!el) return false;
+
+        if (!el.isConnected) return false;
+
+        const rect = el.getBoundingClientRect();
+
+        return (
+          rect.width > 0 &&
+          rect.height > 0
+        );
+      });
+    };
+
+    const nanokaEl =
+      getVisibleCharacterEl("nanoka");
+
+    const emaEl =
+      getVisibleCharacterEl("ema");
+
+    const makeStyle = (
+      startX,
+      startY,
+      endX,
+      endY
+    ) => {
+      const dx = endX - startX;
+      const dy = endY - startY;
+
+      const distance = Math.max(
+        Math.sqrt(dx * dx + dy * dy),
+        1
+      );
+
+      const angle =
+        (Math.atan2(dy, dx) * 180) / Math.PI;
+
+      return {
+        "--shot-start-x": `${startX}px`,
+        "--shot-start-y": `${startY}px`,
+        "--shot-end-x": `${endX}px`,
+        "--shot-end-y": `${endY}px`,
+        "--shot-dx": `${dx}px`,
+        "--shot-dy": `${dy}px`,
+        "--shot-angle": `${angle}deg`,
+        "--shot-distance": `${distance}px`,
+      };
+    };
+
+    if (!containerEl) {
       return {};
     }
 
     const containerRect =
       containerEl.getBoundingClientRect();
+
+    if (!nanokaEl || !emaEl) {
+      return makeStyle(
+        containerRect.width * 0.35,
+        containerRect.height * 0.55,
+        containerRect.width * 0.65,
+        containerRect.height * 0.55
+      );
+    }
 
     const nanokaRect =
       nanokaEl.getBoundingClientRect();
@@ -104,38 +172,29 @@ export default function App() {
       emaRect.height / 2 -
       containerRect.top;
 
-    const dx = endX - startX;
-    const dy = endY - startY;
-
-    const distance = Math.sqrt(
-      dx * dx + dy * dy
+    return makeStyle(
+      startX,
+      startY,
+      endX,
+      endY
     );
-
-    const angle =
-      (Math.atan2(dy, dx) * 180) / Math.PI;
-
-    return {
-      "--shot-start-x": `${startX}px`,
-      "--shot-start-y": `${startY}px`,
-      "--shot-end-x": `${endX}px`,
-      "--shot-end-y": `${endY}px`,
-      "--shot-dx": `${dx}px`,
-      "--shot-dy": `${dy}px`,
-      "--shot-angle": `${angle}deg`,
-      "--shot-distance": `${distance}px`,
-    };
   };
 
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
+
       deathLogTimerRef.current = null;
     }
 
-    deathLogTimerRef.current = setTimeout(() => {
-      setDeathReason(death);
-      deathLogTimerRef.current = null;
-    }, death.delay ?? DEATH_LOG_DELAY);
+    deathLogTimerRef.current = setTimeout(
+      () => {
+        setDeathReason(death);
+
+        deathLogTimerRef.current = null;
+      },
+      death.delay ?? DEATH_LOG_DELAY
+    );
   };
 
   const playDeathVoice = (death) => {
@@ -149,17 +208,21 @@ export default function App() {
 
   const applyDeath = (death) => {
     deathRef.current = true;
+
     setIsMoving(false);
 
     if (death.effect) {
       if (death.effect === "nanoka-shot") {
-        setShotStyle(makeNanokaShotStyle());
+        setShotStyle(
+          makeNanokaShotStyle()
+        );
       }
 
       setDeathEffect(death.effect);
     }
 
     playDeathVoice(death);
+
     showDeathLogLater(death);
   };
 
@@ -168,15 +231,21 @@ export default function App() {
 
     try {
       await playBgm();
+
       await unlockVoice();
     } catch (e) {
-      console.error("音声の初期化に失敗しました", e);
+      console.error(
+        "音声の初期化に失敗しました",
+        e
+      );
     }
   };
 
   const playBoardVoice = (person) => {
     const voiceNumber =
-      Math.floor(Math.random() * BOARD_VOICE_COUNT) + 1;
+      Math.floor(
+        Math.random() * BOARD_VOICE_COUNT
+      ) + 1;
 
     playVoice(
       `/voices/${person.id}/board_${voiceNumber}.mp3`,
@@ -189,21 +258,30 @@ export default function App() {
 
     longPressedRef.current = false;
 
-    pressTimerRef.current = setTimeout(() => {
-      longPressedRef.current = true;
-      setSelectedCharacter(person);
-    }, LONG_PRESS_TIME);
+    pressTimerRef.current = setTimeout(
+      () => {
+        longPressedRef.current = true;
+
+        setSelectedCharacter(person);
+      },
+      LONG_PRESS_TIME
+    );
   };
 
   const cancelLongPress = () => {
     if (pressTimerRef.current) {
       clearTimeout(pressTimerRef.current);
+
       pressTimerRef.current = null;
     }
   };
 
   const boardPerson = (person) => {
-    if (isMoving || deathReason || deathEffect)
+    if (
+      isMoving ||
+      deathReason ||
+      deathEffect
+    )
       return;
 
     if (longPressedRef.current) return;
@@ -222,7 +300,11 @@ export default function App() {
   };
 
   const leaveBoat = (person) => {
-    if (isMoving || deathReason || deathEffect)
+    if (
+      isMoving ||
+      deathReason ||
+      deathEffect
+    )
       return;
 
     if (longPressedRef.current) return;
@@ -238,7 +320,11 @@ export default function App() {
   };
 
   const moveBoat = () => {
-    if (isMoving || deathReason || deathEffect)
+    if (
+      isMoving ||
+      deathReason ||
+      deathEffect
+    )
       return;
 
     if (boat.length === 0) return;
@@ -246,7 +332,9 @@ export default function App() {
     const departureSide = boatSide;
 
     const nextSide =
-      boatSide === "left" ? "right" : "left";
+      boatSide === "left"
+        ? "right"
+        : "left";
 
     const allPeople = [...people, ...boat];
 
@@ -277,23 +365,26 @@ export default function App() {
 
       if (boatDeath) {
         applyDeath(boatDeath);
+
         return;
       }
 
-      const departureDeath = getDeathReason(
-        departureGroup,
-        "center",
-        {
-          place: "departure",
-          side: departureSide,
-          departureSide,
-          nextSide,
-          allPeople,
-        }
-      );
+      const departureDeath =
+        getDeathReason(
+          departureGroup,
+          "center",
+          {
+            place: "departure",
+            side: departureSide,
+            departureSide,
+            nextSide,
+            allPeople,
+          }
+        );
 
       if (departureDeath) {
         applyDeath(departureDeath);
+
         return;
       }
 
@@ -472,7 +563,9 @@ export default function App() {
                     className="person in-boat"
                     disabled={isMoving}
                     canMove
-                    onClick={() => leaveBoat(p)}
+                    onClick={() =>
+                      leaveBoat(p)
+                    }
                     onLongPressStart={
                       startLongPress
                     }
@@ -480,8 +573,9 @@ export default function App() {
                       cancelLongPress
                     }
                     buttonRef={(el) => {
-                      characterRefs.current[p.id] =
-                        el;
+                      characterRefs.current[
+                        `boat-${p.id}`
+                      ] = el;
                     }}
                   />
                 ))}
@@ -576,7 +670,8 @@ export default function App() {
               </p>
 
               <p>
-                誰も乗っていない状態では、船は動きません。
+                誰も乗っていない状態では、
+                船は動きません。
               </p>
 
               <p>
@@ -594,7 +689,9 @@ export default function App() {
               </p>
 
               <p>
-                誰も死なないように、魔法少女たちを向こう岸まで運んであげましょう。
+                誰も死なないように、
+                魔法少女たちを向こう岸まで
+                運んであげましょう。
               </p>
 
               <button
