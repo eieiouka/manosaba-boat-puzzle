@@ -7,7 +7,6 @@ body {
   font-family: system-ui, sans-serif;
   background: #101820;
   color: #fff;
-
   overflow-x: hidden;
 }
 
@@ -25,13 +24,9 @@ button {
 .game-card {
   width: 100%;
   max-width: 1120px;
-
   background: #182531;
-
   border: 1px solid rgba(255, 255, 255, 0.12);
-
   border-radius: 28px;
-
   padding: 28px;
 }
 
@@ -41,26 +36,16 @@ button {
   align-items: center;
   gap: 14px;
   flex-wrap: wrap;
-
   margin-bottom: 8px;
 }
 
 h1 {
   margin: 0;
-
   font-size: clamp(28px, 5vw, 46px);
-
-  font-family:
-    "Trebuchet MS",
-    "Segoe UI",
-    sans-serif;
-
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
   font-weight: 900;
-
   letter-spacing: 0.04em;
-
   color: #8fd3ff;
-
   text-shadow:
     0 0 10px rgba(143, 211, 255, 0.3),
     0 0 24px rgba(143, 211, 255, 0.18);
@@ -69,17 +54,11 @@ h1 {
 .rule-button {
   border: 0;
   border-radius: 999px;
-
   padding: 9px 16px;
-
   background: rgba(255, 255, 255, 0.12);
-
   color: #dff5ff;
-
   font-weight: 800;
-
   cursor: pointer;
-
   transition:
     background 0.15s ease,
     transform 0.15s ease;
@@ -87,7 +66,6 @@ h1 {
 
 .rule-button:hover {
   background: rgba(255, 255, 255, 0.2);
-
   transform: translateY(-2px);
 }
 
@@ -125,9 +103,7 @@ h1 {
   border-radius: 24px;
   padding: 18px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-
   height: 430px;
-
   display: flex;
   flex-direction: column;
 }
@@ -140,9 +116,7 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-
   align-content: flex-start;
-
   flex: 1;
 }
 
@@ -156,12 +130,10 @@ h1 {
   display: grid;
   place-items: center;
   cursor: pointer;
-
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
   touch-action: manipulation;
-
   transition:
     transform 0.16s ease,
     opacity 0.16s ease;
@@ -181,7 +153,6 @@ h1 {
   height: 74px;
   object-fit: cover;
   border-radius: 50%;
-
   pointer-events: none;
 }
 
@@ -193,7 +164,6 @@ h1 {
   position: relative;
   overflow: hidden;
   border-radius: 28px;
-
   background:
     linear-gradient(
       180deg,
@@ -212,25 +182,22 @@ h1 {
 .boat {
   position: absolute;
   bottom: 64px;
-
   width: 210px;
   min-height: 128px;
-
   padding: 14px;
-
   border-radius: 24px 24px 48px 48px;
-
   background: #8b5a2b;
-
   border-bottom: 12px solid #5d3517;
-
   transform: translateX(-50%);
-
-  transition: left 0.7s linear;
+  transition: left 0.35s linear;
 }
 
 .boat-left {
   left: 31%;
+}
+
+.boat-center {
+  left: 50%;
 }
 
 .boat-right {
@@ -247,11 +214,8 @@ h1 {
 .in-boat {
   width: 74px;
   height: 74px;
-
   border-radius: 50%;
-
   padding: 0;
-
   background: transparent;
 }
 
@@ -268,19 +232,13 @@ h1 {
 
 .move-button {
   width: 100%;
-
   margin-top: 10px;
-
   border: 0;
   border-radius: 999px;
-
   padding: 8px;
-
   background: #ffe48a;
   color: #3b260f;
-
   font-weight: 900;
-
   cursor: pointer;
 }
 
@@ -293,47 +251,29 @@ h1 {
   position: fixed;
   inset: 0;
   z-index: 9999;
-
   display: grid;
   place-items: center;
-
   padding: 20px;
-
   background: rgba(0, 0, 0, 0.62);
 }
 
 .modal {
   width: min(420px, 100%);
-
   background: #182531;
-
   border-radius: 24px;
-
   padding: 22px;
-
   border: 1px solid rgba(255, 255, 255, 0.18);
-
   text-align: left;
 }
 
 .modal h2 {
   margin: 0 0 14px;
-
-  font-family:
-    "Trebuchet MS",
-    "Segoe UI",
-    sans-serif;
-
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
   font-size: clamp(28px, 5vw, 40px);
-
   font-weight: 900;
-
   letter-spacing: 0.05em;
-
   color: #ff8fd3;
-
   text-align: center;
-
   text-shadow:
     0 0 10px rgba(255, 143, 211, 0.35),
     0 0 24px rgba(255, 143, 211, 0.22);
@@ -346,19 +286,13 @@ h1 {
 
 .modal button {
   width: 100%;
-
   margin-top: 16px;
-
   border: 0;
   border-radius: 999px;
-
   padding: 10px;
-
   background: #fff;
   color: #182531;
-
   font-weight: 900;
-
   cursor: pointer;
 }
 
@@ -366,32 +300,71 @@ h1 {
   display: flex;
   align-items: center;
   gap: 16px;
-
   margin-bottom: 16px;
 }
 
 .character-modal-head img {
   width: 76px;
   height: 76px;
-
   border-radius: 50%;
-
   object-fit: cover;
 }
 
 .character-modal-head h2 {
   margin: 0;
-
   text-align: left;
-
   color: #ffe48a;
-
   text-shadow:
     0 0 6px rgba(255, 228, 138, 0.22);
 }
 
 .condition-text {
   line-height: 1.7;
+}
+
+.yellow-text {
+  color: #ffe48a;
+  font-weight: 900;
+  text-shadow:
+    0 0 6px rgba(255, 228, 138, 0.22);
+}
+
+.red-text {
+  color: #ff5c5c;
+  font-weight: 900;
+  text-shadow:
+    0 0 6px rgba(255, 92, 92, 0.24);
+}
+
+.pink-text {
+  color: #ff8fd3;
+  font-weight: 900;
+  text-shadow:
+    0 0 6px rgba(255, 143, 211, 0.24);
+}
+
+.blue-text {
+  color: #8fd3ff;
+  font-weight: 900;
+  text-shadow:
+    0 0 6px rgba(143, 211, 255, 0.24);
+}
+
+.green-text {
+  color: #98ff98;
+  font-weight: 900;
+  text-shadow:
+    0 0 6px rgba(152, 255, 152, 0.24);
+}
+
+.cannot-move {
+  opacity: 0.45;
+  background: rgba(255, 255, 255, 0.05);
+  filter: grayscale(0.45);
+}
+
+.cannot-move:hover {
+  transform: none;
 }
 
 @media (max-width: 820px) {
@@ -430,12 +403,9 @@ h1 {
 
   .river-area {
     width: 100%;
-
     grid-template-columns: 1fr;
     grid-template-rows: auto 220px auto;
-
     gap: 10px;
-
     min-height: auto;
   }
 
@@ -453,7 +423,6 @@ h1 {
     flex-wrap: nowrap;
     gap: 8px;
     justify-content: center;
-
     max-width: 100%;
     overflow: hidden;
   }
@@ -479,20 +448,20 @@ h1 {
 
   .boat {
     left: 50%;
-
     width: 180px;
     min-height: 116px;
-
     bottom: auto;
     top: 4px;
-
     transform: translate(-50%, 0);
-
-    transition: transform 0.7s linear;
+    transition: transform 0.35s linear;
   }
 
   .boat-left {
     transform: translate(-50%, 0);
+  }
+
+  .boat-center {
+    transform: translate(-50%, 38px);
   }
 
   .boat-right {
@@ -523,43 +492,4 @@ h1 {
     width: 68px;
     height: 68px;
   }
-}
-
-.cannot-move {
-  opacity: 0.45;
-
-  background: rgba(255, 255, 255, 0.05);
-
-  filter: grayscale(0.45);
-}
-
-.cannot-move:hover {
-  transform: none;
-}
-
-.yellow-text {
-  color: #ffe48a;
-
-  font-weight: 900;
-
-  text-shadow:
-    0 0 6px rgba(255, 228, 138, 0.22);
-}
-
-.red-text {
-  color: #ff5c5c;
-
-  font-weight: 900;
-
-  text-shadow:
-    0 0 6px rgba(255, 92, 92, 0.24);
-}
-
-.pink-text {
-  color: #ff8fd3;
-
-  font-weight: 900;
-
-  text-shadow:
-    0 0 6px rgba(255, 143, 211, 0.24);
 }
