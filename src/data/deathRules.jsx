@@ -232,7 +232,14 @@ export const getDeathReason = (
         </>
       ),
 
-      delay: 1500,
+        badVoice:
+            "/bad_voices/bad_ema_suicide.mp3",
+
+        badVoiceVolume: 2.2,
+
+        effect: "ema-suicide",
+
+        delay: 1500,
     };
   }
 

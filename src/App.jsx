@@ -44,6 +44,7 @@ export default function App() {
   const [smashStyle, setSmashStyle] = useState({});
   const [stabStyle, setStabStyle] = useState({});
   const [drownStyle, setDrownStyle] = useState({});
+  const [suicideStyle, setSuicideStyle] = useState({});
 
   const [started, setStarted] = useState(false);
 
@@ -340,6 +341,41 @@ export default function App() {
     };
   };
 
+  const makeEmaSuicideStyle = () => {
+    const containerEl = gameCardRef.current;
+
+    const emaEl =
+      getVisibleCharacterEl("ema");
+
+    if (!containerEl || !emaEl) {
+      return {
+        "--suicide-x": "50%",
+        "--suicide-y": "50%",
+      };
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const emaRect =
+      emaEl.getBoundingClientRect();
+
+    const x =
+      emaRect.left +
+      emaRect.width / 2 -
+      containerRect.left;
+
+    const y =
+      emaRect.top +
+      emaRect.height / 2 -
+      containerRect.top;
+
+    return {
+      "--suicide-x": `${x}px`,
+      "--suicide-y": `${y}px`,
+    };
+  };
+
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
@@ -397,6 +433,14 @@ export default function App() {
           makeHannaDrownStyle(
             death.drownTarget || "hanna"
           )
+        );
+      }
+
+      setSuicideStyle({});
+
+      if (death.effect === "ema-suicide") {
+        setSuicideStyle(
+          makeEmaSuicideStyle()
         );
       }
 
@@ -730,6 +774,19 @@ export default function App() {
             <div className="hanna-water-splash hanna-splash-3" />
 
             <div className="hanna-drown-shadow" />
+          </div>
+        )}
+
+        {deathEffect === "ema-suicide" && (
+          <div
+            className="ema-suicide-effect"
+            style={suicideStyle}
+          >
+            <div className="ema-suicide-flash" />
+
+            <div className="ema-suicide-ring" />
+
+            <div className="ema-suicide-blade" />
           </div>
         )}
 
