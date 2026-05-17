@@ -1163,7 +1163,15 @@ h1 {
   }
 
   .person small {
-    font-size: 11px;
+    width: 100%;
+
+    text-align: center;
+
+    line-height: 1.05;
+
+    font-size: 9px;
+
+    letter-spacing: -0.02em;
   }
 
   .person:hover:not(:disabled) {
