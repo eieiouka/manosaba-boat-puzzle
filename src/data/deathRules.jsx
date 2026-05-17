@@ -30,8 +30,11 @@ export const getDeathReason = (
 
         message: (
           <>
-            桜羽エマが一人で船を漕ごうとして、
-            <span className="red-text">
+            <span className="yellow-text">
+                桜羽エマ
+            </span>
+            が一人で船を漕ごうとして、
+            <span className="yellow-text">
               溺死
             </span>
             しました。
@@ -55,7 +58,10 @@ export const getDeathReason = (
 
         message: (
           <>
-            遠野ハンナが一人で船を漕ごうとして、
+            <span className="yellow-text">
+            遠野ハンナ
+            </span>
+            が一人で船を漕ごうとして、
             <span className="red-text">
               溺死
             </span>
@@ -130,13 +136,20 @@ export const getDeathReason = (
           が2人きりになり、
           ヒロがエマを
           <span className="red-text">
-            殺害
+            撲殺
           </span>
           しました。
         </>
       ),
 
-      delay: 1200,
+        effect: "hiro-smash",
+
+        badVoice:
+        "/bad_voices/bad_hiro_ema_kill.mp3",
+
+        badVoiceVolume: 2.2,
+
+        delay: 1200,
     };
   }
 
@@ -186,7 +199,11 @@ export const getDeathReason = (
 
       message: (
         <>
-          こちら岸に桜羽エマが一人きりで残されたため、
+          こちら岸に
+          <span className="yellow-text">
+            桜羽エマ
+          </span>
+          が一人きりで残されたため、
           <span className="red-text">
             自殺
           </span>
@@ -213,7 +230,10 @@ export const getDeathReason = (
 
       message: (
         <>
-          ナノカのいる場所に
+          <span className="yellow-text">
+            黒部ナノカ
+          </span>
+          のいる場所に
           <span className="yellow-text">
             橘シェリー
           </span>
@@ -221,7 +241,11 @@ export const getDeathReason = (
           <span className="yellow-text">
             二階堂ヒロ
           </span>
-          もいなかったため、桜羽エマを
+          もいなかったため、
+          <span className="yellow-text">
+            桜羽エマ
+          </span>
+          を
           <span className="red-text">
             銃殺
           </span>

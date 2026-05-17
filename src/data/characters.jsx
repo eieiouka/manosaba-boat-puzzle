@@ -77,7 +77,7 @@ export const CHARACTERS = [
         と2人きりになると、殺人衝動を抑えきれずに
         <span className="yellow-text">桜羽エマ</span>
         を
-        <span className="red-text">殺害</span>
+        <span className="red-text">撲殺</span>
         します。
         <br />
 

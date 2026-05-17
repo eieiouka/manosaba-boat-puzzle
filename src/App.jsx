@@ -39,7 +39,10 @@ export default function App() {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [deathReason, setDeathReason] = useState(null);
   const [deathEffect, setDeathEffect] = useState(null);
+
   const [shotStyle, setShotStyle] = useState({});
+  const [smashStyle, setSmashStyle] = useState({});
+
   const [started, setStarted] = useState(false);
 
   const pressTimerRef = useRef(null);
@@ -71,29 +74,29 @@ export default function App() {
   const peopleOnSide = (side) =>
     people.filter((p) => p.side === side);
 
+  const getVisibleCharacterEl = (id) => {
+    const candidates = [
+      characterRefs.current[`boat-${id}`],
+      characterRefs.current[`left-${id}`],
+      characterRefs.current[`right-${id}`],
+    ];
+
+    return candidates.find((el) => {
+      if (!el) return false;
+
+      if (!el.isConnected) return false;
+
+      const rect = el.getBoundingClientRect();
+
+      return (
+        rect.width > 0 &&
+        rect.height > 0
+      );
+    });
+  };
+
   const makeNanokaShotStyle = () => {
     const containerEl = gameCardRef.current;
-
-    const getVisibleCharacterEl = (id) => {
-      const candidates = [
-        characterRefs.current[`boat-${id}`],
-        characterRefs.current[`left-${id}`],
-        characterRefs.current[`right-${id}`],
-      ];
-
-      return candidates.find((el) => {
-        if (!el) return false;
-
-        if (!el.isConnected) return false;
-
-        const rect = el.getBoundingClientRect();
-
-        return (
-          rect.width > 0 &&
-          rect.height > 0
-        );
-      });
-    };
 
     const nanokaEl =
       getVisibleCharacterEl("nanoka");
@@ -180,6 +183,65 @@ export default function App() {
     );
   };
 
+  const makeHiroSmashStyle = () => {
+    const containerEl = gameCardRef.current;
+
+    const hiroEl =
+      getVisibleCharacterEl("hiro");
+
+    const emaEl =
+      getVisibleCharacterEl("ema");
+
+    if (
+      !containerEl ||
+      !hiroEl ||
+      !emaEl
+    ) {
+      return {
+        "--smash-start-x": "50%",
+        "--smash-start-y": "45%",
+        "--smash-end-x": "50%",
+        "--smash-end-y": "58%",
+      };
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const hiroRect =
+      hiroEl.getBoundingClientRect();
+
+    const emaRect =
+      emaEl.getBoundingClientRect();
+
+    const startX =
+      hiroRect.left +
+      hiroRect.width / 2 -
+      containerRect.left;
+
+    const startY =
+      hiroRect.top +
+      hiroRect.height / 2 -
+      containerRect.top;
+
+    const endX =
+      emaRect.left +
+      emaRect.width / 2 -
+      containerRect.left;
+
+    const endY =
+      emaRect.top +
+      emaRect.height / 2 -
+      containerRect.top;
+
+    return {
+      "--smash-start-x": `${startX}px`,
+      "--smash-start-y": `${startY}px`,
+      "--smash-end-x": `${endX}px`,
+      "--smash-end-y": `${endY}px`,
+    };
+  };
+
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
@@ -215,6 +277,12 @@ export default function App() {
       if (death.effect === "nanoka-shot") {
         setShotStyle(
           makeNanokaShotStyle()
+        );
+      }
+
+      if (death.effect === "hiro-smash") {
+        setSmashStyle(
+          makeHiroSmashStyle()
         );
       }
 
@@ -458,6 +526,8 @@ export default function App() {
 
     setShotStyle({});
 
+    setSmashStyle({});
+
     deathRef.current = false;
   };
 
@@ -498,6 +568,19 @@ export default function App() {
           </div>
         )}
 
+        {deathEffect === "hiro-smash" && (
+          <div
+            className="hiro-smash-effect"
+            style={smashStyle}
+          >
+            <div className="hiro-smash-weapon" />
+
+            <div className="hiro-smash-impact" />
+
+            <div className="hiro-smash-flash" />
+          </div>
+        )}
+
         <header className="header">
           <h1>まのさば 船渡りパズル</h1>
 
@@ -534,24 +617,6 @@ export default function App() {
           />
 
           <div className="river">
-            {deathEffect === "boat-break" && (
-              <div className="boat-break-effect">
-                <div className="break-flash" />
-
-                <div className="wood-piece piece-1" />
-
-                <div className="wood-piece piece-2" />
-
-                <div className="wood-piece piece-3" />
-
-                <div className="water-splash splash-1" />
-
-                <div className="water-splash splash-2" />
-
-                <div className="water-splash splash-3" />
-              </div>
-            )}
-
             <div
               className={`boat boat-${boatPosition}`}
             >
@@ -670,7 +735,8 @@ export default function App() {
               </p>
 
               <p>
-                誰も乗っていない状態では、船は動きません。
+                誰も乗っていない状態では、
+                船は動きません。
               </p>
 
               <p>
@@ -688,7 +754,9 @@ export default function App() {
               </p>
 
               <p>
-                誰も死なないように、魔法少女たちを向こう岸まで運んであげましょう。
+                誰も死なないように、
+                魔法少女たちを向こう岸まで
+                運んであげましょう。
               </p>
 
               <button

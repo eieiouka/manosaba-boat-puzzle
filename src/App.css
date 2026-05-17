@@ -497,46 +497,26 @@ h1 {
 .yellow-text {
   color: #ffe48a;
   font-weight: 900;
-
-  text-shadow:
-    0 0 6px
-      rgba(255, 228, 138, 0.22);
 }
 
 .red-text {
   color: #ff5c5c;
   font-weight: 900;
-
-  text-shadow:
-    0 0 6px
-      rgba(255, 92, 92, 0.24);
 }
 
 .pink-text {
   color: #ff8fd3;
   font-weight: 900;
-
-  text-shadow:
-    0 0 6px
-      rgba(255, 143, 211, 0.24);
 }
 
 .blue-text {
   color: #8fd3ff;
   font-weight: 900;
-
-  text-shadow:
-    0 0 6px
-      rgba(143, 211, 255, 0.24);
 }
 
 .green-text {
   color: #98ff98;
   font-weight: 900;
-
-  text-shadow:
-    0 0 6px
-      rgba(152, 255, 152, 0.24);
 }
 
 /* =========================
@@ -597,102 +577,8 @@ h1 {
 }
 
 /* =========================
-   10. エフェクト
+   9. エフェクト
 ========================= */
-
-.boat-break-effect {
-  position: absolute;
-  inset: 0;
-
-  z-index: 20;
-
-  pointer-events: none;
-
-  overflow: hidden;
-}
-
-.break-flash {
-  position: absolute;
-  inset: 0;
-
-  background:
-    rgba(255, 230, 150, 0.35);
-
-  animation:
-    breakFlash 0.55s ease-out forwards;
-}
-
-.wood-piece {
-  position: absolute;
-
-  left: 50%;
-  top: 58%;
-
-  width: 42px;
-  height: 12px;
-
-  border-radius: 999px;
-
-  background: #8b5a2b;
-
-  box-shadow:
-    0 4px 0 #5d3517;
-
-  opacity: 0;
-}
-
-.piece-1 {
-  animation:
-    woodPiece1 0.9s ease-out forwards;
-}
-
-.piece-2 {
-  animation:
-    woodPiece2 0.9s ease-out forwards;
-}
-
-.piece-3 {
-  animation:
-    woodPiece3 0.9s ease-out forwards;
-}
-
-.water-splash {
-  position: absolute;
-
-  left: 50%;
-  top: 60%;
-
-  width: 18px;
-  height: 18px;
-
-  border-radius: 50%;
-
-  border:
-    3px solid
-    rgba(220, 245, 255, 0.9);
-
-  opacity: 0;
-}
-
-.splash-1 {
-  animation:
-    splash1 0.85s ease-out forwards;
-}
-
-.splash-2 {
-  animation:
-    splash2 0.85s ease-out forwards;
-}
-
-.splash-3 {
-  animation:
-    splash3 0.85s ease-out forwards;
-}
-
-.death-shake .river {
-  animation:
-    deathShake 0.42s linear;
-}
 
 .nanoka-shot-effect {
   position: absolute;
@@ -809,11 +695,6 @@ h1 {
       rgba(255, 0, 0, 0) 100%
     );
 
-  box-shadow:
-    0 0 18px rgba(255, 70, 70, 1),
-    0 0 42px rgba(255, 0, 0, 0.9),
-    0 0 80px rgba(255, 0, 0, 0.6);
-
   opacity: 0;
 
   transform:
@@ -825,157 +706,109 @@ h1 {
     0.55s ease-out forwards;
 }
 
+/* ヒロ撲殺 */
+
+.hiro-smash-effect {
+  position: absolute;
+  inset: 0;
+
+  z-index: 130;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.hiro-smash-weapon {
+  position: absolute;
+
+  left: var(--smash-start-x);
+  top: var(--smash-start-y);
+
+  width: 14px;
+  height: 62px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #e6e6e6,
+      #777
+    );
+
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.45),
+    0 4px 0 rgba(0, 0, 0, 0.35);
+
+  transform-origin: bottom center;
+
+  opacity: 0;
+
+  animation:
+    hiroSmallWeaponSwing
+    0.55s ease-out forwards;
+}
+
+.hiro-smash-impact {
+  position: absolute;
+
+  left: var(--smash-end-x);
+  top: var(--smash-end-y);
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 70, 70, 0.95) 0%,
+      rgba(255, 30, 30, 0.8) 38%,
+      rgba(255, 0, 0, 0) 75%
+    );
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    hiroSmallImpact
+    0.55s ease-out forwards;
+}
+
+.hiro-smash-flash {
+  position: absolute;
+
+  left: var(--smash-end-x);
+  top: var(--smash-end-y);
+
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    rgba(255, 240, 160, 0.9);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    hiroSmallShockRing
+    0.55s ease-out forwards;
+}
+
 /* =========================
-   11. アニメーション
+   10. アニメーション
 ========================= */
-
-@keyframes breakFlash {
-  0% {
-    opacity: 0;
-  }
-
-  18% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes woodPiece1 {
-  0% {
-    opacity: 1;
-
-    transform:
-      translate(-50%, -50%)
-      rotate(0deg);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translate(-145px, -85px)
-      rotate(-38deg);
-  }
-}
-
-@keyframes woodPiece2 {
-  0% {
-    opacity: 1;
-
-    transform:
-      translate(-50%, -50%)
-      rotate(0deg);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translate(95px, -105px)
-      rotate(42deg);
-  }
-}
-
-@keyframes woodPiece3 {
-  0% {
-    opacity: 1;
-
-    transform:
-      translate(-50%, -50%)
-      rotate(0deg);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translate(15px, 70px)
-      rotate(95deg);
-  }
-}
-
-@keyframes splash1 {
-  0% {
-    opacity: 0.9;
-
-    transform:
-      translate(-50%, -50%)
-      scale(0.25);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translate(-110px, -35px)
-      scale(2.4);
-  }
-}
-
-@keyframes splash2 {
-  0% {
-    opacity: 0.9;
-
-    transform:
-      translate(-50%, -50%)
-      scale(0.25);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translate(90px, -25px)
-      scale(2.2);
-  }
-}
-
-@keyframes splash3 {
-  0% {
-    opacity: 0.9;
-
-    transform:
-      translate(-50%, -50%)
-      scale(0.25);
-  }
-
-  100% {
-    opacity: 0;
-
-    transform:
-      translate(-10px, 65px)
-      scale(2.8);
-  }
-}
-
-@keyframes deathShake {
-  0% {
-    transform: translateX(0);
-  }
-
-  20% {
-    transform: translateX(-6px);
-  }
-
-  40% {
-    transform: translateX(6px);
-  }
-
-  60% {
-    transform: translateX(-4px);
-  }
-
-  80% {
-    transform: translateX(4px);
-  }
-
-  100% {
-    transform: translateX(0);
-  }
-}
 
 @keyframes nanokaMuzzleFlash {
   0% {
@@ -1064,10 +897,6 @@ h1 {
 
   60% {
     opacity: 0;
-
-    transform:
-      translate(-50%, -50%)
-      scale(0.15);
   }
 
   78% {
@@ -1087,162 +916,84 @@ h1 {
   }
 }
 
-/* =========================
-   12. レスポンシブ
-========================= */
+@keyframes hiroSmallWeaponSwing {
+  0% {
+    opacity: 0;
 
-@media (max-width: 820px) {
-  html,
-  body,
-  #root {
-    width: 100%;
-    overflow-x: hidden;
+    transform:
+      translate(-50%, -90%)
+      rotate(-95deg);
   }
 
-  .app {
-    width: 100%;
-    padding: 8px;
-    display: block;
+  18% {
+    opacity: 1;
   }
 
-  .game-card {
-    width: 100%;
-    max-width: 100%;
-    padding: 12px;
-    border-radius: 20px;
+  55% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -65%)
+      rotate(42deg);
   }
 
-  .header {
-    gap: 10px;
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -65%)
+      rotate(58deg);
+  }
+}
+
+@keyframes hiroSmallImpact {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
   }
 
-  h1 {
-    font-size: 28px;
+  48% {
+    opacity: 0;
   }
 
-  .rule-button {
-    padding: 7px 14px;
-    font-size: 13px;
+  62% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
   }
 
-  .river-area {
-    width: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 220px auto;
-    gap: 10px;
-    min-height: auto;
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.7);
+  }
+}
+
+@keyframes hiroSmallShockRing {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
   }
 
-  .bank {
-    height: 150px;
+  58% {
+    opacity: 0.9;
   }
 
-  .bank h2 {
-    margin: 0 0 10px;
-    font-size: 18px;
-  }
+  100% {
+    opacity: 0;
 
-  .people-list {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 8px;
-    justify-content: center;
-    max-width: 100%;
-    overflow: hidden;
-  }
-
-  .person {
-    width: 58px;
-    height: 78px;
-    border-radius: 16px;
-  }
-
-  .person img {
-    width: 52px;
-    height: 52px;
-  }
-
-  .person small {
-    width: 100%;
-
-    text-align: center;
-
-    line-height: 1.05;
-
-    font-size: 10px;
-
-    letter-spacing: -0.02em;
-  }
-
-  .person:hover:not(:disabled) {
-    transform: none;
-  }
-
-  .in-boat:hover:not(:disabled) {
-    transform: none;
-  }
-
-  .river {
-    height: 220px;
-  }
-
-  .boat {
-    left: 50%;
-    width: 180px;
-    min-height: 116px;
-    bottom: auto;
-    top: 4px;
-    transform: translate(-50%, 0);
-    transition: transform 0.35s linear;
-  }
-
-  .boat-left {
-    transform: translate(-50%, 0);
-  }
-
-  .boat-center {
-    transform: translate(-50%, 38px);
-  }
-
-  .boat-right {
-    transform: translate(-50%, 76px);
-  }
-
-  .boat-people {
-    min-height: 58px;
-    gap: 8px;
-  }
-
-  .in-boat {
-    width: 58px;
-    height: 58px;
-  }
-
-  .in-boat img {
-    width: 58px;
-    height: 58px;
-  }
-
-  .move-button {
-    margin-top: 8px;
-    padding: 7px;
-  }
-
-  .character-modal-head img {
-    width: 68px;
-    height: 68px;
-  }
-
-  .person {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  .person small {
-    width: 100%;
-    text-align: center;
-    line-height: 1.1;
+    transform:
+      translate(-50%, -50%)
+      scale(1.35);
   }
 }
