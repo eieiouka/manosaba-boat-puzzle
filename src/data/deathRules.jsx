@@ -68,8 +68,12 @@ export const getDeathReason = (
             しました。
           </>
         ),
+        badVoice:
+        "/bad_voices/bad_hanna_drown.mp3",
 
-        delay: 800,
+        badVoiceVolume: 2.2,
+
+        delay: 1200,
       };
     }
 
@@ -180,8 +184,11 @@ export const getDeathReason = (
           しました。
         </>
       ),
+        effect: "hanna-stab",
 
-      delay: 1200,
+        badVoice:
+        "/bad_voices/bad_hanna_nanoka_kill.mp3",
+        delay: 1200,
     };
   }
 
@@ -260,7 +267,7 @@ export const getDeathReason = (
 
       badVoiceVolume: 2.2,
 
-      delay: 900,
+      delay: 1200,
     };
   }
 

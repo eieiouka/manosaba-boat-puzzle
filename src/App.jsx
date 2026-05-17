@@ -42,6 +42,7 @@ export default function App() {
 
   const [shotStyle, setShotStyle] = useState({});
   const [smashStyle, setSmashStyle] = useState({});
+  const [stabStyle, setStabStyle] = useState({});
 
   const [started, setStarted] = useState(false);
 
@@ -242,6 +243,65 @@ export default function App() {
     };
   };
 
+  const makeHannaStabStyle = () => {
+    const containerEl = gameCardRef.current;
+
+    const hannaEl =
+      getVisibleCharacterEl("hanna");
+
+    const nanokaEl =
+      getVisibleCharacterEl("nanoka");
+
+    if (
+      !containerEl ||
+      !hannaEl ||
+      !nanokaEl
+    ) {
+      return {
+        "--stab-start-x": "50%",
+        "--stab-start-y": "45%",
+        "--stab-end-x": "50%",
+        "--stab-end-y": "58%",
+      };
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const hannaRect =
+      hannaEl.getBoundingClientRect();
+
+    const nanokaRect =
+      nanokaEl.getBoundingClientRect();
+
+    const startX =
+      hannaRect.left +
+      hannaRect.width / 2 -
+      containerRect.left;
+
+    const startY =
+      hannaRect.top +
+      hannaRect.height / 2 -
+      containerRect.top;
+
+    const endX =
+      nanokaRect.left +
+      nanokaRect.width / 2 -
+      containerRect.left;
+
+    const endY =
+      nanokaRect.top +
+      nanokaRect.height / 2 -
+      containerRect.top;
+
+    return {
+      "--stab-start-x": `${startX}px`,
+      "--stab-start-y": `${startY}px`,
+      "--stab-end-x": `${endX}px`,
+      "--stab-end-y": `${endY}px`,
+    };
+  };
+
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
@@ -283,6 +343,12 @@ export default function App() {
       if (death.effect === "hiro-smash") {
         setSmashStyle(
           makeHiroSmashStyle()
+        );
+      }
+
+      if (death.effect === "hanna-stab") {
+        setStabStyle(
+          makeHannaStabStyle()
         );
       }
 
@@ -528,6 +594,8 @@ export default function App() {
 
     setSmashStyle({});
 
+    setStabStyle({});
+
     deathRef.current = false;
   };
 
@@ -581,6 +649,37 @@ export default function App() {
           </div>
         )}
 
+        {deathEffect === "hanna-stab" && (
+          <div
+            className="hanna-stab-effect"
+            style={stabStyle}
+          >
+            <div className="hanna-stab-knife" />
+
+            <div className="hanna-stab-impact" />
+
+            <div className="hanna-stab-flash" />
+          </div>
+        )}
+
+        {deathEffect === "hanna-drown" && (
+          <div className="hanna-drown-effect">
+            <div className="hanna-water-ring ring-1" />
+
+            <div className="hanna-water-ring ring-2" />
+
+            <div className="hanna-water-ring ring-3" />
+
+            <div className="hanna-water-splash splash-1" />
+
+            <div className="hanna-water-splash splash-2" />
+
+            <div className="hanna-water-splash splash-3" />
+
+            <div className="hanna-drown-shadow" />
+          </div>
+        )}
+
         <header className="header">
           <h1>まのさば 船渡りパズル</h1>
 
@@ -617,6 +716,24 @@ export default function App() {
           />
 
           <div className="river">
+            {deathEffect === "boat-break" && (
+              <div className="boat-break-effect">
+                <div className="break-flash" />
+
+                <div className="wood-piece piece-1" />
+
+                <div className="wood-piece piece-2" />
+
+                <div className="wood-piece piece-3" />
+
+                <div className="water-splash splash-1" />
+
+                <div className="water-splash splash-2" />
+
+                <div className="water-splash splash-3" />
+              </div>
+            )}
+
             <div
               className={`boat boat-${boatPosition}`}
             >
@@ -735,8 +852,7 @@ export default function App() {
               </p>
 
               <p>
-                誰も乗っていない状態では、
-                船は動きません。
+                誰も乗っていない状態では、船は動きません。
               </p>
 
               <p>
@@ -754,9 +870,7 @@ export default function App() {
               </p>
 
               <p>
-                誰も死なないように、
-                魔法少女たちを向こう岸まで
-                運んであげましょう。
+                誰も死なないように、魔法少女たちを向こう岸まで運んであげましょう。
               </p>
 
               <button

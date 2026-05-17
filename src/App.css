@@ -288,6 +288,8 @@ h1 {
 
   bottom: 64px;
 
+  z-index: 10;
+
   width: 210px;
 
   min-height: 128px;
@@ -579,6 +581,264 @@ h1 {
 /* =========================
    9. エフェクト
 ========================= */
+
+/* =========================
+   シェリー船破壊エフェクト
+========================= */
+
+.boat-break-effect {
+  position: absolute;
+  inset: 0;
+
+  z-index: 300;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.break-flash {
+  position: absolute;
+  inset: 0;
+
+  background:
+    rgba(255, 230, 150, 0.35);
+
+  animation:
+    breakFlash 0.55s ease-out forwards;
+}
+
+.wood-piece {
+  position: absolute;
+
+  left: 50%;
+  top: 58%;
+
+  z-index: 301;
+
+  width: 48px;
+  height: 14px;
+
+  border-radius: 999px;
+
+  background: #c9853c;
+
+  box-shadow:
+    0 4px 0 #5d3517,
+    0 0 12px rgba(255, 220, 150, 0.6);
+
+  opacity: 0;
+}
+
+.piece-1 {
+  animation:
+    woodPiece1 0.9s ease-out forwards;
+}
+
+.piece-2 {
+  animation:
+    woodPiece2 0.9s ease-out forwards;
+}
+
+.piece-3 {
+  animation:
+    woodPiece3 0.9s ease-out forwards;
+}
+
+.water-splash {
+  position: absolute;
+
+  left: 50%;
+  top: 60%;
+
+  z-index: 302;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  border:
+    4px solid
+    rgba(235, 250, 255, 0.95);
+
+  box-shadow:
+    0 0 12px rgba(220, 245, 255, 0.8);
+
+  opacity: 0;
+}
+
+.splash-1 {
+  animation:
+    splash1 0.85s ease-out forwards;
+}
+
+.splash-2 {
+  animation:
+    splash2 0.85s ease-out forwards;
+}
+
+.splash-3 {
+  animation:
+    splash3 0.85s ease-out forwards;
+}
+
+.death-shake .river {
+  animation:
+    deathShake 0.42s linear;
+}
+
+/* =========================
+   シェリー船破壊アニメーション
+========================= */
+
+@keyframes breakFlash {
+  0% {
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes woodPiece1 {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-145px, -85px)
+      rotate(-38deg);
+  }
+}
+
+@keyframes woodPiece2 {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(95px, -105px)
+      rotate(42deg);
+  }
+}
+
+@keyframes woodPiece3 {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(15px, 70px)
+      rotate(95deg);
+  }
+}
+
+@keyframes splash1 {
+  0% {
+    opacity: 0.9;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-110px, -35px)
+      scale(2.4);
+  }
+}
+
+@keyframes splash2 {
+  0% {
+    opacity: 0.9;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(90px, -25px)
+      scale(2.2);
+  }
+}
+
+@keyframes splash3 {
+  0% {
+    opacity: 0.9;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-10px, 65px)
+      scale(2.8);
+  }
+}
+
+@keyframes deathShake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px);
+  }
+
+  40% {
+    transform: translateX(6px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
 
 .nanoka-shot-effect {
   position: absolute;
@@ -995,5 +1255,389 @@ h1 {
     transform:
       translate(-50%, -50%)
       scale(1.35);
+  }
+}
+
+.hanna-stab-effect {
+  position: absolute;
+  inset: 0;
+
+  z-index: 135;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.hanna-stab-knife {
+  position: absolute;
+
+  left: var(--stab-start-x);
+  top: var(--stab-start-y);
+
+  width: 12px;
+  height: 54px;
+
+  border-radius: 999px 999px 4px 4px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #f4f4f4,
+      #9a9a9a 58%,
+      #3b2a1b 59%,
+      #3b2a1b
+    );
+
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.5);
+
+  transform-origin: bottom center;
+
+  opacity: 0;
+
+  animation:
+    hannaKnifeStab
+    0.52s ease-out forwards;
+}
+
+.hanna-stab-impact {
+  position: absolute;
+
+  left: var(--stab-end-x);
+  top: var(--stab-end-y);
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 40, 70, 0.95) 0%,
+      rgba(180, 0, 30, 0.8) 42%,
+      rgba(255, 0, 0, 0) 76%
+    );
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    hannaStabImpact
+    0.55s ease-out forwards;
+}
+
+.hanna-stab-flash {
+  position: absolute;
+
+  left: var(--stab-end-x);
+  top: var(--stab-end-y);
+
+  width: 62px;
+  height: 62px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    rgba(255, 230, 230, 0.85);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    hannaStabRing
+    0.55s ease-out forwards;
+}
+
+@keyframes hannaKnifeStab {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -80%)
+      rotate(-42deg);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  55% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -45%)
+      rotate(28deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -45%)
+      rotate(32deg);
+  }
+}
+
+@keyframes hannaStabImpact {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
+  }
+
+  48% {
+    opacity: 0;
+  }
+
+  62% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.6);
+  }
+}
+
+@keyframes hannaStabRing {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
+  }
+
+  58% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.3);
+  }
+}
+
+/* =========================
+   ハンナ溺死
+========================= */
+
+.hanna-drown-effect {
+  position: absolute;
+  inset: 0;
+
+  z-index: 140;
+
+  pointer-events: none;
+
+  overflow: hidden;
+}
+
+.hanna-drown-shadow {
+  position: absolute;
+
+  left: 50%;
+  top: 56%;
+
+  width: 90px;
+  height: 90px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.45) 0%,
+      rgba(0, 0, 0, 0) 72%
+    );
+
+  transform:
+    translate(-50%, -50%);
+
+  animation:
+    hannaDrownFade
+    1s ease-out forwards;
+}
+
+.hanna-water-ring {
+  position: absolute;
+
+  left: 50%;
+  top: 56%;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  border:
+    4px solid
+    rgba(220, 245, 255, 0.92);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+}
+
+.ring-1 {
+  animation:
+    hannaRing
+    0.9s ease-out forwards;
+}
+
+.ring-2 {
+  animation:
+    hannaRing
+    0.9s ease-out 0.15s forwards;
+}
+
+.ring-3 {
+  animation:
+    hannaRing
+    0.9s ease-out 0.3s forwards;
+}
+
+.hanna-water-splash {
+  position: absolute;
+
+  left: 50%;
+  top: 56%;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(235, 250, 255, 0.95);
+
+  box-shadow:
+    0 0 12px
+      rgba(220, 245, 255, 0.8);
+
+  opacity: 0;
+}
+
+.splash-1 {
+  animation:
+    hannaSplash1
+    0.8s ease-out forwards;
+}
+
+.splash-2 {
+  animation:
+    hannaSplash2
+    0.8s ease-out forwards;
+}
+
+.splash-3 {
+  animation:
+    hannaSplash3
+    0.8s ease-out forwards;
+}
+
+@keyframes hannaRing {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(3.2);
+  }
+}
+
+@keyframes hannaSplash1 {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-110px, -70px)
+      scale(0.2);
+  }
+}
+
+@keyframes hannaSplash2 {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(90px, -80px)
+      scale(0.2);
+  }
+}
+
+@keyframes hannaSplash3 {
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(10px, -120px)
+      scale(0.2);
+  }
+}
+
+@keyframes hannaDrownFade {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
   }
 }
