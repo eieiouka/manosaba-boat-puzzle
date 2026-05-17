@@ -39,7 +39,17 @@ export default function App() {
   const longPressedRef = useRef(false);
   const deathRef = useRef(false);
 
-  const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.22);
+  const isMobile =
+    /iPhone|iPad|iPod|Android/i.test(
+      navigator.userAgent
+    );
+
+  const bgmVolume = isMobile ? 0.264 : 0.22;
+
+  const { playBgm } = useBgm(
+    "/bgm/BGM_puzzle.mp3",
+    bgmVolume
+  );
   const { playVoice, unlockVoice } = useVoice(0.55);
 
   const clear = useMemo(
