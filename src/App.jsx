@@ -4,31 +4,31 @@ import "./App.css";
 const CHARACTERS = [
   {
     id: "ema",
-    name: "エマ",
+    name: "桜羽エマ",
     img: "/images/ema.png",
-    condition: "死亡・殺害条件は後で設定します。",
+    condition: "非力なバカ犬なので、一人で船を漕ぐと溺れます。\nこちら岸に一人で残すと、自殺します。\n惨めですね。",
   },
   {
     id: "sherry",
-    name: "シェリー",
+    name: "橘シェリー",
     img: "/images/sherry.png",
     condition: "死亡・殺害条件は後で設定します。",
   },
   {
     id: "hanna",
-    name: "ハンナ",
+    name: "遠野ハンナ",
     img: "/images/hanna.png",
     condition: "死亡・殺害条件は後で設定します。",
   },
   {
     id: "hiro",
-    name: "ヒロ",
+    name: "二階堂ヒロ",
     img: "/images/hiro.png",
     condition: "死亡・殺害条件は後で設定します。",
   },
   {
     id: "nanoka",
-    name: "ナノカ",
+    name: "黒部ナノカ",
     img: "/images/nanoka.png",
     condition: "死亡・殺害条件は後で設定します。",
   },
@@ -362,7 +362,14 @@ export default function App() {
               </div>
 
               <p className="condition-text">
-                {selectedCharacter.condition}
+                {selectedCharacter.condition
+                  .split("\n")
+                  .map((line, index) => (
+                    <span key={index}>
+                      {line}
+                      <br />
+                    </span>
+                  ))}
               </p>
 
               <button
