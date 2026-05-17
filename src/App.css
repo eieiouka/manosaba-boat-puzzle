@@ -536,3 +536,30 @@ h1 {
 .cannot-move:hover {
   transform: none;
 }
+
+.yellow-text {
+  color: #ffe48a;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 0 6px rgba(255, 228, 138, 0.22);
+}
+
+.red-text {
+  color: #ff5c5c;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 0 6px rgba(255, 92, 92, 0.24);
+}
+
+.pink-text {
+  color: #ff8fd3;
+
+  font-weight: 900;
+
+  text-shadow:
+    0 0 6px rgba(255, 143, 211, 0.24);
+}
