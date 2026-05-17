@@ -519,3 +519,15 @@ h1 {
     height: 68px;
   }
 }
+
+.cannot-move {
+  opacity: 0.45;
+
+  background: rgba(255, 255, 255, 0.05);
+
+  filter: grayscale(0.45);
+}
+
+.cannot-move:hover {
+  transform: none;
+}

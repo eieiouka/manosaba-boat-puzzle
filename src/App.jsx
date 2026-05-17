@@ -44,15 +44,28 @@ const LONG_PRESS_TIME = 550;
 
 export default function App() {
   const [people, setPeople] = useState(INITIAL_PEOPLE);
+
   const [boat, setBoat] = useState([]);
-  const [boatSide, setBoatSide] = useState("left");
-  const [boatPosition, setBoatPosition] = useState("left");
-  const [isMoving, setIsMoving] = useState(false);
+
+  const [boatSide, setBoatSide] =
+    useState("left");
+
+  const [boatPosition, setBoatPosition] =
+    useState("left");
+
+  const [isMoving, setIsMoving] =
+    useState(false);
+
   const [moves, setMoves] = useState(0);
-  const [showRules, setShowRules] = useState(false);
-  const [selectedCharacter, setSelectedCharacter] = useState(null);
+
+  const [showRules, setShowRules] =
+    useState(false);
+
+  const [selectedCharacter, setSelectedCharacter] =
+    useState(null);
 
   const pressTimerRef = useRef(null);
+
   const longPressedRef = useRef(false);
 
   const clear = useMemo(
@@ -72,6 +85,7 @@ export default function App() {
 
     pressTimerRef.current = setTimeout(() => {
       longPressedRef.current = true;
+
       setSelectedCharacter(person);
     }, LONG_PRESS_TIME);
   };
@@ -79,14 +93,18 @@ export default function App() {
   const cancelLongPress = () => {
     if (pressTimerRef.current) {
       clearTimeout(pressTimerRef.current);
+
       pressTimerRef.current = null;
     }
   };
 
   const boardPerson = (person) => {
     if (isMoving) return;
+
     if (longPressedRef.current) return;
+
     if (person.side !== boatSide) return;
+
     if (boat.length >= 2) return;
 
     setPeople((prev) =>
@@ -98,6 +116,7 @@ export default function App() {
 
   const leaveBoat = (person) => {
     if (isMoving) return;
+
     if (longPressedRef.current) return;
 
     setBoat((prev) =>
@@ -105,8 +124,8 @@ export default function App() {
     );
 
     setPeople((prev) => [
-      ...prev,
       { ...person, side: boatSide },
+      ...prev,
     ]);
   };
 
@@ -117,12 +136,14 @@ export default function App() {
 
   const moveBoat = () => {
     if (isMoving) return;
+
     if (boat.length === 0) return;
 
     const nextSide =
       boatSide === "left" ? "right" : "left";
 
     setIsMoving(true);
+
     setBoatPosition(nextSide);
 
     setTimeout(() => {
@@ -136,19 +157,28 @@ export default function App() {
 
     setTimeout(() => {
       setBoatSide(nextSide);
+
       setMoves((m) => m + 1);
+
       setIsMoving(false);
     }, BOAT_TIME);
   };
 
   const resetGame = () => {
     setPeople(INITIAL_PEOPLE);
+
     setBoat([]);
+
     setBoatSide("left");
+
     setBoatPosition("left");
+
     setIsMoving(false);
+
     setMoves(0);
+
     setSelectedCharacter(null);
+
     setShowRules(false);
   };
 
@@ -190,7 +220,9 @@ export default function App() {
           />
 
           <div className="river">
-            <div className={`boat boat-${boatPosition}`}>
+            <div
+              className={`boat boat-${boatPosition}`}
+            >
               <div className="boat-people">
                 {boat.map((p) => (
                   <CharacterButton
@@ -198,9 +230,14 @@ export default function App() {
                     person={p}
                     className="person in-boat"
                     disabled={isMoving}
+                    canMove
                     onClick={() => leaveBoat(p)}
-                    onLongPressStart={startLongPress}
-                    onLongPressCancel={cancelLongPress}
+                    onLongPressStart={
+                      startLongPress
+                    }
+                    onLongPressCancel={
+                      cancelLongPress
+                    }
                   />
                 ))}
               </div>
@@ -208,9 +245,13 @@ export default function App() {
               <button
                 className="move-button"
                 onClick={moveBoat}
-                disabled={isMoving || boat.length === 0}
+                disabled={
+                  isMoving || boat.length === 0
+                }
               >
-                {isMoving ? "移動中..." : "出航"}
+                {isMoving
+                  ? "移動中..."
+                  : "出航"}
               </button>
             </div>
           </div>
@@ -234,7 +275,8 @@ export default function App() {
 
               <p>
                 {moves}
-                手で全員を向こう岸へ運びました。
+                手で全員を向こう岸へ
+                運びました。
               </p>
 
               <button onClick={resetGame}>
@@ -247,30 +289,46 @@ export default function App() {
         {showRules && (
           <div
             className="modal-backdrop"
-            onClick={() => setShowRules(false)}
+            onClick={() =>
+              setShowRules(false)
+            }
           >
             <div
               className="modal"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
               <h2>ルール説明</h2>
 
-              <p>船には最大2人まで乗れます。</p>
-
               <p>
-                誰も乗っていない状態では、船は動きません。
+                船には最大2人まで乗れます。
               </p>
 
               <p>
-                キャラクターごとに、死亡・殺害条件があります。<br />
-                （キャラ長押しで見ることができます）
+                誰も乗っていない状態では、
+                船は動きません。
               </p>
 
               <p>
-                誰も死なないように、魔法少女たちを運んであげましょう。
+                キャラクターごとに、
+                死亡・殺害条件があります。
+                <br />
+                （キャラ長押しで
+                見ることができます）
               </p>
 
-              <button onClick={() => setShowRules(false)}>
+              <p>
+                誰も死なないように、
+                魔法少女たちを
+                運んであげましょう。
+              </p>
+
+              <button
+                onClick={() =>
+                  setShowRules(false)
+                }
+              >
                 閉じる
               </button>
             </div>
@@ -280,26 +338,38 @@ export default function App() {
         {selectedCharacter && (
           <div
             className="modal-backdrop"
-            onClick={() => setSelectedCharacter(null)}
+            onClick={() =>
+              setSelectedCharacter(null)
+            }
           >
             <div
               className="modal character-modal"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
               <div className="character-modal-head">
                 <img
                   src={selectedCharacter.img}
-                  alt={selectedCharacter.name}
+                  alt={
+                    selectedCharacter.name
+                  }
                 />
 
-                <h2>{selectedCharacter.name}</h2>
+                <h2>
+                  {selectedCharacter.name}
+                </h2>
               </div>
 
               <p className="condition-text">
                 {selectedCharacter.condition}
               </p>
 
-              <button onClick={() => setSelectedCharacter(null)}>
+              <button
+                onClick={() =>
+                  setSelectedCharacter(null)
+                }
+              >
                 閉じる
               </button>
             </div>
@@ -330,10 +400,15 @@ function Bank({
             key={p.id}
             person={p}
             className="person"
-            disabled={isMoving || boatSide !== side}
+            disabled={isMoving}
+            canMove={boatSide === side}
             onClick={() => onBoard(p)}
-            onLongPressStart={onLongPressStart}
-            onLongPressCancel={onLongPressCancel}
+            onLongPressStart={
+              onLongPressStart
+            }
+            onLongPressCancel={
+              onLongPressCancel
+            }
             showName
           />
         ))}
@@ -346,26 +421,44 @@ function CharacterButton({
   person,
   className,
   disabled,
+  canMove = true,
   onClick,
   onLongPressStart,
   onLongPressCancel,
   showName = false,
 }) {
+  const handleClick = () => {
+    if (!canMove) return;
+
+    onClick();
+  };
+
   return (
     <button
-      className={className}
-      onClick={onClick}
+      className={`${className} ${
+        !canMove ? "cannot-move" : ""
+      }`}
+      onClick={handleClick}
       disabled={disabled}
-      onMouseDown={() => onLongPressStart(person)}
+      onMouseDown={() =>
+        onLongPressStart(person)
+      }
       onMouseUp={onLongPressCancel}
       onMouseLeave={onLongPressCancel}
-      onTouchStart={() => onLongPressStart(person)}
+      onTouchStart={() =>
+        onLongPressStart(person)
+      }
       onTouchEnd={onLongPressCancel}
       onTouchCancel={onLongPressCancel}
     >
-      <img src={person.img} alt={person.name} />
+      <img
+        src={person.img}
+        alt={person.name}
+      />
 
-      {showName && <small>{person.name}</small>}
+      {showName && (
+        <small>{person.name}</small>
+      )}
     </button>
   );
 }
