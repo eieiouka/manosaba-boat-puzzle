@@ -61,7 +61,7 @@ export default function App() {
     0.22
   );
 
-  const { playVoice, unlockVoice } =
+  const { playVoice, unlockVoice, stopAllVoices } =
     useVoice(0.55);
 
   const clear = useMemo(
@@ -303,13 +303,15 @@ export default function App() {
     };
   };
 
-  const makeHannaDrownStyle = () => {
+  const makeHannaDrownStyle = (
+    characterId
+  ) => {
     const containerEl = gameCardRef.current;
 
-    const hannaEl =
-      getVisibleCharacterEl("hanna");
+    const targetEl =
+      getVisibleCharacterEl(characterId);
 
-    if (!containerEl || !hannaEl) {
+    if (!containerEl || !targetEl) {
       return {
         "--drown-x": "50%",
         "--drown-y": "58%",
@@ -319,17 +321,17 @@ export default function App() {
     const containerRect =
       containerEl.getBoundingClientRect();
 
-    const hannaRect =
-      hannaEl.getBoundingClientRect();
+    const targetRect =
+      targetEl.getBoundingClientRect();
 
     const x =
-      hannaRect.left +
-      hannaRect.width / 2 -
+      targetRect.left +
+      targetRect.width / 2 -
       containerRect.left;
 
     const y =
-      hannaRect.top +
-      hannaRect.height / 2 -
+      targetRect.top +
+      targetRect.height / 2 -
       containerRect.top;
 
     return {
@@ -367,12 +369,14 @@ export default function App() {
   const applyDeath = (death) => {
     deathRef.current = true;
 
+    stopAllVoices();
+
     setIsMoving(false);
 
     if (death.effect) {
       if (death.effect === "nanoka-shot") {
         setShotStyle(
-          makeNanokaShotStyle()
+          makeShotStyle()
         );
       }
 
@@ -388,9 +392,11 @@ export default function App() {
         );
       }
 
-      if (death.effect === "hanna-drown") {
+      if (death.effect === "character-drown") {
         setDrownStyle(
-          makeHannaDrownStyle()
+          makeHannaDrownStyle(
+            death.drownTarget || "hanna"
+          )
         );
       }
 
@@ -606,6 +612,8 @@ export default function App() {
   };
 
   const resetGame = () => {
+    stopAllVoices();
+
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
 
@@ -704,7 +712,7 @@ export default function App() {
           </div>
         )}
 
-        {deathEffect === "hanna-drown" && (
+        {deathEffect === "character-drown" && (
           <div
             className="hanna-drown-effect"
             style={drownStyle}

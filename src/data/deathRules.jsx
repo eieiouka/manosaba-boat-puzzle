@@ -41,6 +41,15 @@ export const getDeathReason = (
           </>
         ),
 
+        effect: "character-drown",
+
+        drownTarget: "ema",
+
+        badVoice:
+          "/bad_voices/bad_ema_drown.mp3",
+        
+        badVoiceVolume: 2.2,
+
         delay: 800,
       };
     }
@@ -68,10 +77,13 @@ export const getDeathReason = (
             しました。
           </>
         ),
-        badVoice:
-        "/bad_voices/bad_hanna_drown.mp3",
 
-        effect: "hanna-drown",
+        effect: "character-drown",
+
+        drownTarget: "hanna",
+
+        badVoice:
+            "/bad_voices/bad_hanna_drown.mp3",
 
         badVoiceVolume: 2.2,
 

@@ -4,6 +4,8 @@ export function useVoice(volume = 1) {
   const audioContextRef = useRef(null);
   const gainRef = useRef(null);
   const bufferCacheRef = useRef(new Map());
+  const sourcesRef = useRef(new Set());
+  const voiceGenerationRef = useRef(0);
 
   const getAudioContext = () => {
     if (!audioContextRef.current) {
@@ -51,7 +53,9 @@ export function useVoice(volume = 1) {
     const response = await fetch(src);
 
     if (!response.ok) {
-      throw new Error(`音声ファイルを読み込めませんでした: ${src}`);
+      throw new Error(
+        `音声ファイルを読み込めませんでした: ${src}`
+      );
     }
 
     const arrayBuffer = await response.arrayBuffer();
@@ -64,10 +68,27 @@ export function useVoice(volume = 1) {
     return audioBuffer;
   };
 
+  const stopAllVoices = () => {
+    voiceGenerationRef.current += 1;
+
+    sourcesRef.current.forEach((source) => {
+      try {
+        source.stop();
+      } catch (e) {
+        // すでに停止済みなら無視
+      }
+    });
+
+    sourcesRef.current.clear();
+  };
+
   const playVoice = async (
     src,
     volumeMultiplier = 1
   ) => {
+    const myGeneration =
+      voiceGenerationRef.current;
+
     try {
       const audioContext = getAudioContext();
 
@@ -79,6 +100,13 @@ export function useVoice(volume = 1) {
         src,
         audioContext
       );
+
+      if (
+        myGeneration !==
+        voiceGenerationRef.current
+      ) {
+        return;
+      }
 
       const source =
         audioContext.createBufferSource();
@@ -93,6 +121,12 @@ export function useVoice(volume = 1) {
       source.connect(localGain);
       localGain.connect(gainRef.current);
 
+      sourcesRef.current.add(source);
+
+      source.onended = () => {
+        sourcesRef.current.delete(source);
+      };
+
       source.start(0);
     } catch (e) {
       console.error("ボイス再生に失敗しました", e);
@@ -102,5 +136,6 @@ export function useVoice(volume = 1) {
   return {
     playVoice,
     unlockVoice,
+    stopAllVoices,
   };
 }
