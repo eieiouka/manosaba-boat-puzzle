@@ -130,10 +130,16 @@ export default function App() {
   const [showRules, setShowRules] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [deathReason, setDeathReason] = useState(null);
+  const [started, setStarted] = useState(false);
 
   const pressTimerRef = useRef(null);
   const longPressedRef = useRef(false);
   const deathRef = useRef(false);
+
+  const audioContextRef = useRef(null);
+  const bgmBufferRef = useRef(null);
+  const bgmSourceRef = useRef(null);
+  const bgmGainRef = useRef(null);
 
   const clear = useMemo(
     () =>
@@ -225,6 +231,81 @@ export default function App() {
     }
 
     return null;
+  };
+
+  const getAudioContext = () => {
+    if (!audioContextRef.current) {
+      const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
+
+      audioContextRef.current = new AudioContextClass();
+    }
+
+    return audioContextRef.current;
+  };
+
+  const loadBgmBuffer = async (audioContext) => {
+    if (bgmBufferRef.current) {
+      return bgmBufferRef.current;
+    }
+
+    const response = await fetch("/bgm/BGM_puzzle.mp3");
+
+    if (!response.ok) {
+      throw new Error("BGMファイルを読み込めませんでした。");
+    }
+
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+    bgmBufferRef.current = audioBuffer;
+
+    return audioBuffer;
+  };
+
+  const playBgm = async () => {
+    const audioContext = getAudioContext();
+
+    if (audioContext.state === "suspended") {
+      await audioContext.resume();
+    }
+
+    if (bgmSourceRef.current) {
+      return;
+    }
+
+    const bgmBuffer = await loadBgmBuffer(audioContext);
+
+    const source = audioContext.createBufferSource();
+    const gain = audioContext.createGain();
+
+    source.buffer = bgmBuffer;
+    source.loop = true;
+
+    gain.gain.value = 0.45;
+
+    source.connect(gain);
+    gain.connect(audioContext.destination);
+
+    source.start(0);
+
+    bgmSourceRef.current = source;
+    bgmGainRef.current = gain;
+
+    source.onended = () => {
+      bgmSourceRef.current = null;
+      bgmGainRef.current = null;
+    };
+  };
+
+  const startGame = async () => {
+    setStarted(true);
+
+    try {
+      await playBgm();
+    } catch (e) {
+      console.error("BGMの再生に失敗しました", e);
+    }
   };
 
   const startLongPress = (person) => {
@@ -375,6 +456,18 @@ export default function App() {
 
   return (
     <main className="app">
+      {!started && (
+        <div className="start-overlay">
+          <div className="start-modal">
+            <h2>まのさば 船渡りパズル</h2>
+
+            <button onClick={startGame}>
+              Game Start
+            </button>
+          </div>
+        </div>
+      )}
+
       <section className="game-card">
         <header className="header">
           <h1>まのさば 船渡りパズル</h1>
