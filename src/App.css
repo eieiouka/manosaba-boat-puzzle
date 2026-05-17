@@ -492,4 +492,10 @@ h1 {
     width: 68px;
     height: 68px;
   }
+  .person:hover:not(:disabled) {
+  transform: none;
+  }
+  .in-boat:hover:not(:disabled) {
+  transform: none;
+  }
 }
