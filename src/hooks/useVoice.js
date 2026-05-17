@@ -23,6 +23,26 @@ export function useVoice(volume = 1) {
     return audioContextRef.current;
   };
 
+  const unlockVoice = async () => {
+    const audioContext = getAudioContext();
+
+    if (audioContext.state !== "running") {
+      await audioContext.resume();
+    }
+
+    const silentBuffer = audioContext.createBuffer(
+      1,
+      1,
+      audioContext.sampleRate
+    );
+
+    const source = audioContext.createBufferSource();
+
+    source.buffer = silentBuffer;
+    source.connect(gainRef.current);
+    source.start(0);
+  };
+
   const loadBuffer = async (src, audioContext) => {
     if (bufferCacheRef.current.has(src)) {
       return bufferCacheRef.current.get(src);
@@ -35,27 +55,44 @@ export function useVoice(volume = 1) {
     }
 
     const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+
+    const audioBuffer =
+      await audioContext.decodeAudioData(arrayBuffer);
 
     bufferCacheRef.current.set(src, audioBuffer);
 
     return audioBuffer;
   };
 
-  const playVoice = async (src) => {
+  const playVoice = async (
+    src,
+    volumeMultiplier = 1
+  ) => {
     try {
       const audioContext = getAudioContext();
 
-      if (audioContext.state === "suspended") {
+      if (audioContext.state !== "running") {
         await audioContext.resume();
       }
 
-      const audioBuffer = await loadBuffer(src, audioContext);
+      const audioBuffer = await loadBuffer(
+        src,
+        audioContext
+      );
 
-      const source = audioContext.createBufferSource();
+      const source =
+        audioContext.createBufferSource();
 
       source.buffer = audioBuffer;
-      source.connect(gainRef.current);
+
+      const localGain =
+        audioContext.createGain();
+
+      localGain.gain.value = volumeMultiplier;
+
+      source.connect(localGain);
+      localGain.connect(gainRef.current);
+
       source.start(0);
     } catch (e) {
       console.error("ボイス再生に失敗しました", e);
@@ -64,5 +101,6 @@ export function useVoice(volume = 1) {
 
   return {
     playVoice,
+    unlockVoice,
   };
 }

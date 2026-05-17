@@ -571,3 +571,181 @@ h1 {
   font-weight: 900;
   cursor: pointer;
 }
+
+.boat-break-effect {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.break-flash {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 230, 150, 0.35);
+  animation: breakFlash 0.55s ease-out forwards;
+}
+
+.wood-piece {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 42px;
+  height: 12px;
+  border-radius: 999px;
+  background: #8b5a2b;
+  box-shadow: 0 4px 0 #5d3517;
+  opacity: 0;
+}
+
+.piece-1 {
+  animation: woodPiece1 0.9s ease-out forwards;
+}
+
+.piece-2 {
+  animation: woodPiece2 0.9s ease-out forwards;
+}
+
+.piece-3 {
+  animation: woodPiece3 0.9s ease-out forwards;
+}
+
+.water-splash {
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 3px solid rgba(220, 245, 255, 0.9);
+  opacity: 0;
+}
+
+.splash-1 {
+  animation: splash1 0.85s ease-out forwards;
+}
+
+.splash-2 {
+  animation: splash2 0.85s ease-out forwards;
+}
+
+.splash-3 {
+  animation: splash3 0.85s ease-out forwards;
+}
+
+.death-shake .river {
+  animation: deathShake 0.42s linear;
+}
+
+@keyframes breakFlash {
+  0% {
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes woodPiece1 {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-145px, -85px) rotate(-38deg);
+  }
+}
+
+@keyframes woodPiece2 {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(95px, -105px) rotate(42deg);
+  }
+}
+
+@keyframes woodPiece3 {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(15px, 70px) rotate(95deg);
+  }
+}
+
+@keyframes splash1 {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-110px, -35px) scale(2.4);
+  }
+}
+
+@keyframes splash2 {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(90px, -25px) scale(2.2);
+  }
+}
+
+@keyframes splash3 {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.25);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-10px, 65px) scale(2.8);
+  }
+}
+
+@keyframes deathShake {
+  0% {
+    transform: translateX(0);
+  }
+
+  20% {
+    transform: translateX(-6px);
+  }
+
+  40% {
+    transform: translateX(6px);
+  }
+
+  60% {
+    transform: translateX(-4px);
+  }
+
+  80% {
+    transform: translateX(4px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}

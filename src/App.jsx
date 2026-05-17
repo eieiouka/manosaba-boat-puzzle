@@ -15,6 +15,14 @@ const BOAT_TIME = 700;
 const LONG_PRESS_TIME = 550;
 const BOARD_VOICE_COUNT = 3;
 
+const CHARACTER_VOICE_VOLUME = {
+  ema: 4,
+  sherry: 2.1,
+  hanna: 2.1,
+  hiro: 3.7,
+  nanoka: 3.5,
+};
+
 export default function App() {
   const [people, setPeople] = useState(INITIAL_PEOPLE);
   const [boat, setBoat] = useState([]);
@@ -31,8 +39,8 @@ export default function App() {
   const longPressedRef = useRef(false);
   const deathRef = useRef(false);
 
-  const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.3);
-  const { playVoice } = useVoice(1);
+  const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.22);
+  const { playVoice, unlockVoice } = useVoice(0.55);
 
   const clear = useMemo(
     () =>
@@ -78,6 +86,7 @@ export default function App() {
           title: "シェリー死亡",
           message:
             "シェリーがエマかハンナと同席していないため、船を壊して溺死しました。",
+          effect: "boat-break",
         };
       }
     }
@@ -131,8 +140,9 @@ export default function App() {
 
     try {
       await playBgm();
+      await unlockVoice();
     } catch (e) {
-      console.error("BGMの再生に失敗しました", e);
+      console.error("音声の初期化に失敗しました", e);
     }
   };
 
@@ -140,7 +150,10 @@ export default function App() {
     const voiceNumber =
       Math.floor(Math.random() * BOARD_VOICE_COUNT) + 1;
 
-    playVoice(`/voices/${person.id}/board_${voiceNumber}.mp3`);
+    playVoice(
+      `/voices/${person.id}/board_${voiceNumber}.mp3`,
+      CHARACTER_VOICE_VOLUME[person.id] ?? 1
+    );
   };
 
   const startLongPress = (person) => {
@@ -303,7 +316,11 @@ export default function App() {
         </div>
       )}
 
-      <section className="game-card">
+      <section
+        className={`game-card ${
+          deathReason?.effect === "boat-break" ? "death-shake" : ""
+        }`}
+      >
         <header className="header">
           <h1>まのさば 船渡りパズル</h1>
 
@@ -339,6 +356,18 @@ export default function App() {
           />
 
           <div className="river">
+            {deathReason?.effect === "boat-break" && (
+              <div className="boat-break-effect">
+                <div className="break-flash" />
+                <div className="wood-piece piece-1" />
+                <div className="wood-piece piece-2" />
+                <div className="wood-piece piece-3" />
+                <div className="water-splash splash-1" />
+                <div className="water-splash splash-2" />
+                <div className="water-splash splash-3" />
+              </div>
+            )}
+
             <div className={`boat boat-${boatPosition}`}>
               <div className="boat-people">
                 {boat.map((p) => (
