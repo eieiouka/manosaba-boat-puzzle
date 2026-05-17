@@ -50,7 +50,7 @@ export const getDeathReason = (
         
         badVoiceVolume: 2.2,
 
-        delay: 800,
+        delay: 1200,
       };
     }
 
@@ -239,7 +239,7 @@ export const getDeathReason = (
 
         effect: "ema-suicide",
 
-        delay: 1500,
+        delay: 1200,
     };
   }
 
