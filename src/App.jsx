@@ -14,6 +14,7 @@ const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
 const BOAT_TIME = 700;
 const LONG_PRESS_TIME = 550;
 const BOARD_VOICE_COUNT = 3;
+const DEATH_LOG_DELAY = 1000;
 
 const CHARACTER_VOICE_VOLUME = {
   ema: 4,
@@ -33,11 +34,13 @@ export default function App() {
   const [showRules, setShowRules] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [deathReason, setDeathReason] = useState(null);
+  const [deathEffect, setDeathEffect] = useState(null);
   const [started, setStarted] = useState(false);
 
   const pressTimerRef = useRef(null);
   const longPressedRef = useRef(false);
   const deathRef = useRef(false);
+  const deathLogTimerRef = useRef(null);
 
   const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.22);
   const { playVoice, unlockVoice } = useVoice(0.55);
@@ -45,9 +48,10 @@ export default function App() {
   const clear = useMemo(
     () =>
       !deathReason &&
+      !deathEffect &&
       people.every((p) => p.side === "right") &&
       boat.length === 0,
-    [people, boat, deathReason]
+    [people, boat, deathReason, deathEffect]
   );
 
   const peopleOnSide = (side) =>
@@ -59,21 +63,59 @@ export default function App() {
   const onlyPair = (group, a, b) =>
     group.length === 2 && has(group, a) && has(group, b);
 
+  const showDeathLogLater = (death) => {
+    if (deathLogTimerRef.current) {
+      clearTimeout(deathLogTimerRef.current);
+      deathLogTimerRef.current = null;
+    }
+
+    deathLogTimerRef.current = setTimeout(() => {
+      setDeathReason(death);
+      deathLogTimerRef.current = null;
+    }, DEATH_LOG_DELAY);
+  };
+
   const getDeathReason = (group, phase, context = {}) => {
     const allPeople = context.allPeople || [...people, ...boat];
 
     if (phase === "center" && context.place === "boat") {
       if (group.length === 1 && has(group, "ema")) {
         return {
-          title: "エマ死亡",
-          message: "エマが一人で船を漕ごうとして、溺死しました。",
+          title: (
+            <span className="red-text">
+              エマ死亡
+            </span>
+          ),
+
+          message: (
+            <>
+              エマが一人で船を漕ごうとして、
+              <span className="red-text">
+                溺死
+              </span>
+              しました。
+            </>
+          ),
         };
       }
 
       if (group.length === 1 && has(group, "hanna")) {
         return {
-          title: "ハンナ死亡",
-          message: "ハンナが一人で船を漕ごうとして、溺死しました。",
+          title: (
+            <span className="red-text">
+              ハンナ死亡
+            </span>
+          ),
+
+          message: (
+            <>
+              ハンナが一人で船を漕ごうとして、
+              <span className="red-text">
+                溺死
+              </span>
+              しました。
+            </>
+          ),
         };
       }
 
@@ -83,9 +125,31 @@ export default function App() {
         !has(group, "hanna")
       ) {
         return {
-          title: "シェリー死亡",
-          message:
-            "シェリーがエマかハンナと同席していないため、船を壊して溺死しました。",
+          title: (
+            <span className="red-text">
+              シェリー死亡
+            </span>
+          ),
+
+          message: (
+            <>
+              シェリーが
+              <span className="yellow-text">
+                エマ
+              </span>
+              か
+              <span className="yellow-text">
+                ハンナ
+              </span>
+              と同席していないため、
+              船を壊して
+              <span className="red-text">
+                溺死
+              </span>
+              しました。
+            </>
+          ),
+
           effect: "boat-break",
         };
       }
@@ -93,17 +157,57 @@ export default function App() {
 
     if (onlyPair(group, "hiro", "ema")) {
       return {
-        title: "エマ死亡",
-        message:
-          "ヒロとエマが2人きりになり、ヒロがエマを殺害しました。",
+        title: (
+          <span className="red-text">
+            エマ死亡
+          </span>
+        ),
+
+        message: (
+          <>
+            <span className="yellow-text">
+              ヒロ
+            </span>
+            と
+            <span className="yellow-text">
+              エマ
+            </span>
+            が2人きりになり、
+            ヒロがエマを
+            <span className="red-text">
+              殺害
+            </span>
+            しました。
+          </>
+        ),
       };
     }
 
     if (onlyPair(group, "hanna", "nanoka")) {
       return {
-        title: "ナノカ死亡",
-        message:
-          "ハンナとナノカが2人きりになり、ハンナがナノカを海に突き落としました。",
+        title: (
+          <span className="red-text">
+            ナノカ死亡
+          </span>
+        ),
+
+        message: (
+          <>
+            <span className="yellow-text">
+              ハンナ
+            </span>
+            と
+            <span className="yellow-text">
+              ナノカ
+            </span>
+            が2人きりになり、
+            ハンナがナノカを海に突き落として
+            <span className="red-text">
+              殺害
+            </span>
+            しました。
+          </>
+        ),
       };
     }
 
@@ -113,9 +217,21 @@ export default function App() {
       has(group, "ema")
     ) {
       return {
-        title: "エマ死亡",
-        message:
-          "こちら岸にエマが一人きりで残され、自殺しました。",
+        title: (
+          <span className="red-text">
+            エマ死亡
+          </span>
+        ),
+
+        message: (
+          <>
+            こちら岸にエマが一人きりで残され、
+            <span className="red-text">
+              自殺
+            </span>
+            しました。
+          </>
+        ),
       };
     }
 
@@ -126,9 +242,30 @@ export default function App() {
       has(allPeople, "ema")
     ) {
       return {
-        title: "エマ死亡",
-        message:
-          "ナノカのいる場所にシェリーもヒロもいなかったため、ナノカがエマを銃殺しました。",
+        title: (
+          <span className="red-text">
+            エマ死亡
+          </span>
+        ),
+
+        message: (
+          <>
+            ナノカのいる場所に
+            <span className="yellow-text">
+              シェリー
+            </span>
+            も
+            <span className="yellow-text">
+              ヒロ
+            </span>
+            もいなかったため、
+            ナノカがエマを
+            <span className="red-text">
+              銃殺
+            </span>
+            しました。
+          </>
+        ),
       };
     }
 
@@ -175,7 +312,7 @@ export default function App() {
   };
 
   const boardPerson = (person) => {
-    if (isMoving || deathReason) return;
+    if (isMoving || deathReason || deathEffect) return;
     if (longPressedRef.current) return;
     if (person.side !== boatSide) return;
     if (boat.length >= 2) return;
@@ -190,7 +327,7 @@ export default function App() {
   };
 
   const leaveBoat = (person) => {
-    if (isMoving || deathReason) return;
+    if (isMoving || deathReason || deathEffect) return;
     if (longPressedRef.current) return;
 
     setBoat((prev) =>
@@ -204,7 +341,7 @@ export default function App() {
   };
 
   const moveBoat = () => {
-    if (isMoving || deathReason) return;
+    if (isMoving || deathReason || deathEffect) return;
     if (boat.length === 0) return;
 
     const departureSide = boatSide;
@@ -234,7 +371,18 @@ export default function App() {
 
       if (boatDeath) {
         deathRef.current = true;
-        setDeathReason(boatDeath);
+        setIsMoving(false);
+
+        if (boatDeath.effect === "boat-break") {
+          setDeathEffect("boat-break");
+
+          playVoice(
+            "/bad_voices/bad_sherry_boat.mp3",
+            2.2
+          );
+        }
+
+        showDeathLogLater(boatDeath);
         return;
       }
 
@@ -252,7 +400,9 @@ export default function App() {
 
       if (departureDeath) {
         deathRef.current = true;
-        setDeathReason(departureDeath);
+        setIsMoving(false);
+
+        showDeathLogLater(departureDeath);
         return;
       }
 
@@ -278,8 +428,9 @@ export default function App() {
       if (death) {
         deathRef.current = true;
         setBoatSide(nextSide);
-        setDeathReason(death);
         setIsMoving(false);
+
+        showDeathLogLater(death);
         return;
       }
 
@@ -290,6 +441,11 @@ export default function App() {
   };
 
   const resetGame = () => {
+    if (deathLogTimerRef.current) {
+      clearTimeout(deathLogTimerRef.current);
+      deathLogTimerRef.current = null;
+    }
+
     setPeople(INITIAL_PEOPLE);
     setBoat([]);
     setBoatSide("left");
@@ -299,6 +455,7 @@ export default function App() {
     setSelectedCharacter(null);
     setShowRules(false);
     setDeathReason(null);
+    setDeathEffect(null);
     deathRef.current = false;
   };
 
@@ -318,7 +475,7 @@ export default function App() {
 
       <section
         className={`game-card ${
-          deathReason?.effect === "boat-break" ? "death-shake" : ""
+          deathEffect === "boat-break" ? "death-shake" : ""
         }`}
       >
         <header className="header">
@@ -356,7 +513,7 @@ export default function App() {
           />
 
           <div className="river">
-            {deathReason?.effect === "boat-break" && (
+            {deathEffect === "boat-break" && (
               <div className="boat-break-effect">
                 <div className="break-flash" />
                 <div className="wood-piece piece-1" />
@@ -387,9 +544,16 @@ export default function App() {
               <button
                 className="move-button"
                 onClick={moveBoat}
-                disabled={isMoving || boat.length === 0 || deathReason}
+                disabled={
+                  isMoving ||
+                  boat.length === 0 ||
+                  deathReason ||
+                  deathEffect
+                }
               >
-                {isMoving || deathReason ? "移動中..." : "出航"}
+                {isMoving || deathReason || deathEffect
+                  ? "移動中..."
+                  : "出航"}
               </button>
             </div>
           </div>
