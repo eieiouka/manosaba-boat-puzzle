@@ -30,7 +30,7 @@ export const getDeathReason = (
 
         message: (
           <>
-            エマが一人で船を漕ごうとして、
+            桜羽エマが一人で船を漕ごうとして、
             <span className="red-text">
               溺死
             </span>
@@ -55,7 +55,7 @@ export const getDeathReason = (
 
         message: (
           <>
-            ハンナが一人で船を漕ごうとして、
+            遠野ハンナが一人で船を漕ごうとして、
             <span className="red-text">
               溺死
             </span>
@@ -186,7 +186,7 @@ export const getDeathReason = (
 
       message: (
         <>
-          こちら岸にエマが一人きりで残され、
+          こちら岸に桜羽エマが一人きりで残されたため、
           <span className="red-text">
             自殺
           </span>
@@ -215,14 +215,13 @@ export const getDeathReason = (
         <>
           ナノカのいる場所に
           <span className="yellow-text">
-            シェリー
+            橘シェリー
           </span>
           も
           <span className="yellow-text">
-            ヒロ
+            二階堂ヒロ
           </span>
-          もいなかったため、
-          ナノカがエマを
+          もいなかったため、桜羽エマを
           <span className="red-text">
             銃殺
           </span>
