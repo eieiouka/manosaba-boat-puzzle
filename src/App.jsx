@@ -1,116 +1,10 @@
 import { useMemo, useRef, useState } from "react";
 import "./App.css";
-
-const CHARACTERS = [
-  {
-    id: "ema",
-    name: "桜羽エマ",
-    img: "/images/ema.png",
-
-    condition: (
-      <>
-        非力なバカ犬なので、一人で船を漕ぐと
-        <span className="red-text">溺死</span>
-        します。
-        <br />
-
-        こちら岸に一人で残すと、
-        <span className="red-text">自殺</span>
-        します。
-        <br />
-
-        惨めですね。
-      </>
-    ),
-  },
-
-  {
-    id: "sherry",
-    name: "橘シェリー",
-    img: "/images/sherry.png",
-
-    condition: (
-      <>
-        <span className="yellow-text">桜羽エマ</span>
-        か
-        <span className="yellow-text">遠野ハンナ</span>
-        と同席しないと、船を壊してしまいます。
-        <br />
-
-        そのまま
-        <span className="red-text">溺死</span>
-        します。バカです。
-      </>
-    ),
-  },
-
-  {
-    id: "hanna",
-    name: "遠野ハンナ",
-    img: "/images/hanna.png",
-
-    condition: (
-      <>
-        船の漕ぎ方もロクに分からないので、一人で乗ると
-        <span className="red-text">溺死</span>
-        します。
-        <br />
-
-        <span className="yellow-text">黒部ナノカ</span>
-        と2人きりになると、
-        <span className="yellow-text">黒部ナノカ</span>
-        を海に突き落として
-        <span className="red-text">殺害</span>
-        します。
-        <br />
-
-        血も心もない小娘ですね。
-      </>
-    ),
-  },
-
-  {
-    id: "hiro",
-    name: "二階堂ヒロ",
-    img: "/images/hiro.png",
-
-    condition: (
-      <>
-        <span className="yellow-text">桜羽エマ</span>
-        と2人きりになると、殺人衝動を抑えきれずに
-        <span className="yellow-text">桜羽エマ</span>
-        を
-        <span className="red-text">殺害</span>
-        します。
-        <br />
-
-        欲望を抑えることもできない、動物以下の存在ですね。
-      </>
-    ),
-  },
-
-  {
-    id: "nanoka",
-    name: "黒部ナノカ",
-    img: "/images/nanoka.png",
-
-    condition: (
-      <>
-        <span className="yellow-text">橘シェリー</span>
-        か
-        <span className="yellow-text">二階堂ヒロ</span>
-        が同じ場所で監視していないと、どこに居ても
-        <span className="yellow-text">桜羽エマ</span>
-        を
-        <span className="red-text">銃殺</span>
-        します。
-        <br />
-
-        「計画性がない」と言われたことを、かなり根に持っているようです。
-      </>
-    ),
-  },
-];
+import { CHARACTERS } from "./data/characters.jsx";
+import { useBgm } from "./hooks/useBgm.js";
+import { useVoice } from "./hooks/useVoice.js";
+import Bank from "./components/Bank.jsx";
+import CharacterButton from "./components/CharacterButton.jsx";
 
 const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
   ...c,
@@ -119,6 +13,7 @@ const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
 
 const BOAT_TIME = 700;
 const LONG_PRESS_TIME = 550;
+const BOARD_VOICE_COUNT = 3;
 
 export default function App() {
   const [people, setPeople] = useState(INITIAL_PEOPLE);
@@ -136,10 +31,8 @@ export default function App() {
   const longPressedRef = useRef(false);
   const deathRef = useRef(false);
 
-  const audioContextRef = useRef(null);
-  const bgmBufferRef = useRef(null);
-  const bgmSourceRef = useRef(null);
-  const bgmGainRef = useRef(null);
+  const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.3);
+  const { playVoice } = useVoice(1);
 
   const clear = useMemo(
     () =>
@@ -233,71 +126,6 @@ export default function App() {
     return null;
   };
 
-  const getAudioContext = () => {
-    if (!audioContextRef.current) {
-      const AudioContextClass =
-        window.AudioContext || window.webkitAudioContext;
-
-      audioContextRef.current = new AudioContextClass();
-    }
-
-    return audioContextRef.current;
-  };
-
-  const loadBgmBuffer = async (audioContext) => {
-    if (bgmBufferRef.current) {
-      return bgmBufferRef.current;
-    }
-
-    const response = await fetch("/bgm/BGM_puzzle.mp3");
-
-    if (!response.ok) {
-      throw new Error("BGMファイルを読み込めませんでした。");
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-
-    bgmBufferRef.current = audioBuffer;
-
-    return audioBuffer;
-  };
-
-  const playBgm = async () => {
-    const audioContext = getAudioContext();
-
-    if (audioContext.state === "suspended") {
-      await audioContext.resume();
-    }
-
-    if (bgmSourceRef.current) {
-      return;
-    }
-
-    const bgmBuffer = await loadBgmBuffer(audioContext);
-
-    const source = audioContext.createBufferSource();
-    const gain = audioContext.createGain();
-
-    source.buffer = bgmBuffer;
-    source.loop = true;
-
-    gain.gain.value = 0.45;
-
-    source.connect(gain);
-    gain.connect(audioContext.destination);
-
-    source.start(0);
-
-    bgmSourceRef.current = source;
-    bgmGainRef.current = gain;
-
-    source.onended = () => {
-      bgmSourceRef.current = null;
-      bgmGainRef.current = null;
-    };
-  };
-
   const startGame = async () => {
     setStarted(true);
 
@@ -306,6 +134,13 @@ export default function App() {
     } catch (e) {
       console.error("BGMの再生に失敗しました", e);
     }
+  };
+
+  const playBoardVoice = (person) => {
+    const voiceNumber =
+      Math.floor(Math.random() * BOARD_VOICE_COUNT) + 1;
+
+    playVoice(`/voices/${person.id}/board_${voiceNumber}.mp3`);
   };
 
   const startLongPress = (person) => {
@@ -337,6 +172,8 @@ export default function App() {
     );
 
     setBoat((prev) => [...prev, person]);
+
+    playBoardVoice(person);
   };
 
   const leaveBoat = (person) => {
@@ -385,7 +222,6 @@ export default function App() {
       if (boatDeath) {
         deathRef.current = true;
         setDeathReason(boatDeath);
-        setIsMoving(false);
         return;
       }
 
@@ -404,7 +240,6 @@ export default function App() {
       if (departureDeath) {
         deathRef.current = true;
         setDeathReason(departureDeath);
-        setIsMoving(false);
         return;
       }
 
@@ -523,9 +358,9 @@ export default function App() {
               <button
                 className="move-button"
                 onClick={moveBoat}
-                disabled={isMoving || boat.length === 0}
+                disabled={isMoving || boat.length === 0 || deathReason}
               >
-                {isMoving ? "移動中..." : "出航"}
+                {isMoving || deathReason ? "移動中..." : "出航"}
               </button>
             </div>
           </div>
@@ -645,75 +480,5 @@ export default function App() {
         )}
       </section>
     </main>
-  );
-}
-
-function Bank({
-  title,
-  side,
-  people,
-  boatSide,
-  isMoving,
-  onBoard,
-  onLongPressStart,
-  onLongPressCancel,
-}) {
-  return (
-    <section className="bank">
-      <h2>{title}</h2>
-
-      <div className="people-list">
-        {people.map((p) => (
-          <CharacterButton
-            key={p.id}
-            person={p}
-            className="person"
-            disabled={isMoving}
-            canMove={boatSide === side}
-            onClick={() => onBoard(p)}
-            onLongPressStart={onLongPressStart}
-            onLongPressCancel={onLongPressCancel}
-            showName
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function CharacterButton({
-  person,
-  className,
-  disabled,
-  canMove = true,
-  onClick,
-  onLongPressStart,
-  onLongPressCancel,
-  showName = false,
-}) {
-  const handleClick = () => {
-    if (!canMove) return;
-
-    onClick();
-  };
-
-  return (
-    <button
-      className={`${className} ${
-        !canMove ? "cannot-move" : ""
-      }`}
-      onClick={handleClick}
-      disabled={disabled}
-      onMouseDown={() => onLongPressStart(person)}
-      onMouseUp={onLongPressCancel}
-      onMouseLeave={onLongPressCancel}
-      onTouchStart={() => onLongPressStart(person)}
-      onTouchEnd={onLongPressCancel}
-      onTouchCancel={onLongPressCancel}
-    >
-      <img src={person.img} alt={person.name} />
-
-      {showName && <small>{person.name}</small>}
-    </button>
   );
 }

@@ -1,0 +1,110 @@
+export const CHARACTERS = [
+  {
+    id: "ema",
+    name: "桜羽エマ",
+    img: "/images/ema.png",
+
+    condition: (
+      <>
+        非力なバカ犬なので、一人で船を漕ぐと
+        <span className="red-text">溺死</span>
+        します。
+        <br />
+
+        こちら岸に一人で残すと、
+        <span className="red-text">自殺</span>
+        します。
+        <br />
+
+        惨めですね。
+      </>
+    ),
+  },
+
+  {
+    id: "sherry",
+    name: "橘シェリー",
+    img: "/images/sherry.png",
+
+    condition: (
+      <>
+        <span className="yellow-text">桜羽エマ</span>
+        か
+        <span className="yellow-text">遠野ハンナ</span>
+        と同席しないと、船を壊してしまいます。
+        <br />
+
+        そのまま
+        <span className="red-text">溺死</span>
+        します。バカです。
+      </>
+    ),
+  },
+
+  {
+    id: "hanna",
+    name: "遠野ハンナ",
+    img: "/images/hanna.png",
+
+    condition: (
+      <>
+        船の漕ぎ方もロクに分からないので、一人で乗ると
+        <span className="red-text">溺死</span>
+        します。
+        <br />
+
+        <span className="yellow-text">黒部ナノカ</span>
+        と2人きりになると、
+        <span className="yellow-text">黒部ナノカ</span>
+        を海に突き落として
+        <span className="red-text">殺害</span>
+        します。
+        <br />
+
+        血も心もない小娘ですね。
+      </>
+    ),
+  },
+
+  {
+    id: "hiro",
+    name: "二階堂ヒロ",
+    img: "/images/hiro.png",
+
+    condition: (
+      <>
+        <span className="yellow-text">桜羽エマ</span>
+        と2人きりになると、殺人衝動を抑えきれずに
+        <span className="yellow-text">桜羽エマ</span>
+        を
+        <span className="red-text">殺害</span>
+        します。
+        <br />
+
+        欲望を抑えることもできない、動物以下の存在ですね。
+      </>
+    ),
+  },
+
+  {
+    id: "nanoka",
+    name: "黒部ナノカ",
+    img: "/images/nanoka.png",
+
+    condition: (
+      <>
+        <span className="yellow-text">橘シェリー</span>
+        か
+        <span className="yellow-text">二階堂ヒロ</span>
+        が同じ場所で監視していないと、どこに居ても
+        <span className="yellow-text">桜羽エマ</span>
+        を
+        <span className="red-text">銃殺</span>
+        します。
+        <br />
+
+        「計画性がない」と言われたことを、かなり根に持っているようです。
+      </>
+    ),
+  },
+];
