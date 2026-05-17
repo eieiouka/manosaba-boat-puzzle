@@ -1,8 +1,12 @@
 import { useMemo, useRef, useState } from "react";
 import "./App.css";
+
 import { CHARACTERS } from "./data/characters.jsx";
+import { getDeathReason } from "./data/deathRules.jsx";
+
 import { useBgm } from "./hooks/useBgm.js";
 import { useVoice } from "./hooks/useVoice.js";
+
 import Bank from "./components/Bank.jsx";
 import CharacterButton from "./components/CharacterButton.jsx";
 
@@ -35,12 +39,17 @@ export default function App() {
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [deathReason, setDeathReason] = useState(null);
   const [deathEffect, setDeathEffect] = useState(null);
+  const [shotStyle, setShotStyle] = useState({});
   const [started, setStarted] = useState(false);
 
   const pressTimerRef = useRef(null);
   const longPressedRef = useRef(false);
   const deathRef = useRef(false);
   const deathLogTimerRef = useRef(null);
+
+  const gameCardRef = useRef(null);
+
+  const characterRefs = useRef({});
 
   const { playBgm } = useBgm("/bgm/BGM_puzzle.mp3", 0.22);
   const { playVoice, unlockVoice } = useVoice(0.55);
@@ -57,11 +66,65 @@ export default function App() {
   const peopleOnSide = (side) =>
     people.filter((p) => p.side === side);
 
-  const has = (group, id) =>
-    group.some((p) => p.id === id);
+  const makeNanokaShotStyle = () => {
+    const containerEl = gameCardRef.current;
+    const nanokaEl = characterRefs.current.nanoka;
+    const emaEl = characterRefs.current.ema;
 
-  const onlyPair = (group, a, b) =>
-    group.length === 2 && has(group, a) && has(group, b);
+    if (!containerEl || !nanokaEl || !emaEl) {
+      return {};
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const nanokaRect =
+      nanokaEl.getBoundingClientRect();
+
+    const emaRect =
+      emaEl.getBoundingClientRect();
+
+    const startX =
+      nanokaRect.left +
+      nanokaRect.width / 2 -
+      containerRect.left;
+
+    const startY =
+      nanokaRect.top +
+      nanokaRect.height / 2 -
+      containerRect.top;
+
+    const endX =
+      emaRect.left +
+      emaRect.width / 2 -
+      containerRect.left;
+
+    const endY =
+      emaRect.top +
+      emaRect.height / 2 -
+      containerRect.top;
+
+    const dx = endX - startX;
+    const dy = endY - startY;
+
+    const distance = Math.sqrt(
+      dx * dx + dy * dy
+    );
+
+    const angle =
+      (Math.atan2(dy, dx) * 180) / Math.PI;
+
+    return {
+      "--shot-start-x": `${startX}px`,
+      "--shot-start-y": `${startY}px`,
+      "--shot-end-x": `${endX}px`,
+      "--shot-end-y": `${endY}px`,
+      "--shot-dx": `${dx}px`,
+      "--shot-dy": `${dy}px`,
+      "--shot-angle": `${angle}deg`,
+      "--shot-distance": `${distance}px`,
+    };
+  };
 
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
@@ -72,204 +135,32 @@ export default function App() {
     deathLogTimerRef.current = setTimeout(() => {
       setDeathReason(death);
       deathLogTimerRef.current = null;
-    }, DEATH_LOG_DELAY);
+    }, death.delay ?? DEATH_LOG_DELAY);
   };
 
-  const getDeathReason = (group, phase, context = {}) => {
-    const allPeople = context.allPeople || [...people, ...boat];
+  const playDeathVoice = (death) => {
+    if (!death.badVoice) return;
 
-    if (phase === "center" && context.place === "boat") {
-      if (group.length === 1 && has(group, "ema")) {
-        return {
-          title: (
-            <span className="red-text">
-              エマ死亡
-            </span>
-          ),
+    playVoice(
+      death.badVoice,
+      death.badVoiceVolume ?? 2.2
+    );
+  };
 
-          message: (
-            <>
-              エマが一人で船を漕ごうとして、
-              <span className="red-text">
-                溺死
-              </span>
-              しました。
-            </>
-          ),
-        };
+  const applyDeath = (death) => {
+    deathRef.current = true;
+    setIsMoving(false);
+
+    if (death.effect) {
+      if (death.effect === "nanoka-shot") {
+        setShotStyle(makeNanokaShotStyle());
       }
 
-      if (group.length === 1 && has(group, "hanna")) {
-        return {
-          title: (
-            <span className="red-text">
-              ハンナ死亡
-            </span>
-          ),
-
-          message: (
-            <>
-              ハンナが一人で船を漕ごうとして、
-              <span className="red-text">
-                溺死
-              </span>
-              しました。
-            </>
-          ),
-        };
-      }
-
-      if (
-        has(group, "sherry") &&
-        !has(group, "ema") &&
-        !has(group, "hanna")
-      ) {
-        return {
-          title: (
-            <span className="red-text">
-              シェリー死亡
-            </span>
-          ),
-
-          message: (
-            <>
-              シェリーが
-              <span className="yellow-text">
-                エマ
-              </span>
-              か
-              <span className="yellow-text">
-                ハンナ
-              </span>
-              と同席していないため、
-              船を壊して
-              <span className="red-text">
-                溺死
-              </span>
-              しました。
-            </>
-          ),
-
-          effect: "boat-break",
-        };
-      }
+      setDeathEffect(death.effect);
     }
 
-    if (onlyPair(group, "hiro", "ema")) {
-      return {
-        title: (
-          <span className="red-text">
-            エマ死亡
-          </span>
-        ),
-
-        message: (
-          <>
-            <span className="yellow-text">
-              ヒロ
-            </span>
-            と
-            <span className="yellow-text">
-              エマ
-            </span>
-            が2人きりになり、
-            ヒロがエマを
-            <span className="red-text">
-              殺害
-            </span>
-            しました。
-          </>
-        ),
-      };
-    }
-
-    if (onlyPair(group, "hanna", "nanoka")) {
-      return {
-        title: (
-          <span className="red-text">
-            ナノカ死亡
-          </span>
-        ),
-
-        message: (
-          <>
-            <span className="yellow-text">
-              ハンナ
-            </span>
-            と
-            <span className="yellow-text">
-              ナノカ
-            </span>
-            が2人きりになり、
-            ハンナがナノカを海に突き落として
-            <span className="red-text">
-              殺害
-            </span>
-            しました。
-          </>
-        ),
-      };
-    }
-
-    if (
-      context.side === "left" &&
-      group.length === 1 &&
-      has(group, "ema")
-    ) {
-      return {
-        title: (
-          <span className="red-text">
-            エマ死亡
-          </span>
-        ),
-
-        message: (
-          <>
-            こちら岸にエマが一人きりで残され、
-            <span className="red-text">
-              自殺
-            </span>
-            しました。
-          </>
-        ),
-      };
-    }
-
-    if (
-      has(group, "nanoka") &&
-      !has(group, "sherry") &&
-      !has(group, "hiro") &&
-      has(allPeople, "ema")
-    ) {
-      return {
-        title: (
-          <span className="red-text">
-            エマ死亡
-          </span>
-        ),
-
-        message: (
-          <>
-            ナノカのいる場所に
-            <span className="yellow-text">
-              シェリー
-            </span>
-            も
-            <span className="yellow-text">
-              ヒロ
-            </span>
-            もいなかったため、
-            ナノカがエマを
-            <span className="red-text">
-              銃殺
-            </span>
-            しました。
-          </>
-        ),
-      };
-    }
-
-    return null;
+    playDeathVoice(death);
+    showDeathLogLater(death);
   };
 
   const startGame = async () => {
@@ -312,9 +203,13 @@ export default function App() {
   };
 
   const boardPerson = (person) => {
-    if (isMoving || deathReason || deathEffect) return;
+    if (isMoving || deathReason || deathEffect)
+      return;
+
     if (longPressedRef.current) return;
+
     if (person.side !== boatSide) return;
+
     if (boat.length >= 2) return;
 
     setPeople((prev) =>
@@ -327,7 +222,9 @@ export default function App() {
   };
 
   const leaveBoat = (person) => {
-    if (isMoving || deathReason || deathEffect) return;
+    if (isMoving || deathReason || deathEffect)
+      return;
+
     if (longPressedRef.current) return;
 
     setBoat((prev) =>
@@ -341,11 +238,16 @@ export default function App() {
   };
 
   const moveBoat = () => {
-    if (isMoving || deathReason || deathEffect) return;
+    if (isMoving || deathReason || deathEffect)
+      return;
+
     if (boat.length === 0) return;
 
     const departureSide = boatSide;
-    const nextSide = boatSide === "left" ? "right" : "left";
+
+    const nextSide =
+      boatSide === "left" ? "right" : "left";
+
     const allPeople = [...people, ...boat];
 
     deathRef.current = false;
@@ -361,28 +263,20 @@ export default function App() {
         (p) => p.side === departureSide
       );
 
-      const boatDeath = getDeathReason(boatGroup, "center", {
-        place: "boat",
-        side: "boat",
-        departureSide,
-        nextSide,
-        allPeople,
-      });
+      const boatDeath = getDeathReason(
+        boatGroup,
+        "center",
+        {
+          place: "boat",
+          side: "boat",
+          departureSide,
+          nextSide,
+          allPeople,
+        }
+      );
 
       if (boatDeath) {
-        deathRef.current = true;
-        setIsMoving(false);
-
-        if (boatDeath.effect === "boat-break") {
-          setDeathEffect("boat-break");
-
-          playVoice(
-            "/bad_voices/bad_sherry_boat.mp3",
-            2.2
-          );
-        }
-
-        showDeathLogLater(boatDeath);
+        applyDeath(boatDeath);
         return;
       }
 
@@ -399,10 +293,7 @@ export default function App() {
       );
 
       if (departureDeath) {
-        deathRef.current = true;
-        setIsMoving(false);
-
-        showDeathLogLater(departureDeath);
+        applyDeath(departureDeath);
         return;
       }
 
@@ -413,29 +304,36 @@ export default function App() {
       if (deathRef.current) return;
 
       const arrivalGroup = [
-        ...people.filter((p) => p.side === nextSide),
+        ...people.filter(
+          (p) => p.side === nextSide
+        ),
         ...boat,
       ];
 
-      const death = getDeathReason(arrivalGroup, "arrival", {
-        place: "arrival",
-        side: nextSide,
-        departureSide,
-        nextSide,
-        allPeople,
-      });
+      const death = getDeathReason(
+        arrivalGroup,
+        "arrival",
+        {
+          place: "arrival",
+          side: nextSide,
+          departureSide,
+          nextSide,
+          allPeople,
+        }
+      );
 
       if (death) {
-        deathRef.current = true;
         setBoatSide(nextSide);
-        setIsMoving(false);
 
-        showDeathLogLater(death);
+        applyDeath(death);
+
         return;
       }
 
       setBoatSide(nextSide);
+
       setMoves((m) => m + 1);
+
       setIsMoving(false);
     }, BOAT_TIME);
   };
@@ -443,19 +341,32 @@ export default function App() {
   const resetGame = () => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
+
       deathLogTimerRef.current = null;
     }
 
     setPeople(INITIAL_PEOPLE);
+
     setBoat([]);
+
     setBoatSide("left");
+
     setBoatPosition("left");
+
     setIsMoving(false);
+
     setMoves(0);
+
     setSelectedCharacter(null);
+
     setShowRules(false);
+
     setDeathReason(null);
+
     setDeathEffect(null);
+
+    setShotStyle({});
+
     deathRef.current = false;
   };
 
@@ -474,10 +385,28 @@ export default function App() {
       )}
 
       <section
+        ref={gameCardRef}
         className={`game-card ${
-          deathEffect === "boat-break" ? "death-shake" : ""
+          deathEffect === "boat-break"
+            ? "death-shake"
+            : ""
         }`}
       >
+        {deathEffect === "nanoka-shot" && (
+          <div
+            className="nanoka-shot-effect"
+            style={shotStyle}
+          >
+            <div className="nanoka-muzzle-flash" />
+
+            <div className="nanoka-bullet-trail" />
+
+            <div className="nanoka-bullet" />
+
+            <div className="nanoka-hit-flash" />
+          </div>
+        )}
+
         <header className="header">
           <h1>まのさば 船渡りパズル</h1>
 
@@ -510,22 +439,31 @@ export default function App() {
             onBoard={boardPerson}
             onLongPressStart={startLongPress}
             onLongPressCancel={cancelLongPress}
+            characterRefs={characterRefs}
           />
 
           <div className="river">
             {deathEffect === "boat-break" && (
               <div className="boat-break-effect">
                 <div className="break-flash" />
+
                 <div className="wood-piece piece-1" />
+
                 <div className="wood-piece piece-2" />
+
                 <div className="wood-piece piece-3" />
+
                 <div className="water-splash splash-1" />
+
                 <div className="water-splash splash-2" />
+
                 <div className="water-splash splash-3" />
               </div>
             )}
 
-            <div className={`boat boat-${boatPosition}`}>
+            <div
+              className={`boat boat-${boatPosition}`}
+            >
               <div className="boat-people">
                 {boat.map((p) => (
                   <CharacterButton
@@ -535,8 +473,16 @@ export default function App() {
                     disabled={isMoving}
                     canMove
                     onClick={() => leaveBoat(p)}
-                    onLongPressStart={startLongPress}
-                    onLongPressCancel={cancelLongPress}
+                    onLongPressStart={
+                      startLongPress
+                    }
+                    onLongPressCancel={
+                      cancelLongPress
+                    }
+                    buttonRef={(el) => {
+                      characterRefs.current[p.id] =
+                        el;
+                    }}
                   />
                 ))}
               </div>
@@ -551,7 +497,9 @@ export default function App() {
                   deathEffect
                 }
               >
-                {isMoving || deathReason || deathEffect
+                {isMoving ||
+                deathReason ||
+                deathEffect
                   ? "移動中..."
                   : "出航"}
               </button>
@@ -567,6 +515,7 @@ export default function App() {
             onBoard={boardPerson}
             onLongPressStart={startLongPress}
             onLongPressCancel={cancelLongPress}
+            characterRefs={characterRefs}
           />
         </div>
 
@@ -575,7 +524,9 @@ export default function App() {
             <div className="modal">
               <h2>{deathReason.title}</h2>
 
-              <p>{deathReason.message}</p>
+              <p className="condition-text">
+                {deathReason.message}
+              </p>
 
               <button onClick={resetGame}>
                 最初からやり直す
@@ -604,17 +555,23 @@ export default function App() {
         {showRules && (
           <div
             className="modal-backdrop"
-            onClick={() => setShowRules(false)}
+            onClick={() =>
+              setShowRules(false)
+            }
           >
             <div
               className="modal"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
               <h2>ルール説明</h2>
 
               <p>
                 船には
-                <span className="green-text">最大2人まで</span>
+                <span className="green-text">
+                  最大2人まで
+                </span>
                 乗れます。
               </p>
 
@@ -624,11 +581,15 @@ export default function App() {
 
               <p>
                 キャラクターごとに、
-                <span className="red-text">死亡・殺害条件</span>
+                <span className="red-text">
+                  死亡・殺害条件
+                </span>
                 があります。
                 <br />
                 （
-                <span className="green-text">キャラ長押し</span>
+                <span className="green-text">
+                  キャラ長押し
+                </span>
                 で見ることができます）
               </p>
 
@@ -636,7 +597,11 @@ export default function App() {
                 誰も死なないように、魔法少女たちを向こう岸まで運んであげましょう。
               </p>
 
-              <button onClick={() => setShowRules(false)}>
+              <button
+                onClick={() =>
+                  setShowRules(false)
+                }
+              >
                 閉じる
               </button>
             </div>
@@ -646,11 +611,15 @@ export default function App() {
         {selectedCharacter && (
           <div
             className="modal-backdrop"
-            onClick={() => setSelectedCharacter(null)}
+            onClick={() =>
+              setSelectedCharacter(null)
+            }
           >
             <div
               className="modal character-modal"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) =>
+                e.stopPropagation()
+              }
             >
               <div className="character-modal-head">
                 <img
@@ -658,14 +627,20 @@ export default function App() {
                   alt={selectedCharacter.name}
                 />
 
-                <h2>{selectedCharacter.name}</h2>
+                <h2>
+                  {selectedCharacter.name}
+                </h2>
               </div>
 
               <p className="condition-text">
                 {selectedCharacter.condition}
               </p>
 
-              <button onClick={() => setSelectedCharacter(null)}>
+              <button
+                onClick={() =>
+                  setSelectedCharacter(null)
+                }
+              >
                 閉じる
               </button>
             </div>

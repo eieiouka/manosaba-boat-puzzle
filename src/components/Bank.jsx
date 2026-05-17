@@ -9,6 +9,7 @@ export default function Bank({
   onBoard,
   onLongPressStart,
   onLongPressCancel,
+  characterRefs,
 }) {
   return (
     <section className="bank">
@@ -25,6 +26,11 @@ export default function Bank({
             onClick={() => onBoard(p)}
             onLongPressStart={onLongPressStart}
             onLongPressCancel={onLongPressCancel}
+            buttonRef={(el) => {
+              if (characterRefs) {
+                characterRefs.current[p.id] = el;
+              }
+            }}
             showName
           />
         ))}

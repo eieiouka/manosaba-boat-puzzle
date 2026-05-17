@@ -16,7 +16,7 @@ export const CHARACTERS = [
         します。
         <br />
 
-        惨めですね。
+        哀れな小娘ですね。
       </>
     ),
   },
@@ -36,7 +36,7 @@ export const CHARACTERS = [
 
         そのまま
         <span className="red-text">溺死</span>
-        します。バカです。
+        します。バカな怪力女です。
       </>
     ),
   },
@@ -56,12 +56,12 @@ export const CHARACTERS = [
         <span className="yellow-text">黒部ナノカ</span>
         と2人きりになると、
         <span className="yellow-text">黒部ナノカ</span>
-        を海に突き落として
-        <span className="red-text">殺害</span>
+        を包丁で
+        <span className="red-text">刺殺</span>
         します。
         <br />
 
-        血も心もない小娘ですね。
+        本人は、「ナノカさんが銃を持っていたのが原因。これは正当防衛」と主張しています。
       </>
     ),
   },

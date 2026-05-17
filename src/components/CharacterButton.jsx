@@ -7,6 +7,7 @@ export default function CharacterButton({
   onLongPressStart,
   onLongPressCancel,
   showName = false,
+  buttonRef,
 }) {
   const handleClick = () => {
     if (!canMove) return;
@@ -16,6 +17,7 @@ export default function CharacterButton({
 
   return (
     <button
+      ref={buttonRef}
       className={`${className} ${
         !canMove ? "cannot-move" : ""
       }`}
