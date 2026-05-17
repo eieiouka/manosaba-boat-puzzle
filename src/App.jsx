@@ -1,12 +1,37 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import "./App.css";
 
 const CHARACTERS = [
-  { id: "ema", name: "エマ", img: "/images/ema.png" },
-  { id: "sherry", name: "シェリー", img: "/images/sherry.png" },
-  { id: "hanna", name: "ハンナ", img: "/images/hanna.png" },
-  { id: "hiro", name: "ヒロ", img: "/images/hiro.png" },
-  { id: "nanoka", name: "ナノカ", img: "/images/nanoka.png" },
+  {
+    id: "ema",
+    name: "エマ",
+    img: "/images/ema.png",
+    condition: "死亡・殺害条件は後で設定します。",
+  },
+  {
+    id: "sherry",
+    name: "シェリー",
+    img: "/images/sherry.png",
+    condition: "死亡・殺害条件は後で設定します。",
+  },
+  {
+    id: "hanna",
+    name: "ハンナ",
+    img: "/images/hanna.png",
+    condition: "死亡・殺害条件は後で設定します。",
+  },
+  {
+    id: "hiro",
+    name: "ヒロ",
+    img: "/images/hiro.png",
+    condition: "死亡・殺害条件は後で設定します。",
+  },
+  {
+    id: "nanoka",
+    name: "ナノカ",
+    img: "/images/nanoka.png",
+    condition: "死亡・殺害条件は後で設定します。",
+  },
 ];
 
 const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
@@ -15,24 +40,20 @@ const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
 }));
 
 const BOAT_TIME = 700;
+const LONG_PRESS_TIME = 550;
 
 export default function App() {
   const [people, setPeople] = useState(INITIAL_PEOPLE);
-
   const [boat, setBoat] = useState([]);
-
   const [boatSide, setBoatSide] = useState("left");
-
-  const [boatPosition, setBoatPosition] =
-    useState("left");
-
-  const [isMoving, setIsMoving] =
-    useState(false);
-
+  const [boatPosition, setBoatPosition] = useState("left");
+  const [isMoving, setIsMoving] = useState(false);
   const [moves, setMoves] = useState(0);
+  const [showRules, setShowRules] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
 
-  const [showRules, setShowRules] =
-    useState(false);
+  const pressTimerRef = useRef(null);
+  const longPressedRef = useRef(false);
 
   const clear = useMemo(
     () =>
@@ -44,11 +65,28 @@ export default function App() {
   const peopleOnSide = (side) =>
     people.filter((p) => p.side === side);
 
-  const boardPerson = (person) => {
+  const startLongPress = (person) => {
     if (isMoving) return;
 
-    if (person.side !== boatSide) return;
+    longPressedRef.current = false;
 
+    pressTimerRef.current = setTimeout(() => {
+      longPressedRef.current = true;
+      setSelectedCharacter(person);
+    }, LONG_PRESS_TIME);
+  };
+
+  const cancelLongPress = () => {
+    if (pressTimerRef.current) {
+      clearTimeout(pressTimerRef.current);
+      pressTimerRef.current = null;
+    }
+  };
+
+  const boardPerson = (person) => {
+    if (isMoving) return;
+    if (longPressedRef.current) return;
+    if (person.side !== boatSide) return;
     if (boat.length >= 2) return;
 
     setPeople((prev) =>
@@ -60,6 +98,7 @@ export default function App() {
 
   const leaveBoat = (person) => {
     if (isMoving) return;
+    if (longPressedRef.current) return;
 
     setBoat((prev) =>
       prev.filter((p) => p.id !== person.id)
@@ -78,18 +117,14 @@ export default function App() {
 
   const moveBoat = () => {
     if (isMoving) return;
-
     if (boat.length === 0) return;
 
     const nextSide =
       boatSide === "left" ? "right" : "left";
 
     setIsMoving(true);
-
-    // 一気に反対側へ移動
     setBoatPosition(nextSide);
 
-    // 中央通過タイミングで死亡判定
     setTimeout(() => {
       const isDead = checkDeathAtCenter();
 
@@ -99,28 +134,22 @@ export default function App() {
       }
     }, BOAT_TIME / 2);
 
-    // 到着処理
     setTimeout(() => {
       setBoatSide(nextSide);
-
       setMoves((m) => m + 1);
-
       setIsMoving(false);
     }, BOAT_TIME);
   };
 
   const resetGame = () => {
     setPeople(INITIAL_PEOPLE);
-
     setBoat([]);
-
     setBoatSide("left");
-
     setBoatPosition("left");
-
     setIsMoving(false);
-
     setMoves(0);
+    setSelectedCharacter(null);
+    setShowRules(false);
   };
 
   return (
@@ -156,38 +185,32 @@ export default function App() {
             boatSide={boatSide}
             isMoving={isMoving}
             onBoard={boardPerson}
+            onLongPressStart={startLongPress}
+            onLongPressCancel={cancelLongPress}
           />
 
           <div className="river">
-            <div
-              className={`boat boat-${boatPosition}`}
-            >
+            <div className={`boat boat-${boatPosition}`}>
               <div className="boat-people">
                 {boat.map((p) => (
-                  <button
+                  <CharacterButton
                     key={p.id}
+                    person={p}
                     className="person in-boat"
-                    onClick={() => leaveBoat(p)}
                     disabled={isMoving}
-                  >
-                    <img
-                      src={p.img}
-                      alt={p.name}
-                    />
-                  </button>
+                    onClick={() => leaveBoat(p)}
+                    onLongPressStart={startLongPress}
+                    onLongPressCancel={cancelLongPress}
+                  />
                 ))}
               </div>
 
               <button
                 className="move-button"
                 onClick={moveBoat}
-                disabled={
-                  isMoving || boat.length === 0
-                }
+                disabled={isMoving || boat.length === 0}
               >
-                {isMoving
-                  ? "移動中..."
-                  : "出航"}
+                {isMoving ? "移動中..." : "出航"}
               </button>
             </div>
           </div>
@@ -199,6 +222,8 @@ export default function App() {
             boatSide={boatSide}
             isMoving={isMoving}
             onBoard={boardPerson}
+            onLongPressStart={startLongPress}
+            onLongPressCancel={cancelLongPress}
           />
         </div>
 
@@ -209,8 +234,7 @@ export default function App() {
 
               <p>
                 {moves}
-                手で全員を向こう岸へ
-                運びました。
+                手で全員を向こう岸へ運びました。
               </p>
 
               <button onClick={resetGame}>
@@ -223,39 +247,59 @@ export default function App() {
         {showRules && (
           <div
             className="modal-backdrop"
-            onClick={() =>
-              setShowRules(false)
-            }
+            onClick={() => setShowRules(false)}
           >
             <div
               className="modal"
-              onClick={(e) =>
-                e.stopPropagation()
-              }
+              onClick={(e) => e.stopPropagation()}
             >
               <h2>ルール説明</h2>
 
+              <p>船には最大2人まで乗れます。</p>
+
               <p>
-                船には最大2人まで
-                乗れます。
+                誰も乗っていない状態では、船は動きません。
               </p>
 
               <p>
-                誰も乗っていない状態では、
-                船は動きません。
+                キャラクターごとに、死亡・殺害条件があります。<br />
+                （キャラ長押しで見ることができます）
               </p>
 
               <p>
-                特定条件を満たすと、
-                川の中央で死亡判定が
-                発生します。
+                誰も死なないように、魔法少女たちを運んであげましょう。
               </p>
 
-              <button
-                onClick={() =>
-                  setShowRules(false)
-                }
-              >
+              <button onClick={() => setShowRules(false)}>
+                閉じる
+              </button>
+            </div>
+          </div>
+        )}
+
+        {selectedCharacter && (
+          <div
+            className="modal-backdrop"
+            onClick={() => setSelectedCharacter(null)}
+          >
+            <div
+              className="modal character-modal"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="character-modal-head">
+                <img
+                  src={selectedCharacter.img}
+                  alt={selectedCharacter.name}
+                />
+
+                <h2>{selectedCharacter.name}</h2>
+              </div>
+
+              <p className="condition-text">
+                {selectedCharacter.condition}
+              </p>
+
+              <button onClick={() => setSelectedCharacter(null)}>
                 閉じる
               </button>
             </div>
@@ -273,6 +317,8 @@ function Bank({
   boatSide,
   isMoving,
   onBoard,
+  onLongPressStart,
+  onLongPressCancel,
 }) {
   return (
     <section className="bank">
@@ -280,23 +326,46 @@ function Bank({
 
       <div className="people-list">
         {people.map((p) => (
-          <button
+          <CharacterButton
             key={p.id}
+            person={p}
             className="person"
+            disabled={isMoving || boatSide !== side}
             onClick={() => onBoard(p)}
-            disabled={
-              isMoving || boatSide !== side
-            }
-          >
-            <img
-              src={p.img}
-              alt={p.name}
-            />
-
-            <small>{p.name}</small>
-          </button>
+            onLongPressStart={onLongPressStart}
+            onLongPressCancel={onLongPressCancel}
+            showName
+          />
         ))}
       </div>
     </section>
+  );
+}
+
+function CharacterButton({
+  person,
+  className,
+  disabled,
+  onClick,
+  onLongPressStart,
+  onLongPressCancel,
+  showName = false,
+}) {
+  return (
+    <button
+      className={className}
+      onClick={onClick}
+      disabled={disabled}
+      onMouseDown={() => onLongPressStart(person)}
+      onMouseUp={onLongPressCancel}
+      onMouseLeave={onLongPressCancel}
+      onTouchStart={() => onLongPressStart(person)}
+      onTouchEnd={onLongPressCancel}
+      onTouchCancel={onLongPressCancel}
+    >
+      <img src={person.img} alt={person.name} />
+
+      {showName && <small>{person.name}</small>}
+    </button>
   );
 }
