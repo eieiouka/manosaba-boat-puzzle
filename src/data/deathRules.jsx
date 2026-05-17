@@ -71,6 +71,8 @@ export const getDeathReason = (
         badVoice:
         "/bad_voices/bad_hanna_drown.mp3",
 
+        effect: "hanna-drown",
+
         badVoiceVolume: 2.2,
 
         delay: 1200,

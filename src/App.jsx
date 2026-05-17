@@ -43,6 +43,7 @@ export default function App() {
   const [shotStyle, setShotStyle] = useState({});
   const [smashStyle, setSmashStyle] = useState({});
   const [stabStyle, setStabStyle] = useState({});
+  const [drownStyle, setDrownStyle] = useState({});
 
   const [started, setStarted] = useState(false);
 
@@ -96,7 +97,7 @@ export default function App() {
     });
   };
 
-  const makeNanokaShotStyle = () => {
+  const makeShotStyle = () => {
     const containerEl = gameCardRef.current;
 
     const nanokaEl =
@@ -302,6 +303,41 @@ export default function App() {
     };
   };
 
+  const makeHannaDrownStyle = () => {
+    const containerEl = gameCardRef.current;
+
+    const hannaEl =
+      getVisibleCharacterEl("hanna");
+
+    if (!containerEl || !hannaEl) {
+      return {
+        "--drown-x": "50%",
+        "--drown-y": "58%",
+      };
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const hannaRect =
+      hannaEl.getBoundingClientRect();
+
+    const x =
+      hannaRect.left +
+      hannaRect.width / 2 -
+      containerRect.left;
+
+    const y =
+      hannaRect.top +
+      hannaRect.height / 2 -
+      containerRect.top;
+
+    return {
+      "--drown-x": `${x}px`,
+      "--drown-y": `${y}px`,
+    };
+  };
+
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
@@ -349,6 +385,12 @@ export default function App() {
       if (death.effect === "hanna-stab") {
         setStabStyle(
           makeHannaStabStyle()
+        );
+      }
+
+      if (death.effect === "hanna-drown") {
+        setDrownStyle(
+          makeHannaDrownStyle()
         );
       }
 
@@ -663,18 +705,21 @@ export default function App() {
         )}
 
         {deathEffect === "hanna-drown" && (
-          <div className="hanna-drown-effect">
-            <div className="hanna-water-ring ring-1" />
+          <div
+            className="hanna-drown-effect"
+            style={drownStyle}
+          >
+            <div className="hanna-water-ring hanna-ring-1" />
 
-            <div className="hanna-water-ring ring-2" />
+            <div className="hanna-water-ring hanna-ring-2" />
 
-            <div className="hanna-water-ring ring-3" />
+            <div className="hanna-water-ring hanna-ring-3" />
 
-            <div className="hanna-water-splash splash-1" />
+            <div className="hanna-water-splash hanna-splash-1" />
 
-            <div className="hanna-water-splash splash-2" />
+            <div className="hanna-water-splash hanna-splash-2" />
 
-            <div className="hanna-water-splash splash-3" />
+            <div className="hanna-water-splash hanna-splash-3" />
 
             <div className="hanna-drown-shadow" />
           </div>

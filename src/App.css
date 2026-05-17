@@ -1443,22 +1443,26 @@ h1 {
    ハンナ溺死
 ========================= */
 
+/* =========================
+   ハンナ溺死エフェクト
+========================= */
+
 .hanna-drown-effect {
   position: absolute;
   inset: 0;
 
-  z-index: 140;
+  z-index: 500;
 
   pointer-events: none;
 
-  overflow: hidden;
+  overflow: visible;
 }
 
 .hanna-drown-shadow {
   position: absolute;
 
-  left: 50%;
-  top: 56%;
+  left: var(--drown-x);
+  top: var(--drown-y);;
 
   width: 90px;
   height: 90px;
@@ -1483,8 +1487,8 @@ h1 {
 .hanna-water-ring {
   position: absolute;
 
-  left: 50%;
-  top: 56%;
+  left: var(--drown-x);
+  top: var(--drown-y);
 
   width: 36px;
   height: 36px;
@@ -1493,7 +1497,7 @@ h1 {
 
   border:
     4px solid
-    rgba(220, 245, 255, 0.92);
+    rgba(220, 245, 255, 0.95);
 
   opacity: 0;
 
@@ -1502,19 +1506,19 @@ h1 {
     scale(0.2);
 }
 
-.ring-1 {
+.hanna-ring-1 {
   animation:
     hannaRing
     0.9s ease-out forwards;
 }
 
-.ring-2 {
+.hanna-ring-2 {
   animation:
     hannaRing
     0.9s ease-out 0.15s forwards;
 }
 
-.ring-3 {
+.hanna-ring-3 {
   animation:
     hannaRing
     0.9s ease-out 0.3s forwards;
@@ -1523,37 +1527,43 @@ h1 {
 .hanna-water-splash {
   position: absolute;
 
-  left: 50%;
-  top: 56%;
+  left: var(--drown-x);
+  top: var(--drown-y);
 
-  width: 18px;
-  height: 18px;
+  z-index: 501;
+
+  width: 24px;
+  height: 24px;
 
   border-radius: 50%;
 
   background:
-    rgba(235, 250, 255, 0.95);
+    rgba(240, 252, 255, 1);
 
   box-shadow:
-    0 0 12px
-      rgba(220, 245, 255, 0.8);
+    0 0 14px rgba(220, 245, 255, 0.95),
+    0 0 28px rgba(120, 220, 255, 0.75);
 
   opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(1);
 }
 
-.splash-1 {
+.hanna-splash-1 {
   animation:
     hannaSplash1
     0.8s ease-out forwards;
 }
 
-.splash-2 {
+.hanna-splash-2 {
   animation:
     hannaSplash2
     0.8s ease-out forwards;
 }
 
-.splash-3 {
+.hanna-splash-3 {
   animation:
     hannaSplash3
     0.8s ease-out forwards;
@@ -1582,7 +1592,8 @@ h1 {
     opacity: 1;
 
     transform:
-      translate(-50%, -50%);
+      translate(-50%, -50%)
+      scale(1);
   }
 
   100% {
@@ -1590,7 +1601,7 @@ h1 {
 
     transform:
       translate(-110px, -70px)
-      scale(0.2);
+      scale(0.35);
   }
 }
 
@@ -1599,7 +1610,8 @@ h1 {
     opacity: 1;
 
     transform:
-      translate(-50%, -50%);
+      translate(-50%, -50%)
+      scale(1);
   }
 
   100% {
@@ -1607,7 +1619,7 @@ h1 {
 
     transform:
       translate(90px, -80px)
-      scale(0.2);
+      scale(0.35);
   }
 }
 
@@ -1616,7 +1628,8 @@ h1 {
     opacity: 1;
 
     transform:
-      translate(-50%, -50%);
+      translate(-50%, -50%)
+      scale(1);
   }
 
   100% {
@@ -1624,7 +1637,7 @@ h1 {
 
     transform:
       translate(10px, -120px)
-      scale(0.2);
+      scale(0.35);
   }
 }
 
