@@ -34,7 +34,7 @@ export const getDeathReason = (
                 桜羽エマ
             </span>
             が一人で船を漕ごうとして、
-            <span className="yellow-text">
+            <span className="red-text">
               溺死
             </span>
             しました。
