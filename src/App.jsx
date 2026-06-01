@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import "./App.css";
 
-import { CHARACTERS } from "./data/characters.jsx";
+import { getLevelCharacters } from "./data/levels.jsx";
 import { getDeathReason } from "./data/deathRules.jsx";
 
 import { useBgm } from "./hooks/useBgm.js";
@@ -9,11 +9,6 @@ import { useVoice } from "./hooks/useVoice.js";
 
 import Bank from "./components/Bank.jsx";
 import CharacterButton from "./components/CharacterButton.jsx";
-
-const INITIAL_PEOPLE = CHARACTERS.map((c) => ({
-  ...c,
-  side: "left",
-}));
 
 const BOAT_TIME = 700;
 const LONG_PRESS_TIME = 550;
@@ -26,10 +21,22 @@ const CHARACTER_VOICE_VOLUME = {
   hanna: 2.1,
   hiro: 3.7,
   nanoka: 3.5,
+  honoka: 3.5,
 };
 
 export default function App() {
-  const [people, setPeople] = useState(INITIAL_PEOPLE);
+  const [currentLevel, setCurrentLevel] = useState(1);
+
+  const makeInitialPeople = (levelId) =>
+    getLevelCharacters(levelId).map((c) => ({
+      ...c,
+      side: "left",
+    }));
+
+  const [people, setPeople] = useState(() =>
+    makeInitialPeople(1)
+  );
+
   const [boat, setBoat] = useState([]);
   const [boatSide, setBoatSide] = useState("left");
   const [boatPosition, setBoatPosition] = useState("left");
@@ -54,7 +61,6 @@ export default function App() {
   const deathLogTimerRef = useRef(null);
 
   const gameCardRef = useRef(null);
-
   const characterRefs = useRef({});
 
   const { playBgm } = useBgm(
@@ -86,26 +92,18 @@ export default function App() {
 
     return candidates.find((el) => {
       if (!el) return false;
-
       if (!el.isConnected) return false;
 
       const rect = el.getBoundingClientRect();
 
-      return (
-        rect.width > 0 &&
-        rect.height > 0
-      );
+      return rect.width > 0 && rect.height > 0;
     });
   };
 
   const makeShotStyle = () => {
     const containerEl = gameCardRef.current;
-
-    const nanokaEl =
-      getVisibleCharacterEl("nanoka");
-
-    const emaEl =
-      getVisibleCharacterEl("ema");
+    const nanokaEl = getVisibleCharacterEl("nanoka");
+    const emaEl = getVisibleCharacterEl("ema");
 
     const makeStyle = (
       startX,
@@ -136,9 +134,7 @@ export default function App() {
       };
     };
 
-    if (!containerEl) {
-      return {};
-    }
+    if (!containerEl) return {};
 
     const containerRect =
       containerEl.getBoundingClientRect();
@@ -188,18 +184,10 @@ export default function App() {
 
   const makeHiroSmashStyle = () => {
     const containerEl = gameCardRef.current;
+    const hiroEl = getVisibleCharacterEl("hiro");
+    const emaEl = getVisibleCharacterEl("ema");
 
-    const hiroEl =
-      getVisibleCharacterEl("hiro");
-
-    const emaEl =
-      getVisibleCharacterEl("ema");
-
-    if (
-      !containerEl ||
-      !hiroEl ||
-      !emaEl
-    ) {
+    if (!containerEl || !hiroEl || !emaEl) {
       return {
         "--smash-start-x": "50%",
         "--smash-start-y": "45%",
@@ -247,18 +235,10 @@ export default function App() {
 
   const makeHannaStabStyle = () => {
     const containerEl = gameCardRef.current;
+    const hannaEl = getVisibleCharacterEl("hanna");
+    const nanokaEl = getVisibleCharacterEl("nanoka");
 
-    const hannaEl =
-      getVisibleCharacterEl("hanna");
-
-    const nanokaEl =
-      getVisibleCharacterEl("nanoka");
-
-    if (
-      !containerEl ||
-      !hannaEl ||
-      !nanokaEl
-    ) {
+    if (!containerEl || !hannaEl || !nanokaEl) {
       return {
         "--stab-start-x": "50%",
         "--stab-start-y": "45%",
@@ -304,13 +284,9 @@ export default function App() {
     };
   };
 
-  const makeHannaDrownStyle = (
-    characterId
-  ) => {
+  const makeHannaDrownStyle = (characterId) => {
     const containerEl = gameCardRef.current;
-
-    const targetEl =
-      getVisibleCharacterEl(characterId);
+    const targetEl = getVisibleCharacterEl(characterId);
 
     if (!containerEl || !targetEl) {
       return {
@@ -343,9 +319,7 @@ export default function App() {
 
   const makeEmaSuicideStyle = () => {
     const containerEl = gameCardRef.current;
-
-    const emaEl =
-      getVisibleCharacterEl("ema");
+    const emaEl = getVisibleCharacterEl("ema");
 
     if (!containerEl || !emaEl) {
       return {
@@ -379,14 +353,12 @@ export default function App() {
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
-
       deathLogTimerRef.current = null;
     }
 
     deathLogTimerRef.current = setTimeout(
       () => {
         setDeathReason(death);
-
         deathLogTimerRef.current = null;
       },
       death.delay ?? DEATH_LOG_DELAY
@@ -411,21 +383,15 @@ export default function App() {
 
     if (death.effect) {
       if (death.effect === "nanoka-shot") {
-        setShotStyle(
-          makeShotStyle()
-        );
+        setShotStyle(makeShotStyle());
       }
 
       if (death.effect === "hiro-smash") {
-        setSmashStyle(
-          makeHiroSmashStyle()
-        );
+        setSmashStyle(makeHiroSmashStyle());
       }
 
       if (death.effect === "hanna-stab") {
-        setStabStyle(
-          makeHannaStabStyle()
-        );
+        setStabStyle(makeHannaStabStyle());
       }
 
       if (death.effect === "character-drown") {
@@ -436,12 +402,8 @@ export default function App() {
         );
       }
 
-      setSuicideStyle({});
-
       if (death.effect === "ema-suicide") {
-        setSuicideStyle(
-          makeEmaSuicideStyle()
-        );
+        setSuicideStyle(makeEmaSuicideStyle());
       }
 
       setDeathEffect(death.effect);
@@ -452,7 +414,52 @@ export default function App() {
     showDeathLogLater(death);
   };
 
-  const startGame = async () => {
+  const resetGame = (levelId = currentLevel) => {
+    stopAllVoices();
+
+    if (deathLogTimerRef.current) {
+      clearTimeout(deathLogTimerRef.current);
+      deathLogTimerRef.current = null;
+    }
+
+    setCurrentLevel(levelId);
+
+    setPeople(makeInitialPeople(levelId));
+
+    setBoat([]);
+
+    setBoatSide("left");
+
+    setBoatPosition("left");
+
+    setIsMoving(false);
+
+    setMoves(0);
+
+    setSelectedCharacter(null);
+
+    setShowRules(false);
+
+    setDeathReason(null);
+
+    setDeathEffect(null);
+
+    setShotStyle({});
+
+    setSmashStyle({});
+
+    setStabStyle({});
+
+    setDrownStyle({});
+
+    setSuicideStyle({});
+
+    deathRef.current = false;
+  };
+
+  const startGame = async (levelId) => {
+    resetGame(levelId);
+
     setStarted(true);
 
     try {
@@ -507,8 +514,9 @@ export default function App() {
       isMoving ||
       deathReason ||
       deathEffect
-    )
+    ) {
       return;
+    }
 
     if (longPressedRef.current) return;
 
@@ -530,8 +538,9 @@ export default function App() {
       isMoving ||
       deathReason ||
       deathEffect
-    )
+    ) {
       return;
+    }
 
     if (longPressedRef.current) return;
 
@@ -550,8 +559,9 @@ export default function App() {
       isMoving ||
       deathReason ||
       deathEffect
-    )
+    ) {
       return;
+    }
 
     if (boat.length === 0) return;
 
@@ -655,44 +665,6 @@ export default function App() {
     }, BOAT_TIME);
   };
 
-  const resetGame = () => {
-    stopAllVoices();
-
-    if (deathLogTimerRef.current) {
-      clearTimeout(deathLogTimerRef.current);
-
-      deathLogTimerRef.current = null;
-    }
-
-    setPeople(INITIAL_PEOPLE);
-
-    setBoat([]);
-
-    setBoatSide("left");
-
-    setBoatPosition("left");
-
-    setIsMoving(false);
-
-    setMoves(0);
-
-    setSelectedCharacter(null);
-
-    setShowRules(false);
-
-    setDeathReason(null);
-
-    setDeathEffect(null);
-
-    setShotStyle({});
-
-    setSmashStyle({});
-
-    setStabStyle({});
-
-    deathRef.current = false;
-  };
-
   return (
     <main className="app">
       {!started && (
@@ -700,9 +672,15 @@ export default function App() {
           <div className="start-modal">
             <h2>まのさば 船渡りパズル</h2>
 
-            <button onClick={startGame}>
-              Game Start
-            </button>
+            <div className="level-buttons">
+              <button onClick={() => startGame(1)}>
+                レベル1
+              </button>
+
+              <button onClick={() => startGame(2)}>
+                レベル2
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -791,7 +769,9 @@ export default function App() {
         )}
 
         <header className="header">
-          <h1>まのさば 船渡りパズル</h1>
+          <h1>
+            まのさば 船渡りパズル
+          </h1>
 
           <button
             className="rule-button"
@@ -805,7 +785,7 @@ export default function App() {
           <span>手数：{moves}</span>
 
           <button
-            onClick={resetGame}
+            onClick={() => resetGame()}
             disabled={isMoving}
           >
             リセット
@@ -914,7 +894,7 @@ export default function App() {
                 {deathReason.message}
               </p>
 
-              <button onClick={resetGame}>
+              <button onClick={() => resetGame()}>
                 最初からやり直す
               </button>
             </div>
@@ -931,9 +911,15 @@ export default function App() {
                 手で全員を向こう岸へ運びました。
               </p>
 
-              <button onClick={resetGame}>
-                もう一度
-              </button>
+              <div className="level-buttons">
+                <button onClick={() => startGame(1)}>
+                  レベル1
+                </button>
+
+                <button onClick={() => startGame(2)}>
+                  レベル2
+                </button>
+              </div>
             </div>
           </div>
         )}
