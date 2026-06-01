@@ -9,6 +9,11 @@ import { useVoice } from "./hooks/useVoice.js";
 
 import Bank from "./components/Bank.jsx";
 import CharacterButton from "./components/CharacterButton.jsx";
+import DeathEffects from "./components/DeathEffects.jsx";
+import StartModal from "./components/StartModal.jsx";
+import ClearModal from "./components/ClearModal.jsx";
+import RulesModal from "./components/RulesModal.jsx";
+import CharacterModal from "./components/CharacterModal.jsx";
 
 const BOAT_TIME = 700;
 const LONG_PRESS_TIME = 550;
@@ -668,21 +673,7 @@ export default function App() {
   return (
     <main className="app">
       {!started && (
-        <div className="start-overlay">
-          <div className="start-modal">
-            <h2>まのさば 船渡りパズル</h2>
-
-            <div className="level-buttons">
-              <button onClick={() => startGame(1)}>
-                レベル1
-              </button>
-
-              <button onClick={() => startGame(2)}>
-                レベル2
-              </button>
-            </div>
-          </div>
-        </div>
+        <StartModal onStartLevel={startGame} />
       )}
 
       <section
@@ -693,80 +684,14 @@ export default function App() {
             : ""
         }`}
       >
-        {deathEffect === "nanoka-shot" && (
-          <div
-            className="nanoka-shot-effect"
-            style={shotStyle}
-          >
-            <div className="nanoka-muzzle-flash" />
-
-            <div className="nanoka-bullet-trail" />
-
-            <div className="nanoka-bullet" />
-
-            <div className="nanoka-hit-flash" />
-          </div>
-        )}
-
-        {deathEffect === "hiro-smash" && (
-          <div
-            className="hiro-smash-effect"
-            style={smashStyle}
-          >
-            <div className="hiro-smash-weapon" />
-
-            <div className="hiro-smash-impact" />
-
-            <div className="hiro-smash-flash" />
-          </div>
-        )}
-
-        {deathEffect === "hanna-stab" && (
-          <div
-            className="hanna-stab-effect"
-            style={stabStyle}
-          >
-            <div className="hanna-stab-knife" />
-
-            <div className="hanna-stab-impact" />
-
-            <div className="hanna-stab-flash" />
-          </div>
-        )}
-
-        {deathEffect === "character-drown" && (
-          <div
-            className="hanna-drown-effect"
-            style={drownStyle}
-          >
-            <div className="hanna-water-ring hanna-ring-1" />
-
-            <div className="hanna-water-ring hanna-ring-2" />
-
-            <div className="hanna-water-ring hanna-ring-3" />
-
-            <div className="hanna-water-splash hanna-splash-1" />
-
-            <div className="hanna-water-splash hanna-splash-2" />
-
-            <div className="hanna-water-splash hanna-splash-3" />
-
-            <div className="hanna-drown-shadow" />
-          </div>
-        )}
-
-        {deathEffect === "ema-suicide" && (
-          <div
-            className="ema-suicide-effect"
-            style={suicideStyle}
-          >
-            <div className="ema-suicide-flash" />
-
-            <div className="ema-suicide-ring" />
-
-            <div className="ema-suicide-blade" />
-          </div>
-        )}
+        <DeathEffects
+          deathEffect={deathEffect}
+          shotStyle={shotStyle}
+          smashStyle={smashStyle}
+          stabStyle={stabStyle}
+          drownStyle={drownStyle}
+          suicideStyle={suicideStyle}
+        />
 
         <header className="header">
           <h1>
@@ -902,121 +827,23 @@ export default function App() {
         )}
 
         {clear && (
-          <div className="modal-backdrop">
-            <div className="modal">
-              <h2>クリア！</h2>
-
-              <p>
-                {moves}
-                手で全員を向こう岸へ運びました。
-              </p>
-
-              <div className="level-buttons">
-                <button onClick={() => startGame(1)}>
-                  レベル1
-                </button>
-
-                <button onClick={() => startGame(2)}>
-                  レベル2
-                </button>
-              </div>
-            </div>
-          </div>
+          <ClearModal
+            moves={moves}
+            onStartLevel={startGame}
+          />
         )}
 
         {showRules && (
-          <div
-            className="modal-backdrop"
-            onClick={() =>
-              setShowRules(false)
-            }
-          >
-            <div
-              className="modal"
-              onClick={(e) =>
-                e.stopPropagation()
-              }
-            >
-              <h2>ルール説明</h2>
-
-              <p>
-                船には
-                <span className="green-text">
-                  最大2人まで
-                </span>
-                乗れます。
-              </p>
-
-              <p>
-                誰も乗っていない状態では、船は動きません。
-              </p>
-
-              <p>
-                キャラクターごとに、
-                <span className="red-text">
-                  死亡・殺害条件
-                </span>
-                があります。
-                <br />
-                （
-                <span className="green-text">
-                  キャラ長押し
-                </span>
-                で見ることができます）
-              </p>
-
-              <p>
-                誰も死なないように、魔法少女たちを向こう岸まで運んであげましょう。
-              </p>
-
-              <button
-                onClick={() =>
-                  setShowRules(false)
-                }
-              >
-                閉じる
-              </button>
-            </div>
-          </div>
+          <RulesModal
+            onClose={() => setShowRules(false)}
+          />
         )}
 
         {selectedCharacter && (
-          <div
-            className="modal-backdrop"
-            onClick={() =>
-              setSelectedCharacter(null)
-            }
-          >
-            <div
-              className="modal character-modal"
-              onClick={(e) =>
-                e.stopPropagation()
-              }
-            >
-              <div className="character-modal-head">
-                <img
-                  src={selectedCharacter.img}
-                  alt={selectedCharacter.name}
-                />
-
-                <h2>
-                  {selectedCharacter.name}
-                </h2>
-              </div>
-
-              <p className="condition-text">
-                {selectedCharacter.condition}
-              </p>
-
-              <button
-                onClick={() =>
-                  setSelectedCharacter(null)
-                }
-              >
-                閉じる
-              </button>
-            </div>
-          </div>
+          <CharacterModal
+            character={selectedCharacter}
+            onClose={() => setSelectedCharacter(null)}
+          />
         )}
       </section>
     </main>

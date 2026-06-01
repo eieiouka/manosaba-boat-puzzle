@@ -107,4 +107,46 @@ export const CHARACTERS = [
       </>
     ),
   },
+
+  {
+    id: "honoka",
+    name: "黒部ホノカ",
+    img: "/images/honoka.png",
+
+    condition: (
+      <>
+        誰かと一緒に船へ乗ると、同乗者を鎌で
+        <span className="red-text">斬殺</span>
+        します。
+        <br />
+
+        <span className="yellow-text">橘シェリー</span>
+        と2人きりになると、
+        <span className="yellow-text">橘シェリー</span>
+        を
+        <span className="red-text">斬殺</span>
+        します。
+        <br />
+
+        <span className="yellow-text">遠野ハンナ</span>
+        と2人きりになると、
+        <span className="yellow-text">遠野ハンナ</span>
+        を
+        <span className="red-text">斬殺</span>
+        します。
+        <br />
+
+        これを
+        <span className="yellow-text">二階堂ヒロ</span>
+        が止めようと庇ったら（岸に3人）、
+        <span className="yellow-text">二階堂ヒロ</span>
+        を
+        <span className="red-text">斬殺</span>
+        します。
+        <br />
+
+        桜羽エマは妹のお気に入りなので、許してあげるそうです。
+      </>
+    ),
+  },
 ];
