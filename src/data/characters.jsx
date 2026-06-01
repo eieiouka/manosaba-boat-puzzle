@@ -120,14 +120,6 @@ export const CHARACTERS = [
         します。
         <br />
 
-        <span className="yellow-text">橘シェリー</span>
-        と2人きりになると、
-        <span className="yellow-text">橘シェリー</span>
-        を
-        <span className="red-text">斬殺</span>
-        します。
-        <br />
-
         <span className="yellow-text">遠野ハンナ</span>
         と2人きりになると、
         <span className="yellow-text">遠野ハンナ</span>
@@ -145,7 +137,15 @@ export const CHARACTERS = [
         します。
         <br />
 
-        桜羽エマは妹のお気に入りなので、許してあげるそうです。
+        <span className="yellow-text">橘シェリー</span>
+        と2人きりになると、
+        <span className="yellow-text">橘シェリー</span>
+        を
+        <span className="red-text">斬殺</span>
+        します。
+        <br />
+
+        桜羽エマは妹（黒部ナノカ）のお気に入りだと勘違いしているため、岸の上なら許してあげるそうです。
       </>
     ),
   },
