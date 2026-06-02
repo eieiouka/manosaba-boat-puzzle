@@ -27,7 +27,7 @@ const CHARACTER_VOICE_VOLUME = {
   hanna: 2.1,
   hiro: 3.7,
   nanoka: 3.5,
-  honoka: 3.5,
+  honoka: 2.1,
 };
 
 export default function App() {

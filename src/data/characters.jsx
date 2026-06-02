@@ -130,7 +130,7 @@ export const CHARACTERS = [
 
         これを
         <span className="yellow-text">二階堂ヒロ</span>
-        が止めようと庇ったら（岸に3人）、
+        が向こう岸で止めようと庇ったら（岸に3人）、
         <span className="yellow-text">二階堂ヒロ</span>
         を
         <span className="red-text">斬殺</span>
@@ -145,7 +145,7 @@ export const CHARACTERS = [
         します。
         <br />
 
-        桜羽エマは妹（黒部ナノカ）のお気に入りだと勘違いしているため、岸の上なら許してあげるそうです。
+        桜羽エマは妹（黒部ナノカ）のお気に入りだと勘違いしているので、岸の上なら許してあげるそうです。
       </>
     ),
   },

@@ -31,7 +31,7 @@ export const getDeathReason = (
         message: (
           <>
             <span className="yellow-text">
-                桜羽エマ
+              桜羽エマ
             </span>
             が一人で船を漕ごうとして、
             <span className="red-text">
@@ -47,7 +47,7 @@ export const getDeathReason = (
 
         badVoice:
           "/bad_voices/bad_ema_drown.mp3",
-        
+
         badVoiceVolume: 2.2,
 
         delay: 1200,
@@ -68,7 +68,7 @@ export const getDeathReason = (
         message: (
           <>
             <span className="yellow-text">
-            遠野ハンナ
+              遠野ハンナ
             </span>
             が一人で船を漕ごうとして、
             <span className="red-text">
@@ -83,7 +83,52 @@ export const getDeathReason = (
         drownTarget: "hanna",
 
         badVoice:
-            "/bad_voices/bad_hanna_drown.mp3",
+          "/bad_voices/bad_hanna_drown.mp3",
+
+        badVoiceVolume: 2.2,
+
+        delay: 1200,
+      };
+    }
+
+    if (
+      has(group, "honoka") &&
+      group.length === 2
+    ) {
+      const victim = group.find(
+        (p) => p.id !== "honoka"
+      );
+
+      return {
+        title: (
+          <span className="red-text">
+            {victim.name} 死亡
+          </span>
+        ),
+
+        message: (
+          <>
+            <span className="yellow-text">
+              黒部ホノカ
+            </span>
+            が、同乗者の
+            <span className="yellow-text">
+              {victim.name}
+            </span>
+            を鎌で
+            <span className="red-text">
+              斬殺
+            </span>
+            しました。
+          </>
+        ),
+
+        effect: "honoka-slash",
+
+        slashTarget: victim.id,
+
+        badVoice:
+          `/bad_voices/bad_honoka_${victim.id}_kill.mp3`,
 
         badVoiceVolume: 2.2,
 
@@ -160,14 +205,14 @@ export const getDeathReason = (
         </>
       ),
 
-        effect: "hiro-smash",
+      effect: "hiro-smash",
 
-        badVoice:
+      badVoice:
         "/bad_voices/bad_hiro_ema_kill.mp3",
 
-        badVoiceVolume: 2.2,
+      badVoiceVolume: 2.2,
 
-        delay: 1200,
+      delay: 1200,
     };
   }
 
@@ -198,11 +243,97 @@ export const getDeathReason = (
           しました。
         </>
       ),
-        effect: "hanna-stab",
 
-        badVoice:
+      effect: "hanna-stab",
+
+      badVoice:
         "/bad_voices/bad_hanna_nanoka_kill.mp3",
-        delay: 1200,
+
+      badVoiceVolume: 2.2,
+
+      delay: 1200,
+    };
+  }
+
+  if (
+    onlyPair(group, "honoka", "hanna")
+  ) {
+    return {
+      title: (
+        <span className="red-text">
+          遠野ハンナ 死亡
+        </span>
+      ),
+
+      message: (
+        <>
+          <span className="yellow-text">
+            黒部ホノカ
+          </span>
+          と
+          <span className="yellow-text">
+            遠野ハンナ
+          </span>
+          が2人きりになり、
+          ホノカがハンナを鎌で
+          <span className="red-text">
+            斬殺
+          </span>
+          しました。
+        </>
+      ),
+
+      effect: "honoka-slash",
+
+      slashTarget: "hanna",
+
+      badVoice:
+        "/bad_voices/bad_honoka_hanna_kill.mp3",
+
+      badVoiceVolume: 2.2,
+
+      delay: 1200,
+    };
+  }
+
+  if (
+    onlyPair(group, "honoka", "sherry")
+  ) {
+    return {
+      title: (
+        <span className="red-text">
+          橘シェリー 死亡
+        </span>
+      ),
+
+      message: (
+        <>
+          <span className="yellow-text">
+            黒部ホノカ
+          </span>
+          と
+          <span className="yellow-text">
+            橘シェリー
+          </span>
+          が2人きりになり、
+          ホノカがシェリーを鎌で
+          <span className="red-text">
+            斬殺
+          </span>
+          しました。
+        </>
+      ),
+
+      effect: "honoka-slash",
+
+      slashTarget: "sherry",
+
+      badVoice:
+        "/bad_voices/bad_honoka_sherry_kill.mp3",
+
+      badVoiceVolume: 2.2,
+
+      delay: 1200,
     };
   }
 
@@ -232,14 +363,14 @@ export const getDeathReason = (
         </>
       ),
 
-        badVoice:
-            "/bad_voices/bad_ema_suicide.mp3",
+      badVoice:
+        "/bad_voices/bad_ema_suicide.mp3",
 
-        badVoiceVolume: 2.2,
+      badVoiceVolume: 2.2,
 
-        effect: "ema-suicide",
+      effect: "ema-suicide",
 
-        delay: 1200,
+      delay: 1200,
     };
   }
 
