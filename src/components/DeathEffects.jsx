@@ -3,6 +3,7 @@ export default function DeathEffects({
   shotStyle,
   smashStyle,
   stabStyle,
+  slashStyle,
   drownStyle,
   suicideStyle,
 }) {
@@ -39,6 +40,19 @@ export default function DeathEffects({
           <div className="hanna-stab-knife" />
           <div className="hanna-stab-impact" />
           <div className="hanna-stab-flash" />
+        </div>
+      )}
+
+      {deathEffect === "honoka-slash" && (
+        <div
+          className="honoka-slash-effect"
+          style={slashStyle}
+        >
+          <div className="honoka-scythe" />
+
+          <div className="honoka-slash-impact" />
+
+          <div className="honoka-slash-flash" />
         </div>
       )}
 

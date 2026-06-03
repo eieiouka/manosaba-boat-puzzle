@@ -58,6 +58,7 @@ export default function App() {
   const [stabStyle, setStabStyle] = useState({});
   const [drownStyle, setDrownStyle] = useState({});
   const [suicideStyle, setSuicideStyle] = useState({});
+  const [slashStyle, setSlashStyle] = useState({});
 
   const [started, setStarted] = useState(false);
 
@@ -83,6 +84,7 @@ export default function App() {
     makeHannaStabStyle,
     makeHannaDrownStyle,
     makeEmaSuicideStyle,
+    makeHonokaSlashStyle,
   } = useDeathEffectStyles({
     gameCardRef,
     characterRefs,
@@ -148,6 +150,14 @@ export default function App() {
         );
       }
 
+      if (death.effect === "honoka-slash") {
+        setSlashStyle(
+          makeHonokaSlashStyle(
+            death.slashTarget
+          )
+        );
+      }
+
       if (death.effect === "character-drown") {
         setDrownStyle(
           makeHannaDrownStyle(
@@ -203,6 +213,8 @@ export default function App() {
     setSmashStyle({});
 
     setStabStyle({});
+
+    setSlashStyle({});
 
     setDrownStyle({});
 
@@ -438,6 +450,7 @@ export default function App() {
           shotStyle={shotStyle}
           smashStyle={smashStyle}
           stabStyle={stabStyle}
+          slashStyle={slashStyle}
           drownStyle={drownStyle}
           suicideStyle={suicideStyle}
         />

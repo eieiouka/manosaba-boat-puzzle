@@ -279,11 +279,76 @@ export function useDeathEffectStyles({
     };
   };
 
+  const makeHonokaSlashStyle = (
+    targetId
+    ) => {
+    const containerEl = gameCardRef.current;
+
+    const honokaEl =
+        getVisibleCharacterEl("honoka");
+
+    const targetEl =
+        getVisibleCharacterEl(targetId);
+
+    if (!containerEl || !honokaEl || !targetEl) {
+        return {
+        "--slash-start-x": "50%",
+        "--slash-start-y": "45%",
+        "--slash-end-x": "50%",
+        "--slash-end-y": "58%",
+        };
+    }
+
+    const containerRect =
+        containerEl.getBoundingClientRect();
+
+    const honokaRect =
+        honokaEl.getBoundingClientRect();
+
+    const targetRect =
+        targetEl.getBoundingClientRect();
+
+    const startX =
+        honokaRect.left +
+        honokaRect.width / 2 -
+        containerRect.left;
+
+    const startY =
+        honokaRect.top +
+        honokaRect.height / 2 -
+        containerRect.top;
+
+    const endX =
+        targetRect.left +
+        targetRect.width / 2 -
+        containerRect.left;
+
+    const endY =
+        targetRect.top +
+        targetRect.height / 2 -
+        containerRect.top;
+
+    const dx = endX - startX;
+    const dy = endY - startY;
+
+    const angle =
+    (Math.atan2(dy, dx) * 180) / Math.PI;
+
+    return {
+    "--slash-start-x": `${startX}px`,
+    "--slash-start-y": `${startY}px`,
+    "--slash-end-x": `${endX}px`,
+    "--slash-end-y": `${endY}px`,
+    "--slash-angle": `${angle}deg`,
+    };
+  };
+
   return {
     makeShotStyle,
     makeHiroSmashStyle,
     makeHannaStabStyle,
     makeHannaDrownStyle,
     makeEmaSuicideStyle,
+    makeHonokaSlashStyle,
   };
 }

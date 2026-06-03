@@ -1994,3 +1994,173 @@ h1 {
 
   margin-top: 16px;
 }
+
+.honoka-slash-effect {
+  position: absolute;
+  inset: 0;
+
+  z-index: 140;
+
+  pointer-events: none;
+}
+
+.honoka-slash-impact {
+  position: absolute;
+
+  left: var(--slash-end-x);
+  top: var(--slash-end-y);
+
+  width: 70px;
+  height: 70px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255, 80, 80, 0.95) 0%,
+      rgba(220, 0, 0, 0.85) 35%,
+      rgba(255, 0, 0, 0) 72%
+    );
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    honokaSlashImpact
+    0.6s ease-out forwards;
+}
+
+.honoka-slash-flash {
+  position: absolute;
+
+  left: var(--slash-end-x);
+  top: var(--slash-end-y);
+
+  width: 96px;
+  height: 96px;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 18px rgba(255, 0, 0, 0.95),
+    0 0 36px rgba(255, 40, 40, 0.7),
+    inset 0 0 22px rgba(255, 0, 0, 0.9);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.25);
+
+  animation:
+    honokaSlashFlash
+    0.6s ease-out forwards;
+}
+
+@keyframes honokaSlashImpact {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.8);
+  }
+}
+
+@keyframes honokaSlashFlash {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.45);
+  }
+}
+
+.honoka-scythe {
+  position: absolute;
+
+  left: var(--slash-start-x);
+  top: var(--slash-start-y);
+
+  width: 140px;
+  height: 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.95) 50%,
+      rgba(255,255,255,0) 100%
+    );
+
+  border-radius: 999px;
+
+  transform-origin: left center;
+
+  opacity: 0;
+
+  z-index: 150;
+
+  animation:
+    honokaScytheSwing
+    0.35s ease-out forwards;
+}
+
+@keyframes honokaScytheSwing {
+  0% {
+    opacity: 0;
+
+    transform:
+      rotate(calc(var(--slash-angle) - 70deg))
+      scaleX(0.3);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      rotate(calc(var(--slash-angle) + 40deg))
+      scaleX(1);
+  }
+}
