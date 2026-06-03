@@ -6,6 +6,48 @@ const onlyPair = (group, a, b) =>
   has(group, a) &&
   has(group, b);
 
+const onlyTriple = (group, a, b, c) =>
+  group.length === 3 &&
+  has(group, a) &&
+  has(group, b) &&
+  has(group, c);
+
+const hannaKillsHonoka = () => ({
+  title: (
+    <span className="red-text">
+      黒部ホノカ 死亡
+    </span>
+  ),
+
+  message: (
+    <>
+      <span className="yellow-text">
+        遠野ハンナ
+      </span>
+      が
+      <span className="yellow-text">
+        黒部ホノカ
+      </span>
+      を包丁で
+      <span className="red-text">
+        刺殺
+      </span>
+      しました。
+    </>
+  ),
+
+  effect: "hanna-stab",
+
+  stabTarget: "honoka",
+
+  badVoice:
+    "/bad_voices/bad_hanna_honoka_kill.mp3",
+
+  badVoiceVolume: 2.2,
+
+  delay: 1200,
+});
+
 export const getDeathReason = (
   group,
   phase,
@@ -92,6 +134,54 @@ export const getDeathReason = (
     }
 
     if (
+      has(group, "sherry") &&
+      !has(group, "ema") &&
+      !has(group, "hanna")
+    ) {
+      return {
+        title: (
+          <span className="red-text">
+            橘シェリー 死亡
+          </span>
+        ),
+
+        message: (
+          <>
+            橘シェリーが
+            <span className="yellow-text">
+              桜羽エマ
+            </span>
+            か
+            <span className="yellow-text">
+              遠野ハンナ
+            </span>
+            と同席していないため、
+            船を壊して
+            <span className="red-text">
+              溺死
+            </span>
+            しました。
+          </>
+        ),
+
+        effect: "boat-break",
+
+        badVoice:
+          "/bad_voices/bad_sherry_boat.mp3",
+
+        badVoiceVolume: 2.2,
+
+        delay: 1100,
+      };
+    }
+
+    if (
+      onlyPair(group, "hanna", "honoka")
+    ) {
+      return hannaKillsHonoka();
+    }
+
+    if (
       has(group, "honoka") &&
       group.length === 2
     ) {
@@ -133,48 +223,6 @@ export const getDeathReason = (
         badVoiceVolume: 2.2,
 
         delay: 1200,
-      };
-    }
-
-    if (
-      has(group, "sherry") &&
-      !has(group, "ema") &&
-      !has(group, "hanna")
-    ) {
-      return {
-        title: (
-          <span className="red-text">
-            橘シェリー 死亡
-          </span>
-        ),
-
-        message: (
-          <>
-            橘シェリーが
-            <span className="yellow-text">
-              桜羽エマ
-            </span>
-            か
-            <span className="yellow-text">
-              遠野ハンナ
-            </span>
-            と同席していないため、
-            船を壊して
-            <span className="red-text">
-              溺死
-            </span>
-            しました。
-          </>
-        ),
-
-        effect: "boat-break",
-
-        badVoice:
-          "/bad_voices/bad_sherry_boat.mp3",
-
-        badVoiceVolume: 2.2,
-
-        delay: 1100,
       };
     }
   }
@@ -246,6 +294,8 @@ export const getDeathReason = (
 
       effect: "hanna-stab",
 
+      stabTarget: "nanoka",
+
       badVoice:
         "/bad_voices/bad_hanna_nanoka_kill.mp3",
 
@@ -256,44 +306,16 @@ export const getDeathReason = (
   }
 
   if (
-    onlyPair(group, "honoka", "hanna")
+    onlyPair(group, "hanna", "honoka")
   ) {
-    return {
-      title: (
-        <span className="red-text">
-          遠野ハンナ 死亡
-        </span>
-      ),
+    return hannaKillsHonoka();
+  }
 
-      message: (
-        <>
-          <span className="yellow-text">
-            黒部ホノカ
-          </span>
-          と
-          <span className="yellow-text">
-            遠野ハンナ
-          </span>
-          が2人きりになり、
-          ホノカがハンナを鎌で
-          <span className="red-text">
-            斬殺
-          </span>
-          しました。
-        </>
-      ),
-
-      effect: "honoka-slash",
-
-      slashTarget: "hanna",
-
-      badVoice:
-        "/bad_voices/bad_honoka_hanna_kill.mp3",
-
-      badVoiceVolume: 2.2,
-
-      delay: 1200,
-    };
+  if (
+    context.side === "right" &&
+    onlyTriple(group, "hanna", "hiro", "honoka")
+  ) {
+    return hannaKillsHonoka();
   }
 
   if (

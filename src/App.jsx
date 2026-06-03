@@ -141,7 +141,11 @@ export default function App() {
       }
 
       if (death.effect === "hanna-stab") {
-        setStabStyle(makeHannaStabStyle());
+        setStabStyle(
+          makeHannaStabStyle(
+            death.stabTarget || "nanoka"
+          )
+        );
       }
 
       if (death.effect === "character-drown") {

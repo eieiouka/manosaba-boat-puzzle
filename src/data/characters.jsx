@@ -120,23 +120,6 @@ export const CHARACTERS = [
         します。
         <br />
 
-        <span className="yellow-text">遠野ハンナ</span>
-        と2人きりになると、
-        <span className="yellow-text">遠野ハンナ</span>
-        を
-        <span className="red-text">斬殺</span>
-        します。
-        <br />
-
-        これを
-        <span className="yellow-text">二階堂ヒロ</span>
-        が向こう岸で止めようと庇ったら（岸に3人）、
-        <span className="yellow-text">二階堂ヒロ</span>
-        を
-        <span className="red-text">斬殺</span>
-        します。
-        <br />
-
         <span className="yellow-text">橘シェリー</span>
         と2人きりになると、
         <span className="yellow-text">橘シェリー</span>
@@ -145,7 +128,7 @@ export const CHARACTERS = [
         します。
         <br />
 
-        桜羽エマは妹（黒部ナノカ）のお気に入りだと勘違いしているので、岸の上なら許してあげるそうです。
+        うるさいのが気に入らないようです。
       </>
     ),
   },

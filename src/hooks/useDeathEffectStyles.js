@@ -152,54 +152,64 @@ export function useDeathEffectStyles({
     };
   };
 
-  const makeHannaStabStyle = () => {
+  const makeHannaStabStyle = (
+    targetId = "nanoka"
+    ) => {
     const containerEl = gameCardRef.current;
-    const hannaEl = getVisibleCharacterEl("hanna");
-    const nanokaEl = getVisibleCharacterEl("nanoka");
 
-    if (!containerEl || !hannaEl || !nanokaEl) {
-      return {
+    const hannaEl =
+        getVisibleCharacterEl("hanna");
+
+    const targetEl =
+        getVisibleCharacterEl(targetId);
+
+    if (
+        !containerEl ||
+        !hannaEl ||
+        !targetEl
+    ) {
+        return {
         "--stab-start-x": "50%",
         "--stab-start-y": "45%",
         "--stab-end-x": "50%",
         "--stab-end-y": "58%",
-      };
+        };
     }
 
     const containerRect =
-      containerEl.getBoundingClientRect();
+        containerEl.getBoundingClientRect();
 
     const hannaRect =
-      hannaEl.getBoundingClientRect();
+        hannaEl.getBoundingClientRect();
 
-    const nanokaRect =
-      nanokaEl.getBoundingClientRect();
+    const targetRect =
+        targetEl.getBoundingClientRect();
 
     const startX =
-      hannaRect.left +
-      hannaRect.width / 2 -
-      containerRect.left;
+        hannaRect.left +
+        hannaRect.width / 2 -
+        containerRect.left;
 
     const startY =
-      hannaRect.top +
-      hannaRect.height / 2 -
-      containerRect.top;
+        hannaRect.top +
+        hannaRect.height / 2 -
+        containerRect.top;
 
     const endX =
-      nanokaRect.left +
-      nanokaRect.width / 2 -
-      containerRect.left;
+        targetRect.left +
+        targetRect.width / 2 -
+        containerRect.left;
 
     const endY =
-      nanokaRect.top +
-      nanokaRect.height / 2 -
-      containerRect.top;
+        targetRect.top +
+        targetRect.height / 2 -
+        containerRect.top;
 
     return {
-      "--stab-start-x": `${startX}px`,
-      "--stab-start-y": `${startY}px`,
-      "--stab-end-x": `${endX}px`,
-      "--stab-end-y": `${endY}px`,
+        "--stab-start-x": `${startX}px`,
+        "--stab-start-y": `${startY}px`,
+        "--stab-end-x": `${endX}px`,
+        "--stab-end-y": `${endY}px`,
     };
   };
 
