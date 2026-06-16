@@ -25,7 +25,7 @@ const LEVEL_CHARACTER_OVERRIDES = {
 
           本人は、「ホノカさんが鎌を持っていたのが原因。これは正当防衛」と主張しています。
         </>
-      )
+      ),
     },
   },
 };
@@ -54,17 +54,30 @@ export const LEVELS = {
       "honoka",
     ],
   },
+
+  3: {
+    id: 3,
+    name: "レベル3",
+    characterIds: [
+      "ema",
+      "hanna",
+      "leia",
+      "nanoka",
+      "honoka",
+    ],
+  },
 };
 
 export const getLevelCharacters = (levelId) => {
-  const level = LEVELS[levelId];
+  const normalizedLevelId = Number(levelId);
+  const level = LEVELS[normalizedLevelId];
 
   if (!level) {
     return [];
   }
 
   const overrides =
-    LEVEL_CHARACTER_OVERRIDES[levelId] || {};
+    LEVEL_CHARACTER_OVERRIDES[normalizedLevelId] || {};
 
   return CHARACTERS.filter((character) =>
     level.characterIds.includes(character.id)

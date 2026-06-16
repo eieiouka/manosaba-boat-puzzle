@@ -132,4 +132,25 @@ export const CHARACTERS = [
       </>
     ),
   },
+
+  {
+    id: "leia",
+    name: "レイア",
+    img: "/images/leia.png",
+
+    condition: (
+      <>
+        一人で岸や船にいると、孤独に耐えられず
+        <span className="red-text">魔女化</span>
+        します。
+        <br />
+
+        また、
+        <span className="yellow-text">黒部ナノカ</span>
+        の狙撃から
+        <span className="yellow-text">桜羽エマ</span>
+        を庇うことができます。
+      </>
+    ),
+  },
 ];
