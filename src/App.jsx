@@ -28,6 +28,7 @@ const CHARACTER_VOICE_VOLUME = {
   hiro: 3.7,
   nanoka: 3.5,
   honoka: 2.1,
+  leia: 2,
 };
 
 export default function App() {
@@ -59,6 +60,7 @@ export default function App() {
   const [drownStyle, setDrownStyle] = useState({});
   const [suicideStyle, setSuicideStyle] = useState({});
   const [slashStyle, setSlashStyle] = useState({});
+  const [majokaStyle, setMajokaStyle] = useState({});
 
   const [started, setStarted] = useState(false);
 
@@ -85,6 +87,7 @@ export default function App() {
     makeHannaDrownStyle,
     makeEmaSuicideStyle,
     makeHonokaSlashStyle,
+    makeLeiaMajokaStyle,
   } = useDeathEffectStyles({
     gameCardRef,
     characterRefs,
@@ -170,6 +173,10 @@ export default function App() {
         setSuicideStyle(makeEmaSuicideStyle());
       }
 
+      if (death.effect === "leia-majoka") {
+        setMajokaStyle(makeLeiaMajokaStyle());
+      }
+
       setDeathEffect(death.effect);
     }
 
@@ -215,6 +222,8 @@ export default function App() {
     setStabStyle({});
 
     setSlashStyle({});
+
+    setMajokaStyle({});
 
     setDrownStyle({});
 
@@ -456,6 +465,7 @@ export default function App() {
           slashStyle={slashStyle}
           drownStyle={drownStyle}
           suicideStyle={suicideStyle}
+          majokaStyle={majokaStyle}
         />
 
         <header className="header">

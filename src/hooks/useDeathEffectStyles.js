@@ -19,6 +19,39 @@ export function useDeathEffectStyles({
     });
   };
 
+  const getCenterStyle = (id, prefix) => {
+    const containerEl = gameCardRef.current;
+    const targetEl = getVisibleCharacterEl(id);
+
+    if (!containerEl || !targetEl) {
+      return {
+        [`--${prefix}-x`]: "50%",
+        [`--${prefix}-y`]: "50%",
+      };
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const targetRect =
+      targetEl.getBoundingClientRect();
+
+    const x =
+      targetRect.left +
+      targetRect.width / 2 -
+      containerRect.left;
+
+    const y =
+      targetRect.top +
+      targetRect.height / 2 -
+      containerRect.top;
+
+    return {
+      [`--${prefix}-x`]: `${x}px`,
+      [`--${prefix}-y`]: `${y}px`,
+    };
+  };
+
   const makeShotStyle = () => {
     const containerEl = gameCardRef.current;
     const nanokaEl = getVisibleCharacterEl("nanoka");
@@ -154,194 +187,124 @@ export function useDeathEffectStyles({
 
   const makeHannaStabStyle = (
     targetId = "nanoka"
-    ) => {
+  ) => {
     const containerEl = gameCardRef.current;
+    const hannaEl = getVisibleCharacterEl("hanna");
+    const targetEl = getVisibleCharacterEl(targetId);
 
-    const hannaEl =
-        getVisibleCharacterEl("hanna");
-
-    const targetEl =
-        getVisibleCharacterEl(targetId);
-
-    if (
-        !containerEl ||
-        !hannaEl ||
-        !targetEl
-    ) {
-        return {
+    if (!containerEl || !hannaEl || !targetEl) {
+      return {
         "--stab-start-x": "50%",
         "--stab-start-y": "45%",
         "--stab-end-x": "50%",
         "--stab-end-y": "58%",
-        };
-    }
-
-    const containerRect =
-        containerEl.getBoundingClientRect();
-
-    const hannaRect =
-        hannaEl.getBoundingClientRect();
-
-    const targetRect =
-        targetEl.getBoundingClientRect();
-
-    const startX =
-        hannaRect.left +
-        hannaRect.width / 2 -
-        containerRect.left;
-
-    const startY =
-        hannaRect.top +
-        hannaRect.height / 2 -
-        containerRect.top;
-
-    const endX =
-        targetRect.left +
-        targetRect.width / 2 -
-        containerRect.left;
-
-    const endY =
-        targetRect.top +
-        targetRect.height / 2 -
-        containerRect.top;
-
-    return {
-        "--stab-start-x": `${startX}px`,
-        "--stab-start-y": `${startY}px`,
-        "--stab-end-x": `${endX}px`,
-        "--stab-end-y": `${endY}px`,
-    };
-  };
-
-  const makeHannaDrownStyle = (characterId) => {
-    const containerEl = gameCardRef.current;
-    const targetEl = getVisibleCharacterEl(characterId);
-
-    if (!containerEl || !targetEl) {
-      return {
-        "--drown-x": "50%",
-        "--drown-y": "58%",
       };
     }
 
     const containerRect =
       containerEl.getBoundingClientRect();
 
+    const hannaRect =
+      hannaEl.getBoundingClientRect();
+
     const targetRect =
       targetEl.getBoundingClientRect();
 
-    const x =
+    const startX =
+      hannaRect.left +
+      hannaRect.width / 2 -
+      containerRect.left;
+
+    const startY =
+      hannaRect.top +
+      hannaRect.height / 2 -
+      containerRect.top;
+
+    const endX =
       targetRect.left +
       targetRect.width / 2 -
       containerRect.left;
 
-    const y =
+    const endY =
       targetRect.top +
       targetRect.height / 2 -
       containerRect.top;
 
     return {
-      "--drown-x": `${x}px`,
-      "--drown-y": `${y}px`,
+      "--stab-start-x": `${startX}px`,
+      "--stab-start-y": `${startY}px`,
+      "--stab-end-x": `${endX}px`,
+      "--stab-end-y": `${endY}px`,
     };
   };
 
-  const makeEmaSuicideStyle = () => {
-    const containerEl = gameCardRef.current;
-    const emaEl = getVisibleCharacterEl("ema");
+  const makeHannaDrownStyle = (characterId) =>
+    getCenterStyle(characterId, "drown");
 
-    if (!containerEl || !emaEl) {
+  const makeEmaSuicideStyle = () =>
+    getCenterStyle("ema", "suicide");
+
+  const makeHonokaSlashStyle = (targetId) => {
+    const containerEl = gameCardRef.current;
+    const honokaEl = getVisibleCharacterEl("honoka");
+    const targetEl = getVisibleCharacterEl(targetId);
+
+    if (!containerEl || !honokaEl || !targetEl) {
       return {
-        "--suicide-x": "50%",
-        "--suicide-y": "50%",
+        "--slash-start-x": "50%",
+        "--slash-start-y": "45%",
+        "--slash-end-x": "50%",
+        "--slash-end-y": "58%",
+        "--slash-angle": "0deg",
       };
     }
 
     const containerRect =
       containerEl.getBoundingClientRect();
 
-    const emaRect =
-      emaEl.getBoundingClientRect();
-
-    const x =
-      emaRect.left +
-      emaRect.width / 2 -
-      containerRect.left;
-
-    const y =
-      emaRect.top +
-      emaRect.height / 2 -
-      containerRect.top;
-
-    return {
-      "--suicide-x": `${x}px`,
-      "--suicide-y": `${y}px`,
-    };
-  };
-
-  const makeHonokaSlashStyle = (
-    targetId
-    ) => {
-    const containerEl = gameCardRef.current;
-
-    const honokaEl =
-        getVisibleCharacterEl("honoka");
-
-    const targetEl =
-        getVisibleCharacterEl(targetId);
-
-    if (!containerEl || !honokaEl || !targetEl) {
-        return {
-        "--slash-start-x": "50%",
-        "--slash-start-y": "45%",
-        "--slash-end-x": "50%",
-        "--slash-end-y": "58%",
-        };
-    }
-
-    const containerRect =
-        containerEl.getBoundingClientRect();
-
     const honokaRect =
-        honokaEl.getBoundingClientRect();
+      honokaEl.getBoundingClientRect();
 
     const targetRect =
-        targetEl.getBoundingClientRect();
+      targetEl.getBoundingClientRect();
 
     const startX =
-        honokaRect.left +
-        honokaRect.width / 2 -
-        containerRect.left;
+      honokaRect.left +
+      honokaRect.width / 2 -
+      containerRect.left;
 
     const startY =
-        honokaRect.top +
-        honokaRect.height / 2 -
-        containerRect.top;
+      honokaRect.top +
+      honokaRect.height / 2 -
+      containerRect.top;
 
     const endX =
-        targetRect.left +
-        targetRect.width / 2 -
-        containerRect.left;
+      targetRect.left +
+      targetRect.width / 2 -
+      containerRect.left;
 
     const endY =
-        targetRect.top +
-        targetRect.height / 2 -
-        containerRect.top;
+      targetRect.top +
+      targetRect.height / 2 -
+      containerRect.top;
 
     const dx = endX - startX;
     const dy = endY - startY;
 
     const angle =
-    (Math.atan2(dy, dx) * 180) / Math.PI;
+      (Math.atan2(dy, dx) * 180) / Math.PI;
 
     return {
-    "--slash-start-x": `${startX}px`,
-    "--slash-start-y": `${startY}px`,
-    "--slash-end-x": `${endX}px`,
-    "--slash-end-y": `${endY}px`,
-    "--slash-angle": `${angle}deg`,
+      "--slash-start-x": `${startX}px`,
+      "--slash-start-y": `${startY}px`,
+      "--slash-end-x": `${endX}px`,
+      "--slash-end-y": `${endY}px`,
+      "--slash-angle": `${angle}deg`,
     };
   };
+
+  const makeLeiaMajokaStyle = () =>
+    getCenterStyle("leia", "majoka");
 
   return {
     makeShotStyle,
@@ -350,5 +313,6 @@ export function useDeathEffectStyles({
     makeHannaDrownStyle,
     makeEmaSuicideStyle,
     makeHonokaSlashStyle,
+    makeLeiaMajokaStyle,
   };
 }

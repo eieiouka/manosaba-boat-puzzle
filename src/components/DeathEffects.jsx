@@ -6,14 +6,12 @@ export default function DeathEffects({
   slashStyle,
   drownStyle,
   suicideStyle,
+  majokaStyle,
 }) {
   return (
     <>
       {deathEffect === "nanoka-shot" && (
-        <div
-          className="nanoka-shot-effect"
-          style={shotStyle}
-        >
+        <div className="nanoka-shot-effect" style={shotStyle}>
           <div className="nanoka-muzzle-flash" />
           <div className="nanoka-bullet-trail" />
           <div className="nanoka-bullet" />
@@ -22,10 +20,7 @@ export default function DeathEffects({
       )}
 
       {deathEffect === "hiro-smash" && (
-        <div
-          className="hiro-smash-effect"
-          style={smashStyle}
-        >
+        <div className="hiro-smash-effect" style={smashStyle}>
           <div className="hiro-smash-weapon" />
           <div className="hiro-smash-impact" />
           <div className="hiro-smash-flash" />
@@ -33,10 +28,7 @@ export default function DeathEffects({
       )}
 
       {deathEffect === "hanna-stab" && (
-        <div
-          className="hanna-stab-effect"
-          style={stabStyle}
-        >
+        <div className="hanna-stab-effect" style={stabStyle}>
           <div className="hanna-stab-knife" />
           <div className="hanna-stab-impact" />
           <div className="hanna-stab-flash" />
@@ -44,23 +36,15 @@ export default function DeathEffects({
       )}
 
       {deathEffect === "honoka-slash" && (
-        <div
-          className="honoka-slash-effect"
-          style={slashStyle}
-        >
+        <div className="honoka-slash-effect" style={slashStyle}>
           <div className="honoka-scythe" />
-
           <div className="honoka-slash-impact" />
-
           <div className="honoka-slash-flash" />
         </div>
       )}
 
       {deathEffect === "character-drown" && (
-        <div
-          className="hanna-drown-effect"
-          style={drownStyle}
-        >
+        <div className="hanna-drown-effect" style={drownStyle}>
           <div className="hanna-water-ring hanna-ring-1" />
           <div className="hanna-water-ring hanna-ring-2" />
           <div className="hanna-water-ring hanna-ring-3" />
@@ -72,13 +56,18 @@ export default function DeathEffects({
       )}
 
       {deathEffect === "ema-suicide" && (
-        <div
-          className="ema-suicide-effect"
-          style={suicideStyle}
-        >
+        <div className="ema-suicide-effect" style={suicideStyle}>
           <div className="ema-suicide-flash" />
           <div className="ema-suicide-ring" />
           <div className="ema-suicide-blade" />
+        </div>
+      )}
+
+      {deathEffect === "leia-majoka" && (
+        <div className="leia-majoka-effect" style={majokaStyle}>
+          <div className="leia-majoka-dark" />
+          <div className="leia-majoka-circle" />
+          <div className="leia-majoka-flash" />
         </div>
       )}
     </>

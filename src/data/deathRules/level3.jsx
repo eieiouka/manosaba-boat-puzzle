@@ -25,6 +25,9 @@ const leiaDiesAlone = () => ({
     </>
   ),
 
+  badVoice: "/bad_voices/bad_leia_majoka.mp3",
+  badVoiceVolume: 2,
+  effect: "leia-majoka",
   delay: 1200,
 });
 

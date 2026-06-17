@@ -2164,3 +2164,156 @@ h1 {
       scaleX(1);
   }
 }
+
+/* =========================
+   レイア魔女化
+========================= */
+
+.leia-majoka-effect {
+  position: absolute;
+  inset: 0;
+
+  z-index: 650;
+
+  pointer-events: none;
+
+  overflow: visible;
+}
+
+.leia-majoka-dark {
+  position: absolute;
+  inset: -40px;
+
+  background: rgba(0, 0, 0, 0.55);
+
+  opacity: 0;
+
+  animation:
+    leiaMajokaDark
+    1.1s ease-out forwards;
+}
+
+.leia-majoka-circle {
+  position: absolute;
+
+  left: var(--majoka-x);
+  top: var(--majoka-y);
+
+  width: 120px;
+  height: 120px;
+
+  border-radius: 50%;
+
+  border:
+    4px solid
+    rgba(180, 80, 255, 0.95);
+
+  box-shadow:
+    0 0 18px rgba(180, 80, 255, 0.95),
+    0 0 44px rgba(120, 0, 200, 0.85),
+    inset 0 0 28px rgba(200, 80, 255, 0.8);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    leiaMajokaCircle
+    1.1s ease-out forwards;
+}
+
+.leia-majoka-flash {
+  position: absolute;
+
+  left: var(--majoka-x);
+  top: var(--majoka-y);
+
+  width: 88px;
+  height: 88px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(220, 90, 255, 1) 0%,
+      rgba(120, 0, 180, 0.85) 45%,
+      rgba(0, 0, 0, 0) 78%
+    );
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    scale(0.2);
+
+  animation:
+    leiaMajokaFlash
+    1.1s ease-out forwards;
+}
+
+@keyframes leiaMajokaDark {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes leiaMajokaCircle {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2)
+      rotate(0deg);
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(2.2)
+      rotate(180deg);
+  }
+}
+
+@keyframes leiaMajokaFlash {
+  0% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.2);
+  }
+
+  35% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      scale(1.15);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(2.4);
+  }
+}
