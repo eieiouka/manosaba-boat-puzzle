@@ -193,7 +193,7 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     ema: {
       condition: (
         <>
-          一人で船を漕ぐと
+          非力なバカ犬なので、一人で船を漕ぐと
           <span className="red-text">溺死</span>
           します。
           <br />
@@ -208,13 +208,15 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     hanna: {
       condition: (
         <>
-          一人で船を漕ぐと
+          船の漕ぎ方もロクに分からないので、一人で乗ると
           <span className="red-text">溺死</span>
           します。
           <br />
 
           <span className="yellow-text">蓮見レイア</span>
-          と岸で2人きりになると、レイアを岩で
+          と岸で2人きりになると、
+          <span className="yellow-text">蓮見レイア</span>
+          を岩で
           <span className="red-text">撲殺</span>
           します。
           <br />
@@ -259,7 +261,7 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <span className="yellow-text">桜羽エマ</span>
           を殺すことはできません。
           <br />
-          桜羽エマを恨んでいるものの、お姉ちゃん（ホノカ）の前では大人しくするようです。
+          悪口を言ってきたエマを恨んでいるものの、お姉ちゃん（ホノカ）の前では大人しくするようです。
         </>
       ),
     },
@@ -282,9 +284,9 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <br />
           こちら岸で
           <span className="yellow-text">黒部ナノカ</span>
-          ・
+          と
           <span className="yellow-text">蓮見レイア</span>
-          だけと一緒になる（3人）と、
+          の2人だけと一緒になる（計3人）と、
           <span className="yellow-text">蓮見レイア</span>
           を
           <span className="red-text">斬殺</span>

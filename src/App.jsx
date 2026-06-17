@@ -362,6 +362,7 @@ export default function App() {
           departureSide,
           nextSide,
           allPeople,
+          levelId: currentLevel,
         }
       );
 
@@ -381,6 +382,7 @@ export default function App() {
             departureSide,
             nextSide,
             allPeople,
+            levelId: currentLevel,
           }
         );
 
@@ -412,6 +414,7 @@ export default function App() {
           departureSide,
           nextSide,
           allPeople,
+          levelId: currentLevel,
         }
       );
 
