@@ -152,9 +152,8 @@ const honokaKillsLeia = () => ({
 
   effect: "honoka-slash",
   slashTarget: "leia",
-  badVoice:
-    "/bad_voices/bad_honoka_leia_kill.mp3",
-  badVoiceVolume: 2.2,
+  badVoice: "/bad_voices/bad_honoka_leia_kill.mp3",
+  badVoiceVolume: 2,
   delay: 1200,
 });
 
