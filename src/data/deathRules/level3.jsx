@@ -72,29 +72,29 @@ const nanokaKillsEma = () => ({
   ),
 
   message: (
-        <>
-          <span className="yellow-text">
-            黒部ナノカ
-          </span>
-          のいる場所に
-          <span className="yellow-text">
-            黒部ホノカ
-          </span>
-          も
-          <span className="yellow-text">
-            蓮見レイア
-          </span>
-          もいなかったため、
-          <span className="yellow-text">
-            桜羽エマ
-          </span>
-          を
-          <span className="red-text">
-            銃殺
-          </span>
-          しました。
-        </>
-      ),
+    <>
+      <span className="yellow-text">
+        黒部ナノカ
+      </span>
+      のいる場所に
+      <span className="yellow-text">
+        黒部ホノカ
+      </span>
+      も
+      <span className="yellow-text">
+        蓮見レイア
+      </span>
+      もいなかったため、
+      <span className="yellow-text">
+        桜羽エマ
+      </span>
+      を
+      <span className="red-text">
+        銃殺
+      </span>
+      しました。
+    </>
+  ),
 
   effect: "nanoka-shot",
   badVoice:
@@ -111,20 +111,20 @@ const honokaKills = (victim) => ({
   ),
 
   message: (
-          <>
-            <span className="yellow-text">
-              黒部ホノカ
-            </span>
-            が、同乗者の
-            <span className="yellow-text">
-              {victim.name}
-            </span>
-            を鎌で
-            <span className="red-text">
-              斬殺
-            </span>
-            しました。
-          </>
+    <>
+      <span className="yellow-text">
+        黒部ホノカ
+      </span>
+      が、同乗者の
+      <span className="yellow-text">
+        {victim.name}
+      </span>
+      を鎌で
+      <span className="red-text">
+        斬殺
+      </span>
+      しました。
+    </>
   ),
 
   effect: "honoka-slash",
@@ -132,6 +132,40 @@ const honokaKills = (victim) => ({
   badVoice:
     `/bad_voices/bad_honoka_${victim.id}_kill.mp3`,
   badVoiceVolume: 2.2,
+  delay: 1200,
+});
+
+const honokaKillsEmaOnLand = () => ({
+  title: (
+    <span className="red-text">
+      桜羽エマ 死亡
+    </span>
+  ),
+
+  message: (
+    <>
+      <span className="yellow-text">
+        黒部ホノカ
+      </span>
+      と
+      <span className="yellow-text">
+        桜羽エマ
+      </span>
+      が岸で2人きりになり、ホノカがエマを鎌で
+      <span className="red-text">
+        斬殺
+      </span>
+      しました。
+    </>
+  ),
+
+  effect: "honoka-slash",
+  slashTarget: "ema",
+
+  badVoice:
+    "/bad_voices/bad_honoka_ema_kill.mp3",
+  badVoiceVolume: 2.2,
+
   delay: 1200,
 });
 
@@ -261,11 +295,7 @@ export const getDeathReasonLevel3 = (
   if (
     onlyPair(group, "honoka", "ema")
   ) {
-    const ema = group.find(
-      (p) => p.id === "ema"
-    );
-
-    return honokaKills(ema);
+    return honokaKillsEmaOnLand();
   }
 
   if (
