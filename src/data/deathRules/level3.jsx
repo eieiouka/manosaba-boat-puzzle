@@ -151,7 +151,7 @@ const honokaKillsEmaOnLand = () => ({
       <span className="yellow-text">
         桜羽エマ
       </span>
-      が岸で2人きりになり、ホノカがエマを鎌で
+      が2人きりになり、ホノカがエマを鎌で
       <span className="red-text">
         斬殺
       </span>
