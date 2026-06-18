@@ -55,6 +55,12 @@ const hannaKillsLeia = () => ({
     </>
   ),
 
+  badVoice: "/bad_voices/bad_hanna_leia_kill.mp3",
+  badVoiceVolume: 3,
+
+  effect: "hanna-rock",
+  rockTarget: "leia",
+
   delay: 1200,
 });
 

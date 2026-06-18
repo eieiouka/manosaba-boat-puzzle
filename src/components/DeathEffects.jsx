@@ -7,6 +7,7 @@ export default function DeathEffects({
   drownStyle,
   suicideStyle,
   majokaStyle,
+  rockStyle,
 }) {
   return (
     <>
@@ -40,6 +41,14 @@ export default function DeathEffects({
           <div className="honoka-scythe" />
           <div className="honoka-slash-impact" />
           <div className="honoka-slash-flash" />
+        </div>
+      )}
+
+      {deathEffect === "hanna-rock" && (
+        <div className="hanna-rock-effect" style={rockStyle}>
+          <div className="hanna-rock" />
+          <div className="hanna-rock-impact" />
+          <div className="hanna-rock-flash" />
         </div>
       )}
 

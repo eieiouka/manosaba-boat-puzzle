@@ -61,6 +61,7 @@ export default function App() {
   const [suicideStyle, setSuicideStyle] = useState({});
   const [slashStyle, setSlashStyle] = useState({});
   const [majokaStyle, setMajokaStyle] = useState({});
+  const [rockStyle, setRockStyle] = useState({});
 
   const [started, setStarted] = useState(false);
 
@@ -88,6 +89,7 @@ export default function App() {
     makeEmaSuicideStyle,
     makeHonokaSlashStyle,
     makeLeiaMajokaStyle,
+    makeHannaRockStyle,
   } = useDeathEffectStyles({
     gameCardRef,
     characterRefs,
@@ -177,6 +179,14 @@ export default function App() {
         setMajokaStyle(makeLeiaMajokaStyle());
       }
 
+      if (death.effect === "hanna-rock") {
+        setRockStyle(
+          makeHannaRockStyle(
+            death.rockTarget || "leia"
+          )
+        );
+      }
+
       setDeathEffect(death.effect);
     }
 
@@ -224,6 +234,8 @@ export default function App() {
     setSlashStyle({});
 
     setMajokaStyle({});
+
+    setRockStyle({});
 
     setDrownStyle({});
 
@@ -466,6 +478,7 @@ export default function App() {
           drownStyle={drownStyle}
           suicideStyle={suicideStyle}
           majokaStyle={majokaStyle}
+          rockStyle={rockStyle}
         />
 
         <header className="header">

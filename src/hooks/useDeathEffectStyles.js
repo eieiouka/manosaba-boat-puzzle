@@ -306,6 +306,71 @@ export function useDeathEffectStyles({
   const makeLeiaMajokaStyle = () =>
     getCenterStyle("leia", "majoka");
 
+  const makeHannaRockStyle = (
+    targetId = "leia"
+  ) => {
+    const containerEl = gameCardRef.current;
+    const hannaEl = getVisibleCharacterEl("hanna");
+    const targetEl = getVisibleCharacterEl(targetId);
+
+    if (!containerEl || !hannaEl || !targetEl) {
+      return {
+        "--rock-start-x": "50%",
+        "--rock-start-y": "45%",
+        "--rock-end-x": "50%",
+        "--rock-end-y": "58%",
+        "--rock-dx": "0px",
+        "--rock-dy": "40px",
+        "--rock-angle": "0deg",
+      };
+    }
+
+    const containerRect =
+      containerEl.getBoundingClientRect();
+
+    const hannaRect =
+      hannaEl.getBoundingClientRect();
+
+    const targetRect =
+      targetEl.getBoundingClientRect();
+
+    const startX =
+      hannaRect.left +
+      hannaRect.width / 2 -
+      containerRect.left;
+
+    const startY =
+      hannaRect.top +
+      hannaRect.height / 2 -
+      containerRect.top;
+
+    const endX =
+      targetRect.left +
+      targetRect.width / 2 -
+      containerRect.left;
+
+    const endY =
+      targetRect.top +
+      targetRect.height / 2 -
+      containerRect.top;
+
+    const dx = endX - startX;
+    const dy = endY - startY;
+
+    const angle =
+      (Math.atan2(dy, dx) * 180) / Math.PI;
+
+    return {
+      "--rock-start-x": `${startX}px`,
+      "--rock-start-y": `${startY}px`,
+      "--rock-end-x": `${endX}px`,
+      "--rock-end-y": `${endY}px`,
+      "--rock-dx": `${dx}px`,
+      "--rock-dy": `${dy}px`,
+      "--rock-angle": `${angle}deg`,
+    };
+  };
+
   return {
     makeShotStyle,
     makeHiroSmashStyle,
@@ -314,5 +379,6 @@ export function useDeathEffectStyles({
     makeEmaSuicideStyle,
     makeHonokaSlashStyle,
     makeLeiaMajokaStyle,
+    makeHannaRockStyle,
   };
 }
