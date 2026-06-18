@@ -220,7 +220,7 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <span className="red-text">撲殺</span>
           します。
           <br />
-          「レイアさんが憎くて、羨ましくて…！」
+          「レイアさんに嫉妬して、羨ましくて…！」
         </>
       ),
     },
