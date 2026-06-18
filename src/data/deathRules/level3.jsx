@@ -111,20 +111,20 @@ const honokaKills = (victim) => ({
   ),
 
   message: (
-    <>
-      <span className="yellow-text">
-        黒部ホノカ
-      </span>
-      が
-      <span className="yellow-text">
-        {victim.name}
-      </span>
-      を鎌で
-      <span className="red-text">
-        斬殺
-      </span>
-      しました。
-    </>
+          <>
+            <span className="yellow-text">
+              黒部ホノカ
+            </span>
+            が、同乗者の
+            <span className="yellow-text">
+              {victim.name}
+            </span>
+            を鎌で
+            <span className="red-text">
+              斬殺
+            </span>
+            しました。
+          </>
   ),
 
   effect: "honoka-slash",
