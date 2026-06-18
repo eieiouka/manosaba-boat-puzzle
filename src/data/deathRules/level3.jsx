@@ -72,21 +72,29 @@ const nanokaKillsEma = () => ({
   ),
 
   message: (
-    <>
-      <span className="yellow-text">
-        黒部ナノカ
-      </span>
-      が見張りのいない隙に、
-      <span className="yellow-text">
-        桜羽エマ
-      </span>
-      を
-      <span className="red-text">
-        銃殺
-      </span>
-      しました。
-    </>
-  ),
+        <>
+          <span className="yellow-text">
+            黒部ナノカ
+          </span>
+          のいる場所に
+          <span className="yellow-text">
+            黒部ホノカ
+          </span>
+          も
+          <span className="yellow-text">
+            蓮見レイア
+          </span>
+          もいなかったため、
+          <span className="yellow-text">
+            桜羽エマ
+          </span>
+          を
+          <span className="red-text">
+            銃殺
+          </span>
+          しました。
+        </>
+      ),
 
   effect: "nanoka-shot",
   badVoice:
