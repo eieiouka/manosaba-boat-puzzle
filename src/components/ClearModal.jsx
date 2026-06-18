@@ -20,6 +20,10 @@ export default function ClearModal({
           <button onClick={() => onStartLevel(2)}>
             レベル2
           </button>
+
+          <button onClick={() => onStartLevel(3)}>
+            レベル3
+          </button>
         </div>
       </div>
     </div>
