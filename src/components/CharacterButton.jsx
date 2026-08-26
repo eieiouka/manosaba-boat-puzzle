@@ -9,6 +9,11 @@ export default function CharacterButton({
   showName = false,
   buttonRef,
 }) {
+  const displayedImage =
+    person.sulking && person.sulkingImg
+      ? person.sulkingImg
+      : person.img;
+
   const handleClick = () => {
     if (!canMove) return;
 
@@ -30,7 +35,7 @@ export default function CharacterButton({
       onTouchEnd={onLongPressCancel}
       onTouchCancel={onLongPressCancel}
     >
-      <img src={person.img} alt={person.name} />
+      <img src={displayedImage} alt={person.name} />
 
       {showName && <small>{person.name}</small>}
     </button>

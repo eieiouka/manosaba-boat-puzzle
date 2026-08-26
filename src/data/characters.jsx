@@ -45,5 +45,6 @@ export const CHARACTERS = [
     id: "coco",
     name: "沢渡ココ",
     img: "/images/coco.png",
+    sulkingImg: "/images/coco_sulking.png",
   },
 ];
