@@ -40,4 +40,10 @@ export const CHARACTERS = [
     name: "黒部ホノカ",
     img: "/images/honoka.png",
   },
+
+  {
+    id: "coco",
+    name: "沢渡ココ",
+    img: "/images/coco.png",
+  },
 ];

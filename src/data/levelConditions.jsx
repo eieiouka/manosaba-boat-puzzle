@@ -297,4 +297,86 @@ export const LEVEL_CHARACTER_OVERRIDES = {
       ),
     },
   },
+
+  4: {
+    coco: {
+      condition: (
+        <>
+          一人では船を漕げません。
+          <br />
+          一度向こうの岸へ渡ると不機嫌になり、以後は船に乗りません。
+          <br />
+          <span className="yellow-text">橘シェリー</span>
+          がココのいる岸へ到着すると、機嫌が直ります。
+          <br />
+          <span className="yellow-text">黒部ナノカ</span>
+          と同じ場所では、
+          <span className="yellow-text">二階堂ヒロ</span>
+          か
+          <span className="yellow-text">橘シェリー</span>
+          がいないと銃殺されます。
+          <br />
+          ただし向こう岸で、ココ・ヒロ・ナノカの3人だけになると、ヒロではナノカを抑えきれません。
+        </>
+      ),
+    },
+
+    ema: {
+      condition: (
+        <>
+          非力なバカ犬なので、一人で船を漕ぐと
+          <span className="red-text">溺死</span>
+          します。
+          <br />
+          <span className="yellow-text">黒部ナノカ</span>
+          に遠隔狙撃されます。
+          <span className="yellow-text">橘シェリー</span>
+          がエマかナノカと同じ場所にいれば、狙撃を妨害できます。
+        </>
+      ),
+    },
+
+    sherry: {
+      condition: (
+        <>
+          船では必ず
+          <span className="yellow-text">桜羽エマ</span>
+          の同乗が必要です。エマがいないと船を壊し、そのまま
+          <span className="red-text">溺死</span>
+          します。
+          <br />
+          ココのいる岸へ到着すると、ココの機嫌を直します。
+          <br />
+          ナノカによるエマへの遠隔狙撃と、ココへの接近攻撃を妨害できます。
+        </>
+      ),
+    },
+
+    hiro: {
+      condition: (
+        <>
+          ナノカによるココへの接近攻撃を防げます。
+          <br />
+          ただし向こう岸でココ・ヒロ・ナノカの3人だけになると、ナノカを抑えきれません。
+          <br />
+          エマへの遠隔狙撃は防げません。
+        </>
+      ),
+    },
+
+    nanoka: {
+      condition: (
+        <>
+          船には必ず一人で乗ります。同乗者がいると、その人物を
+          <span className="red-text">銃殺</span>
+          します。
+          <br />
+          <span className="yellow-text">橘シェリー</span>
+          がエマかナノカと同じ場所にいないと、どこからでもエマを狙撃します。
+          <br />
+          ココと同じ場所になるとココを狙いますが、ヒロかシェリーがいれば防がれます。
+        </>
+      ),
+    },
+  },
 };

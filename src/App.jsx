@@ -29,6 +29,7 @@ const CHARACTER_VOICE_VOLUME = {
   nanoka: 3.5,
   honoka: 2.1,
   leia: 2.5,
+  coco: 2.5,
 };
 
 export default function App() {
@@ -309,6 +310,14 @@ export default function App() {
 
     if (person.side !== boatSide) return;
 
+    if (
+      currentLevel === 4 &&
+      person.id === "coco" &&
+      person.sulking
+    ) {
+      return;
+    }
+
     if (boat.length >= 2) return;
 
     setPeople((prev) =>
@@ -449,6 +458,38 @@ export default function App() {
 
       setBoatSide(nextSide);
 
+      if (currentLevel === 4) {
+        const cocoCrossed = boat.some(
+          (p) => p.id === "coco"
+        );
+        const sherryArrived = boat.some(
+          (p) => p.id === "sherry"
+        );
+        const cocoWasWaiting = people.some(
+          (p) =>
+            p.id === "coco" &&
+            p.side === nextSide
+        );
+
+        if (cocoCrossed) {
+          setBoat((prev) =>
+            prev.map((p) =>
+              p.id === "coco"
+                ? { ...p, sulking: true }
+                : p
+            )
+          );
+        } else if (sherryArrived && cocoWasWaiting) {
+          setPeople((prev) =>
+            prev.map((p) =>
+              p.id === "coco"
+                ? { ...p, sulking: false }
+                : p
+            )
+          );
+        }
+      }
+
       setMoves((m) => m + 1);
 
       setIsMoving(false);
@@ -516,6 +557,13 @@ export default function App() {
             onLongPressStart={startLongPress}
             onLongPressCancel={cancelLongPress}
             characterRefs={characterRefs}
+            canBoard={(person) =>
+              !(
+                currentLevel === 4 &&
+                person.id === "coco" &&
+                person.sulking
+              )
+            }
           />
 
           <div className="river">
@@ -595,6 +643,13 @@ export default function App() {
             onLongPressStart={startLongPress}
             onLongPressCancel={cancelLongPress}
             characterRefs={characterRefs}
+            canBoard={(person) =>
+              !(
+                currentLevel === 4 &&
+                person.id === "coco" &&
+                person.sulking
+              )
+            }
           />
         </div>
 

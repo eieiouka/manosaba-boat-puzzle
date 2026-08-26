@@ -10,6 +10,7 @@ export default function Bank({
   onLongPressStart,
   onLongPressCancel,
   characterRefs,
+  canBoard = () => true,
 }) {
   return (
     <section className="bank">
@@ -22,7 +23,9 @@ export default function Bank({
             person={p}
             className="person"
             disabled={isMoving}
-            canMove={boatSide === side}
+            canMove={
+              boatSide === side && canBoard(p)
+            }
             onClick={() => onBoard(p)}
             onLongPressStart={onLongPressStart}
             onLongPressCancel={onLongPressCancel}

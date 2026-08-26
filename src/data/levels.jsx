@@ -37,6 +37,18 @@ export const LEVELS = {
       "honoka",
     ],
   },
+
+  4: {
+    id: 4,
+    name: "レベル4",
+    characterIds: [
+      "ema",
+      "sherry",
+      "hiro",
+      "nanoka",
+      "coco",
+    ],
+  },
 };
 
 export const getLevelCharacters = (levelId) => {

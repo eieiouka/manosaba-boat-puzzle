@@ -18,6 +18,10 @@ export default function StartModal({
           <button onClick={() => onStartLevel(3)}>
             レベル3
           </button>
+
+          <button onClick={() => onStartLevel(4)}>
+            レベル4
+          </button>
         </div>
       </div>
     </div>

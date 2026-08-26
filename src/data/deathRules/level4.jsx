@@ -1,0 +1,194 @@
+import {
+  has,
+  onlyTriple,
+  drown,
+} from "./shared.jsx";
+
+const nanokaKillsEma = () => ({
+  title: (
+    <span className="red-text">桜羽エマ 死亡</span>
+  ),
+  message: (
+    <>
+      <span className="yellow-text">橘シェリー</span>
+      がエマにもナノカにも付いていなかったため、
+      <span className="yellow-text">黒部ナノカ</span>
+      が遠隔から
+      <span className="yellow-text">桜羽エマ</span>
+      を<span className="red-text">銃殺</span>しました。
+    </>
+  ),
+  effect: "nanoka-shot",
+  badVoice: "/bad_voices/bad_nanoka_ema_kill.mp3",
+  badVoiceVolume: 2.2,
+  delay: 1200,
+});
+
+const nanokaKillsCoco = (overpowersHiro = false) => ({
+  title: (
+    <span className="red-text">沢渡ココ 死亡</span>
+  ),
+  message: (
+    <>
+      {overpowersHiro ? (
+        <>
+          向こう岸でココ・ヒロ・ナノカの3人だけになり、ヒロがナノカを抑えきれなかったため、
+        </>
+      ) : (
+        <>
+          ヒロもシェリーも同じ場所にいなかったため、
+        </>
+      )}
+      <span className="yellow-text">黒部ナノカ</span>
+      が<span className="yellow-text">沢渡ココ</span>を
+      <span className="red-text">銃殺</span>しました。
+    </>
+  ),
+  effect: "nanoka-shot",
+  badVoiceVolume: 2.2,
+  delay: 1200,
+});
+
+const nanokaKillsPassenger = (group) => {
+  const victim = group.find((p) => p.id !== "nanoka");
+
+  return {
+    title: (
+      <span className="red-text">{victim.name} 死亡</span>
+    ),
+    message: (
+      <>
+        <span className="yellow-text">黒部ナノカ</span>
+        が同乗者の
+        <span className="yellow-text">{victim.name}</span>
+        を<span className="red-text">銃殺</span>しました。
+      </>
+    ),
+    effect: "nanoka-shot",
+    badVoiceVolume: 2.2,
+    delay: 1200,
+  };
+};
+
+const sherryBreaksBoat = () => ({
+  title: (
+    <span className="red-text">橘シェリー 死亡</span>
+  ),
+  message: (
+    <>
+      <span className="yellow-text">桜羽エマ</span>
+      が同乗していないため、橘シェリーが船を壊して
+      <span className="red-text">溺死</span>しました。
+    </>
+  ),
+  effect: "boat-break",
+  badVoice: "/bad_voices/bad_sherry_boat.mp3",
+  badVoiceVolume: 2.2,
+  delay: 1100,
+});
+
+const checkCocoAndNanoka = (group, side) => {
+  if (
+    side === "right" &&
+    onlyTriple(group, "coco", "hiro", "nanoka")
+  ) {
+    return nanokaKillsCoco(true);
+  }
+
+  if (
+    has(group, "coco") &&
+    has(group, "nanoka") &&
+    !has(group, "hiro") &&
+    !has(group, "sherry")
+  ) {
+    return nanokaKillsCoco(false);
+  }
+
+  return null;
+};
+
+const checkRemoteShot = (groups) => {
+  const nanokaGroup = groups.findIndex(({ members }) =>
+    has(members, "nanoka")
+  );
+  const emaGroup = groups.findIndex(({ members }) =>
+    has(members, "ema")
+  );
+  const sherryGroup = groups.findIndex(({ members }) =>
+    has(members, "sherry")
+  );
+
+  if (
+    sherryGroup !== nanokaGroup &&
+    sherryGroup !== emaGroup
+  ) {
+    return nanokaKillsEma();
+  }
+
+  return null;
+};
+
+export const getDeathReasonLevel4 = (
+  group,
+  phase,
+  context = {}
+) => {
+  if (
+    phase === "center" &&
+    context.place === "boat"
+  ) {
+    if (group.length === 1 && has(group, "ema")) {
+      return drown("ema", "桜羽エマ");
+    }
+
+    if (group.length === 1 && has(group, "coco")) {
+      return drown("coco", "沢渡ココ");
+    }
+
+    if (has(group, "sherry") && !has(group, "ema")) {
+      return sherryBreaksBoat();
+    }
+
+    if (has(group, "nanoka") && group.length === 2) {
+      return nanokaKillsPassenger(group);
+    }
+
+    const boatIds = new Set(group.map((p) => p.id));
+    const allPeople = context.allPeople || [];
+    const groups = [
+      { members: group, side: "boat" },
+      {
+        members: allPeople.filter(
+          (p) =>
+            !boatIds.has(p.id) &&
+            p.side === context.departureSide
+        ),
+        side: context.departureSide,
+      },
+      {
+        members: allPeople.filter(
+          (p) =>
+            !boatIds.has(p.id) &&
+            p.side === context.nextSide
+        ),
+        side: context.nextSide,
+      },
+    ];
+
+    for (const location of groups) {
+      const death = checkCocoAndNanoka(
+        location.members,
+        location.side
+      );
+      if (death) return death;
+    }
+
+    return checkRemoteShot(groups);
+  }
+
+  if (phase === "arrival") {
+    return checkCocoAndNanoka(group, context.side);
+  }
+
+  return null;
+};

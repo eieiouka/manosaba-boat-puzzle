@@ -1,6 +1,7 @@
 import { getDeathReasonLevel1 } from "./level1.jsx";
 import { getDeathReasonLevel2 } from "./level2.jsx";
 import { getDeathReasonLevel3 } from "./level3.jsx";
+import { getDeathReasonLevel4 } from "./level4.jsx";
 
 export const getDeathReason = (
   group,
@@ -8,6 +9,14 @@ export const getDeathReason = (
   context = {}
 ) => {
   const levelId = Number(context.levelId ?? 1);
+
+  if (levelId === 4) {
+    return getDeathReasonLevel4(
+      group,
+      phase,
+      context
+    );
+  }
 
   if (levelId === 3) {
     return getDeathReasonLevel3(
