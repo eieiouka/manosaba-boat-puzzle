@@ -4,6 +4,11 @@ export default function CharacterModal({
 }) {
   if (!character) return null;
 
+  const displayedImage =
+    character.sulking && character.sulkingImg
+      ? character.sulkingImg
+      : character.img;
+
   return (
     <div
       className="modal-backdrop"
@@ -15,7 +20,7 @@ export default function CharacterModal({
       >
         <div className="character-modal-head">
           <img
-            src={character.img}
+            src={displayedImage}
             alt={character.name}
           />
 

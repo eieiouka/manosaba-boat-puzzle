@@ -108,6 +108,12 @@ export default function App() {
   const peopleOnSide = (side) =>
     people.filter((p) => p.side === side);
 
+  const hasSulkingCocoInBoat =
+    currentLevel === 4 &&
+    boat.some(
+      (p) => p.id === "coco" && p.sulking
+    );
+
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
       clearTimeout(deathLogTimerRef.current);
@@ -354,7 +360,8 @@ export default function App() {
     if (
       isMoving ||
       deathReason ||
-      deathEffect
+      deathEffect ||
+      hasSulkingCocoInBoat
     ) {
       return;
     }
@@ -620,6 +627,7 @@ export default function App() {
                 disabled={
                   isMoving ||
                   boat.length === 0 ||
+                  hasSulkingCocoInBoat ||
                   deathReason ||
                   deathEffect
                 }

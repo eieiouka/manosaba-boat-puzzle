@@ -302,21 +302,18 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     coco: {
       condition: (
         <>
-          一人では船を漕げません。
+          船の漕ぎ方もロクに分からないので、一人で乗ると
+          <span className="red-text">溺死</span>
+          します。
           <br />
-          一度向こうの岸へ渡ると不機嫌になり、以後は船に乗りません。
+          一度、船に乗ると不機嫌になり、以後は船に乗りません。
           <br />
           <span className="yellow-text">橘シェリー</span>
-          がココのいる岸へ到着すると、機嫌が直ります。
+          がココのいる岸へ到着すると、機嫌を直して船に乗れるようになります。
           <br />
-          <span className="yellow-text">黒部ナノカ</span>
-          と同じ場所では、
-          <span className="yellow-text">二階堂ヒロ</span>
-          か
-          <span className="yellow-text">橘シェリー</span>
-          がいないと銃殺されます。
+          シェリーが同じ岸にいるだけでは機嫌を直さない（船からの到着が必須）ので、注意しましょう。
           <br />
-          ただし向こう岸で、ココ・ヒロ・ナノカの3人だけになると、ヒロではナノカを抑えきれません。
+          シェリー「ココさん、水が怖くても船に乗らなきゃダメですよ☆」
         </>
       ),
     },
@@ -328,10 +325,11 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <span className="red-text">溺死</span>
           します。
           <br />
-          <span className="yellow-text">黒部ナノカ</span>
-          に遠隔狙撃されます。
+          船の上で
           <span className="yellow-text">橘シェリー</span>
-          がエマかナノカと同じ場所にいれば、狙撃を妨害できます。
+          と同乗すれば、シェリーが船を壊すのを阻止できます。
+          <br />
+          「シェリーちゃん、船を壊したらボクも死んじゃうよ…」
         </>
       ),
     },
@@ -341,13 +339,29 @@ export const LEVEL_CHARACTER_OVERRIDES = {
         <>
           船では必ず
           <span className="yellow-text">桜羽エマ</span>
-          の同乗が必要です。エマがいないと船を壊し、そのまま
+          が同乗しないと、船を壊して
           <span className="red-text">溺死</span>
           します。
           <br />
-          ココのいる岸へ到着すると、ココの機嫌を直します。
+          <span className="yellow-text">黒部ナノカ</span>
+          のそばにいれば、ナノカの暴走（
+          <span className="yellow-text">桜羽エマ</span>
+          や
+          <span className="yellow-text">沢渡ココ</span>
+          の
+          <span className="red-text">銃殺</span>
+          ）を防げます。
           <br />
-          ナノカによるエマへの遠隔狙撃と、ココへの接近攻撃を妨害できます。
+          <span className="yellow-text">桜羽エマ</span>
+          のそばにいれば、
+          <span className="yellow-text">黒部ナノカ</span>
+          の
+          <span className="red-text">銃殺</span>
+          から
+          <span className="yellow-text">桜羽エマ</span>
+          を庇えます。
+          <br />
+          「ナノカさんは、エマさんに何か恨みがあるんでしょうか？」
         </>
       ),
     },
@@ -355,11 +369,23 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     hiro: {
       condition: (
         <>
-          ナノカによるココへの接近攻撃を防げます。
+          <span className="yellow-text">黒部ナノカ</span>
+          のそばにいれば、
+          ナノカの暴走（
+          <span className="yellow-text">桜羽エマ</span>
+          や
+          <span className="yellow-text">沢渡ココ</span>
+          の
+          <span className="red-text">銃殺</span>
+          ）を防げます。
           <br />
-          ただし向こう岸でココ・ヒロ・ナノカの3人だけになると、ナノカを抑えきれません。
+          ただし向こう岸でヒロ・ココ・ナノカの3人だけになると、ナノカの暴走（
+          <span className="yellow-text">沢渡ココ</span>
+          の
+          <span className="red-text">銃殺</span>
+          ）を止められません。
           <br />
-          エマへの遠隔狙撃は防げません。
+          「ナノカの行動は正しくない。これ以上の暴走を止めなくてはならないな」
         </>
       ),
     },
@@ -367,14 +393,35 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     nanoka: {
       condition: (
         <>
-          船には必ず一人で乗ります。同乗者がいると、その人物を
+          誰かと船で同席すると、同席者を
           <span className="red-text">銃殺</span>
           します。
           <br />
+          <span className="yellow-text">二階堂ヒロ</span>
+          か
           <span className="yellow-text">橘シェリー</span>
-          がエマかナノカと同じ場所にいないと、どこからでもエマを狙撃します。
+          がそばにいないと、近くにいる
+          <span className="yellow-text">桜羽エマ</span>
+          か
+          <span className="yellow-text">沢渡ココ</span>
+          を
+          <span className="red-text">銃殺</span>
+          します。
           <br />
-          ココと同じ場所になるとココを狙いますが、ヒロかシェリーがいれば防がれます。
+          <span className="yellow-text">桜羽エマ</span>
+          は動きが鈍いので、離れた場所からでも
+          <span className="red-text">銃殺</span>
+          できます（
+          <span className="yellow-text">橘シェリー</span>
+          がエマを庇っている場合は別）。
+          <br />
+          向こう岸では、
+          <span className="yellow-text">二階堂ヒロ</span>
+          の隙を突いて
+          <span className="yellow-text">沢渡ココ</span>
+          を
+          <span className="red-text">銃殺</span>
+          します（3人だけが岸にいるなら）。
         </>
       ),
     },
