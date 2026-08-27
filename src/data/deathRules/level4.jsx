@@ -77,7 +77,7 @@ const nanokaKillsPassenger = (group) => {
     effect: "nanoka-shot",
     shotTarget: victim.id,
     badVoice: "/bad_voices/bad_nanoka_hiro_kill.mp3",
-    badVoiceVolume: 2.2,
+    badVoiceVolume: 3.08,
     delay: 1200,
   };
 };
@@ -94,7 +94,7 @@ const sherryBreaksBoat = () => ({
     </>
   ),
   effect: "boat-break",
-  badVoice: "/bad_voices/bad_sherry_boat.mp3",
+  badVoice: "/bad_voices/bad_sherry_boat_level4.mp3",
   badVoiceVolume: 2.2,
   delay: 1100,
 });

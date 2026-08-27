@@ -278,7 +278,7 @@ export default function App() {
 
     playVoice(
       `/voices/${person.id}/board_${voiceNumber}.mp3`,
-      CHARACTER_VOICE_VOLUME[person.id] ?? 1
+      (CHARACTER_VOICE_VOLUME[person.id] ?? 1) * 1.3
     );
   };
 

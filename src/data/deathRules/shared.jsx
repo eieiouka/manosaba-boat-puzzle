@@ -71,7 +71,9 @@ export const drown = (person, label) => ({
       ? "/bad_voices/bad_ema_drown.mp3"
       : person === "hanna"
         ? "/bad_voices/bad_hanna_drown.mp3"
-        : undefined,
-  badVoiceVolume: 2.2,
+        : person === "coco"
+          ? "/bad_voices/bad_coco_drown.mp3"
+          : undefined,
+  badVoiceVolume: person === "coco" ? 4 : 2.2,
   delay: 1200,
 });
