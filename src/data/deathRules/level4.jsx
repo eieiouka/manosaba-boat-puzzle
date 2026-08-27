@@ -11,11 +11,11 @@ const nanokaKillsEma = () => ({
   message: (
     <>
       <span className="yellow-text">二階堂ヒロ</span>
-      がナノカ側におらず、
+      も
       <span className="yellow-text">橘シェリー</span>
-      もエマにもナノカにも付いていなかったため、
+      も見張っていなかったため、
       <span className="yellow-text">黒部ナノカ</span>
-      が遠隔から
+      が
       <span className="yellow-text">桜羽エマ</span>
       を<span className="red-text">銃殺</span>しました。
     </>
@@ -35,11 +35,16 @@ const nanokaKillsCoco = (overpowersHiro = false) => ({
     <>
       {overpowersHiro ? (
         <>
-          向こう岸でココ・ヒロ・ナノカの3人だけになり、ヒロがナノカを抑えきれなかったため、
+          向こう岸で
+          <span className="yellow-text">二階堂ヒロ</span>
+          の隙を突いて、
         </>
       ) : (
         <>
-          ヒロもシェリーも同じ場所にいなかったため、
+          <span className="yellow-text">二階堂ヒロ</span>
+          も
+          <span className="yellow-text">橘シェリー</span>
+          も見張っていなかったため、
         </>
       )}
       <span className="yellow-text">黒部ナノカ</span>
@@ -49,6 +54,7 @@ const nanokaKillsCoco = (overpowersHiro = false) => ({
   ),
   effect: "nanoka-shot",
   shotTarget: "coco",
+  badVoice: "/bad_voices/bad_nanoka_coco_kill.mp3",
   badVoiceVolume: 2.2,
   delay: 1200,
 });
@@ -159,7 +165,11 @@ export const getDeathReasonLevel4 = (
       return sherryBreaksBoat();
     }
 
-    if (has(group, "nanoka") && group.length === 2) {
+    if (
+      has(group, "nanoka") &&
+      has(group, "hiro") &&
+      group.length === 2
+    ) {
       return nanokaKillsPassenger(group);
     }
 

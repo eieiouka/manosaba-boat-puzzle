@@ -270,7 +270,7 @@ export const LEVEL_CHARACTER_OVERRIDES = {
       condition: (
         <>
           <span className="yellow-text">黒部ナノカ</span>
-          以外と船で同席すると、同席者を鎌で
+          以外と船で同乗すると、同乗者を鎌で
           <span className="red-text">斬殺</span>
           します。
           <br />
@@ -405,9 +405,11 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           します。
           <br />
           <span className="yellow-text">桜羽エマ</span>
-          は動きが鈍いので、離れた場所からでも
+          への執念が強く、離れた場所からでもエマを
           <span className="red-text">銃殺</span>
-          できます（
+          します（
+          <span className="yellow-text">二階堂ヒロ</span>
+          が見張っている、
           <span className="yellow-text">橘シェリー</span>
           がエマを庇っている場合は別）。
           <br />
@@ -421,9 +423,9 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <br />
           船の上で
           <span className="yellow-text">二階堂ヒロ</span>
-          と同席すると、間違って
+          と同乗すると、諍いになって
           <span className="red-text">銃殺</span>
-          してしまいます。
+          します。
         </>
       ),
     },
