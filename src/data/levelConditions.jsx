@@ -393,10 +393,6 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     nanoka: {
       condition: (
         <>
-          誰かと船で同席すると、同席者を
-          <span className="red-text">銃殺</span>
-          します。
-          <br />
           <span className="yellow-text">二階堂ヒロ</span>
           か
           <span className="yellow-text">橘シェリー</span>
@@ -422,6 +418,12 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           を
           <span className="red-text">銃殺</span>
           します（3人だけが岸にいるなら）。
+          <br />
+          船の上で
+          <span className="yellow-text">二階堂ヒロ</span>
+          と同席すると、間違って
+          <span className="red-text">銃殺</span>
+          してしまいます。
         </>
       ),
     },

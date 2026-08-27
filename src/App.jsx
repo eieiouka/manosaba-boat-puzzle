@@ -147,7 +147,9 @@ export default function App() {
 
     if (death.effect) {
       if (death.effect === "nanoka-shot") {
-        setShotStyle(makeShotStyle());
+        setShotStyle(
+          makeShotStyle(death.shotTarget || "ema")
+        );
       }
 
       if (death.effect === "hiro-smash") {

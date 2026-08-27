@@ -10,8 +10,10 @@ const nanokaKillsEma = () => ({
   ),
   message: (
     <>
+      <span className="yellow-text">二階堂ヒロ</span>
+      がナノカ側におらず、
       <span className="yellow-text">橘シェリー</span>
-      がエマにもナノカにも付いていなかったため、
+      もエマにもナノカにも付いていなかったため、
       <span className="yellow-text">黒部ナノカ</span>
       が遠隔から
       <span className="yellow-text">桜羽エマ</span>
@@ -19,6 +21,7 @@ const nanokaKillsEma = () => ({
     </>
   ),
   effect: "nanoka-shot",
+  shotTarget: "ema",
   badVoice: "/bad_voices/bad_nanoka_ema_kill.mp3",
   badVoiceVolume: 2.2,
   delay: 1200,
@@ -45,6 +48,7 @@ const nanokaKillsCoco = (overpowersHiro = false) => ({
     </>
   ),
   effect: "nanoka-shot",
+  shotTarget: "coco",
   badVoiceVolume: 2.2,
   delay: 1200,
 });
@@ -65,6 +69,8 @@ const nanokaKillsPassenger = (group) => {
       </>
     ),
     effect: "nanoka-shot",
+    shotTarget: victim.id,
+    badVoice: "/bad_voices/bad_nanoka_hiro_kill.mp3",
     badVoiceVolume: 2.2,
     delay: 1200,
   };
@@ -117,8 +123,12 @@ const checkRemoteShot = (groups) => {
   const sherryGroup = groups.findIndex(({ members }) =>
     has(members, "sherry")
   );
+  const hiroGroup = groups.findIndex(({ members }) =>
+    has(members, "hiro")
+  );
 
   if (
+    hiroGroup !== nanokaGroup &&
     sherryGroup !== nanokaGroup &&
     sherryGroup !== emaGroup
   ) {

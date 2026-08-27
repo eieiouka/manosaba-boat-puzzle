@@ -52,10 +52,10 @@ export function useDeathEffectStyles({
     };
   };
 
-  const makeShotStyle = () => {
+  const makeShotStyle = (targetId = "ema") => {
     const containerEl = gameCardRef.current;
     const nanokaEl = getVisibleCharacterEl("nanoka");
-    const emaEl = getVisibleCharacterEl("ema");
+    const targetEl = getVisibleCharacterEl(targetId);
 
     const makeStyle = (
       startX,
@@ -91,7 +91,7 @@ export function useDeathEffectStyles({
     const containerRect =
       containerEl.getBoundingClientRect();
 
-    if (!nanokaEl || !emaEl) {
+    if (!nanokaEl || !targetEl) {
       return makeStyle(
         containerRect.width * 0.35,
         containerRect.height * 0.55,
@@ -103,8 +103,8 @@ export function useDeathEffectStyles({
     const nanokaRect =
       nanokaEl.getBoundingClientRect();
 
-    const emaRect =
-      emaEl.getBoundingClientRect();
+    const targetRect =
+      targetEl.getBoundingClientRect();
 
     const startX =
       nanokaRect.left +
@@ -117,13 +117,13 @@ export function useDeathEffectStyles({
       containerRect.top;
 
     const endX =
-      emaRect.left +
-      emaRect.width / 2 -
+      targetRect.left +
+      targetRect.width / 2 -
       containerRect.left;
 
     const endY =
-      emaRect.top +
-      emaRect.height / 2 -
+      targetRect.top +
+      targetRect.height / 2 -
       containerRect.top;
 
     return makeStyle(
