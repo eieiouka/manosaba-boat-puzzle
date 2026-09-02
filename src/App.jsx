@@ -34,6 +34,8 @@ const CHARACTER_VOICE_VOLUME = {
 
 export default function App() {
   const [currentLevel, setCurrentLevel] = useState(1);
+  const usesLevel4CocoRules =
+    currentLevel === 4 || currentLevel === 5;
 
   const makeInitialPeople = (levelId) =>
     getLevelCharacters(levelId).map((c) => ({
@@ -109,7 +111,7 @@ export default function App() {
     people.filter((p) => p.side === side);
 
   const hasSulkingCocoInBoat =
-    currentLevel === 4 &&
+    usesLevel4CocoRules &&
     boat.some(
       (p) => p.id === "coco" && p.sulking
     );
@@ -319,7 +321,7 @@ export default function App() {
     if (person.side !== boatSide) return;
 
     if (
-      currentLevel === 4 &&
+      usesLevel4CocoRules &&
       person.id === "coco" &&
       person.sulking
     ) {
@@ -467,7 +469,7 @@ export default function App() {
 
       setBoatSide(nextSide);
 
-      if (currentLevel === 4) {
+      if (usesLevel4CocoRules) {
         const cocoCrossed = boat.some(
           (p) => p.id === "coco"
         );
@@ -513,7 +515,7 @@ export default function App() {
 
       <section
         ref={gameCardRef}
-        className={`game-card ${
+        className={`game-card level-${currentLevel} ${
           deathEffect === "boat-break"
             ? "death-shake"
             : ""
@@ -568,7 +570,7 @@ export default function App() {
             characterRefs={characterRefs}
             canBoard={(person) =>
               !(
-                currentLevel === 4 &&
+                usesLevel4CocoRules &&
                 person.id === "coco" &&
                 person.sulking
               )
@@ -655,7 +657,7 @@ export default function App() {
             characterRefs={characterRefs}
             canBoard={(person) =>
               !(
-                currentLevel === 4 &&
+                usesLevel4CocoRules &&
                 person.id === "coco" &&
                 person.sulking
               )

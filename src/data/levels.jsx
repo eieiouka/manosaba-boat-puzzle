@@ -49,6 +49,19 @@ export const LEVELS = {
       "coco",
     ],
   },
+
+  5: {
+    id: 5,
+    name: "レベル5",
+    characterIds: [
+      "ema",
+      "sherry",
+      "hanna",
+      "hiro",
+      "nanoka",
+      "coco",
+    ],
+  },
 };
 
 export const getLevelCharacters = (levelId) => {

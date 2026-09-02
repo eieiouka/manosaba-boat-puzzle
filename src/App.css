@@ -1891,6 +1891,14 @@ h1 {
     padding-bottom: 4px;
   }
 
+  /* レベル5だけ、縦幅を増やさず6人を岸の横幅に収める */
+  .level-5 .people-list {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 3px;
+    overflow: hidden;
+  }
+
   .person {
     width: 58px;
     height: 78px;
@@ -1914,6 +1922,24 @@ h1 {
     line-height: 1.05;
     font-size: 9px;
     letter-spacing: -0.02em;
+  }
+
+  .level-5 .people-list .person {
+    width: 100%;
+    min-width: 0;
+    height: 74px;
+    border-radius: 14px;
+  }
+
+  .level-5 .people-list .person img {
+    width: min(44px, calc(100% - 2px));
+    height: min(44px, calc(100% - 2px));
+  }
+
+  .level-5 .people-list .person small {
+    font-size: clamp(7px, 2.15vw, 9px);
+    letter-spacing: -0.08em;
+    white-space: nowrap;
   }
 
   .person:hover:not(:disabled) {

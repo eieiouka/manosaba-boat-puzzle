@@ -10,7 +10,7 @@ export const getDeathReason = (
 ) => {
   const levelId = Number(context.levelId ?? 1);
 
-  if (levelId === 4) {
+  if (levelId === 4 || levelId === 5) {
     return getDeathReasonLevel4(
       group,
       phase,
