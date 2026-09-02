@@ -1932,8 +1932,10 @@ h1 {
   }
 
   .level-5 .people-list .person img {
-    width: min(44px, calc(100% - 2px));
-    height: min(44px, calc(100% - 2px));
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .level-5 .people-list .person small {
