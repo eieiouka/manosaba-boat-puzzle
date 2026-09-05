@@ -126,6 +126,12 @@ const hannaStabsHiro = () => ({
 
 const honokaSlashes = (group, targetId) => {
   const targetName = personName(group, targetId);
+  const voiceByTarget = {
+    ema: "/bad_voices/bad_honoka_ema_kill.mp3",
+    sherry: "/bad_voices/bad_honoka_sherry_kill.mp3",
+    hanna: "/bad_voices/bad_honoka_hanna_kill.mp3",
+    hiro: "/bad_voices/bad_honoka_hiro_kill.mp3",
+  };
 
   return {
     title: <span className="red-text">{targetName} 死亡</span>,
@@ -138,10 +144,7 @@ const honokaSlashes = (group, targetId) => {
     ),
     effect: "honoka-slash",
     slashTarget: targetId,
-    badVoice:
-      targetId === "hiro"
-        ? "/bad_voices/bad_honoka_hiro_kill.mp3"
-        : undefined,
+    badVoice: voiceByTarget[targetId],
     badVoiceVolume: 2.2,
     delay: 1200,
   };
