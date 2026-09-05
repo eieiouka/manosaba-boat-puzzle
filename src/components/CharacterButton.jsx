@@ -10,9 +10,11 @@ export default function CharacterButton({
   buttonRef,
 }) {
   const displayedImage =
-    person.sulking && person.sulkingImg
-      ? person.sulkingImg
-      : person.img;
+    person.tired && person.tiredImg
+      ? person.tiredImg
+      : person.sulking && person.sulkingImg
+        ? person.sulkingImg
+        : person.img;
 
   const handleClick = () => {
     if (!canMove) return;

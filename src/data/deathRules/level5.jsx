@@ -121,6 +121,8 @@ const hannaStabsHiro = () => ({
   ),
   effect: "hanna-stab",
   stabTarget: "hiro",
+  badVoice: "/bad_voices/bad_hanna_hiro_kill.mp3",
+  badVoiceVolume: 2.2,
   delay: 1200,
 });
 

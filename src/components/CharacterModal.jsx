@@ -5,9 +5,11 @@ export default function CharacterModal({
   if (!character) return null;
 
   const displayedImage =
-    character.sulking && character.sulkingImg
-      ? character.sulkingImg
-      : character.img;
+    character.tired && character.tiredImg
+      ? character.tiredImg
+      : character.sulking && character.sulkingImg
+        ? character.sulkingImg
+        : character.img;
 
   return (
     <div

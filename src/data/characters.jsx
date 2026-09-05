@@ -15,6 +15,7 @@ export const CHARACTERS = [
     id: "hanna",
     name: "遠野ハンナ",
     img: "/images/hanna.png",
+    tiredImg: "/images/hanna_sulking.png",
   },
 
   {
