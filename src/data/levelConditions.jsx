@@ -430,4 +430,115 @@ export const LEVEL_CHARACTER_OVERRIDES = {
       ),
     },
   },
+
+  5: {
+    ema: {
+      condition: (
+        <>
+          非力なバカ犬なので、一人で船を漕ぐと
+          <span className="red-text">溺死</span>します。
+          <br />
+          <span className="yellow-text">黒部ナノカ</span>
+          から、岸・対岸・船のどこにいても狙撃されます。
+          <br />
+          <span className="yellow-text">黒部ホノカ</span>
+          がナノカを見張るか、
+          <span className="yellow-text">二階堂ヒロ</span>
+          がエマと同じ岸で護衛すれば防げます。
+        </>
+      ),
+    },
+
+    sherry: {
+      condition: (
+        <>
+          船では必ず
+          <span className="yellow-text">桜羽エマ</span>
+          か<span className="yellow-text">遠野ハンナ</span>
+          が同乗しないと、船を壊して
+          <span className="red-text">溺死</span>します。
+          <br />
+          <span className="yellow-text">黒部ホノカ</span>
+          に見張られていないナノカと同じ場所にいると、
+          <span className="red-text">銃殺</span>されます。
+        </>
+      ),
+    },
+
+    hanna: {
+      condition: (
+        <>
+          一人、または
+          <span className="yellow-text">桜羽エマ</span>
+          以外と船に乗ると、疲れて不機嫌になります。
+          <br />
+          不機嫌な間はエマと一緒でなければ船に乗れず、エマと渡ると機嫌が直ります。
+          <br />
+          不機嫌な状態で向こう岸に
+          <span className="yellow-text">二階堂ヒロ</span>
+          と二人きりになると、ヒロを
+          <span className="red-text">刺殺</span>します。
+          <br />
+          船で<span className="yellow-text">黒部ナノカ</span>
+          と同席すると、ナノカを
+          <span className="red-text">刺殺</span>します。
+        </>
+      ),
+    },
+
+    hiro: {
+      condition: (
+        <>
+          <span className="yellow-text">桜羽エマ</span>
+          と同じ岸にいれば、ナノカの狙撃からエマを守れます。
+          <br />
+          ただし船でエマと同席すると、殺人衝動からエマを
+          <span className="red-text">撲殺</span>します。
+          <br />
+          岸がエマ・
+          <span className="yellow-text">橘シェリー</span>
+          ・ヒロの三人だけになると、二人に嫉妬してエマを
+          <span className="red-text">撲殺</span>します。
+          <br />
+          一人で船に乗ると、隙を突いたナノカに
+          <span className="red-text">銃殺</span>されます。
+        </>
+      ),
+    },
+
+    nanoka: {
+      condition: (
+        <>
+          <span className="yellow-text">黒部ホノカ</span>
+          が同じ場所で見張っていないと、近くにいる
+          <span className="yellow-text">桜羽エマ</span>
+          と<span className="yellow-text">橘シェリー</span>
+          を<span className="red-text">銃殺</span>します。
+          <br />
+          エマは離れた場所や船からも狙撃します。ただし、ホノカの見張りか、エマと同じ岸にいる
+          <span className="yellow-text">二階堂ヒロ</span>
+          の護衛があれば防げます。
+          <br />
+          ヒロが一人で船に乗ると、誰に見張られていても隙を突いて
+          <span className="red-text">銃殺</span>します。
+        </>
+      ),
+    },
+
+    honoka: {
+      condition: (
+        <>
+          船で<span className="yellow-text">黒部ナノカ</span>
+          以外と同席すると、同乗者を鎌で
+          <span className="red-text">斬殺</span>します。
+          <br />
+          岸で<span className="yellow-text">二階堂ヒロ</span>
+          と二人きりになると、ヒロを
+          <span className="red-text">斬殺</span>します。
+          <br />
+          ナノカと同じ場所にいれば、ナノカの殺人を止められます。
+        </>
+      ),
+    },
+  },
 };

@@ -24,7 +24,7 @@ export default function StartModal({
           </button>
 
           <button onClick={() => onStartLevel(5)}>
-            レベル5（6人・UI確認用）
+            レベル5
           </button>
         </div>
       </div>

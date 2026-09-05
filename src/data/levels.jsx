@@ -59,7 +59,7 @@ export const LEVELS = {
       "hanna",
       "hiro",
       "nanoka",
-      "coco",
+      "honoka",
     ],
   },
 };

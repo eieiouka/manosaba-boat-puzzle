@@ -34,8 +34,8 @@ const CHARACTER_VOICE_VOLUME = {
 
 export default function App() {
   const [currentLevel, setCurrentLevel] = useState(1);
-  const usesLevel4CocoRules =
-    currentLevel === 4 || currentLevel === 5;
+  const usesLevel4CocoRules = currentLevel === 4;
+  const usesLevel5HannaRules = currentLevel === 5;
 
   const makeInitialPeople = (levelId) =>
     getLevelCharacters(levelId).map((c) => ({
@@ -115,6 +115,11 @@ export default function App() {
     boat.some(
       (p) => p.id === "coco" && p.sulking
     );
+
+  const hasTiredHannaWithoutEmaInBoat =
+    usesLevel5HannaRules &&
+    boat.some((p) => p.id === "hanna" && p.tired) &&
+    !boat.some((p) => p.id === "ema");
 
   const showDeathLogLater = (death) => {
     if (deathLogTimerRef.current) {
@@ -328,6 +333,15 @@ export default function App() {
       return;
     }
 
+    if (
+      usesLevel5HannaRules &&
+      person.id === "hanna" &&
+      person.tired &&
+      !boat.some((p) => p.id === "ema")
+    ) {
+      return;
+    }
+
     if (boat.length >= 2) return;
 
     setPeople((prev) =>
@@ -365,7 +379,8 @@ export default function App() {
       isMoving ||
       deathReason ||
       deathEffect ||
-      hasSulkingCocoInBoat
+      hasSulkingCocoInBoat ||
+      hasTiredHannaWithoutEmaInBoat
     ) {
       return;
     }
@@ -403,6 +418,7 @@ export default function App() {
           departureSide,
           nextSide,
           allPeople,
+          boatGroup,
           levelId: currentLevel,
         }
       );
@@ -423,6 +439,7 @@ export default function App() {
             departureSide,
             nextSide,
             allPeople,
+            boatGroup,
             levelId: currentLevel,
           }
         );
@@ -455,6 +472,7 @@ export default function App() {
           departureSide,
           nextSide,
           allPeople,
+          boatGroup: [...boat],
           levelId: currentLevel,
         }
       );
@@ -495,6 +513,25 @@ export default function App() {
             prev.map((p) =>
               p.id === "coco"
                 ? { ...p, sulking: false }
+                : p
+            )
+          );
+        }
+      }
+
+      if (usesLevel5HannaRules) {
+        const hannaCrossed = boat.some(
+          (p) => p.id === "hanna"
+        );
+        const emaCrossed = boat.some(
+          (p) => p.id === "ema"
+        );
+
+        if (hannaCrossed) {
+          setBoat((prev) =>
+            prev.map((p) =>
+              p.id === "hanna"
+                ? { ...p, tired: !emaCrossed }
                 : p
             )
           );
@@ -573,6 +610,12 @@ export default function App() {
                 usesLevel4CocoRules &&
                 person.id === "coco" &&
                 person.sulking
+              ) &&
+              !(
+                usesLevel5HannaRules &&
+                person.id === "hanna" &&
+                person.tired &&
+                !boat.some((p) => p.id === "ema")
               )
             }
           />
@@ -632,6 +675,7 @@ export default function App() {
                   isMoving ||
                   boat.length === 0 ||
                   hasSulkingCocoInBoat ||
+                  hasTiredHannaWithoutEmaInBoat ||
                   deathReason ||
                   deathEffect
                 }
@@ -660,6 +704,12 @@ export default function App() {
                 usesLevel4CocoRules &&
                 person.id === "coco" &&
                 person.sulking
+              ) &&
+              !(
+                usesLevel5HannaRules &&
+                person.id === "hanna" &&
+                person.tired &&
+                !boat.some((p) => p.id === "ema")
               )
             }
           />
