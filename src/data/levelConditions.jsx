@@ -517,15 +517,25 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <span className="yellow-text">黒部ホノカ</span>
           が同じ場所で見張っていないと、近くにいる
           <span className="yellow-text">桜羽エマ</span>
-          と<span className="yellow-text">橘シェリー</span>
-          を<span className="red-text">銃殺</span>します。
+          や
+          <span className="yellow-text">橘シェリー</span>
+          を
+          <span className="red-text">銃殺</span>
+          します。
           <br />
-          エマは離れた場所や船からも狙撃します。ただし、ホノカの見張りか、エマと同じ岸にいる
+          <span className="yellow-text">桜羽エマ</span>
+          には特に恨みがあるため、離れた場所からでも狙撃します。
+          <br />
           <span className="yellow-text">二階堂ヒロ</span>
-          の護衛があれば防げます。
+          が一人で船に乗ると、隙を突いて
+          <span className="red-text">銃殺</span>
+          します。
           <br />
-          ヒロが一人で船に乗ると、誰に見張られていても隙を突いて
-          <span className="red-text">銃殺</span>します。
+          これはお姉ちゃん（
+          <span className="yellow-text">黒部ホノカ</span>
+          ）が見張っていても阻止できません。
+          <br />
+          ヒロに恨みはないものの、エマを庇うので仕方なく処分するようです。
         </>
       ),
     },
@@ -533,19 +543,19 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     honoka: {
       condition: (
         <>
-          船で<span className="yellow-text">黒部ナノカ</span>
-          以外と同席すると、同乗者を鎌で
-          <span className="red-text">斬殺</span>します。
+          <span className="yellow-text">黒部ナノカ</span>
+          以外と船で同席すると、同席者を鎌で
+          <span className="red-text">斬殺</span>
+          します。
           <br />
-          ただし<span className="yellow-text">遠野ハンナ</span>
-          と同乗した場合は、先にハンナから
-          <span className="red-text">刺殺</span>されます。
-          <br />
-          岸で<span className="yellow-text">二階堂ヒロ</span>
+          岸で
+          <span className="yellow-text">二階堂ヒロ</span>
           と二人きりになると、ヒロを
-          <span className="red-text">斬殺</span>します。
+          <span className="red-text">斬殺</span>
+          します。
           <br />
-          ナノカと同じ場所にいれば、ナノカの殺人を止められます。
+          <span className="yellow-text">黒部ナノカ</span>
+          と同じ場所にいれば、ナノカの殺人を止められます（ヒロ殺害は例外）。
         </>
       ),
     },
