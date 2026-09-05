@@ -436,15 +436,14 @@ export const LEVEL_CHARACTER_OVERRIDES = {
       condition: (
         <>
           非力なバカ犬なので、一人で船を漕ぐと
-          <span className="red-text">溺死</span>します。
-          <br />
-          <span className="yellow-text">黒部ナノカ</span>
-          から、岸・対岸・船のどこにいても狙撃されます。
-          <br />
-          <span className="yellow-text">黒部ホノカ</span>
-          がナノカを見張るか、
-          <span className="yellow-text">二階堂ヒロ</span>
-          がエマと同じ岸で護衛すれば防げます。
+          <span className="red-text">溺死</span>
+          します。<br />
+          船で
+          <span className="yellow-text">橘シェリー</span>
+          と同席すると、シェリーの暴走（船壊し）を防げます。<br />
+          <span className="yellow-text">遠野ハンナ</span>
+          と同席すると、ハンナの機嫌を直します。<br />
+          わがままな2人組の面倒を見てあげるそうです。
         </>
       ),
     },
@@ -452,15 +451,15 @@ export const LEVEL_CHARACTER_OVERRIDES = {
     sherry: {
       condition: (
         <>
-          船では必ず
           <span className="yellow-text">桜羽エマ</span>
-          か<span className="yellow-text">遠野ハンナ</span>
-          が同乗しないと、船を壊して
-          <span className="red-text">溺死</span>します。
+          か
+          <span className="yellow-text">遠野ハンナ</span>
+          と同席しないと、船を壊してしまいます。
           <br />
-          <span className="yellow-text">黒部ホノカ</span>
-          に見張られていないナノカと同じ場所にいると、
-          <span className="red-text">銃殺</span>されます。
+
+          そのまま
+          <span className="red-text">溺死</span>
+          します。バカな怪力女です。
         </>
       ),
     },
@@ -474,18 +473,20 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <br />
           不機嫌な間はエマと一緒でなければ船に乗れず、エマと渡ると機嫌が直ります。
           <br />
-          不機嫌な状態で向こう岸に
+          不機嫌な状態で、
           <span className="yellow-text">二階堂ヒロ</span>
-          と二人きりになると、ヒロを
+          と向こう岸で二人きりになると、偉そうに仕切るヒロを包丁で
           <span className="red-text">刺殺</span>します。
           <br />
-          船で<span className="yellow-text">黒部ナノカ</span>
-          と同席すると、ナノカを
+          船で
+          <span className="yellow-text">黒部ナノカ</span>
+          や
+          <span className="yellow-text">黒部ホノカ</span>
+          と同席すると、正当防衛という名目でナノカ（ホノカ）を
           <span className="red-text">刺殺</span>します。
           <br />
-          船で<span className="yellow-text">黒部ホノカ</span>
-          と同席すると、ホノカを
-          <span className="red-text">刺殺</span>します。
+          誰に似たのか、気に入らないとすぐ殺す癖がついてきたようです。
+          <br />
         </>
       ),
     },
@@ -496,16 +497,16 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           <span className="yellow-text">桜羽エマ</span>
           と同じ岸にいれば、ナノカの狙撃からエマを守れます。
           <br />
-          ただし船でエマと同席すると、殺人衝動からエマを
-          <span className="red-text">撲殺</span>します。
+          ただしエマと船で同席すると、殺人衝動からエマを
+          <span className="red-text">撲殺</span>
+          します。
           <br />
-          岸がエマ・
+          岸で
+          <span className="yellow-text">桜羽エマ</span>
+          ・
           <span className="yellow-text">橘シェリー</span>
-          ・ヒロの三人だけになると、二人に嫉妬してエマを
+          と3人だけになると、二人に嫉妬してエマを
           <span className="red-text">撲殺</span>します。
-          <br />
-          一人で船に乗ると、隙を突いたナノカに
-          <span className="red-text">銃殺</span>されます。
         </>
       ),
     },

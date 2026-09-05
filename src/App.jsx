@@ -456,11 +456,29 @@ export default function App() {
     setTimeout(() => {
       if (deathRef.current) return;
 
+      const hannaCrossed =
+        usesLevel5HannaRules &&
+        boat.some((p) => p.id === "hanna");
+      const emaCrossed = boat.some(
+        (p) => p.id === "ema"
+      );
+      const arrivedBoat = hannaCrossed
+        ? boat.map((p) =>
+            p.id === "hanna"
+              ? { ...p, tired: !emaCrossed }
+              : p
+          )
+        : boat;
+
+      if (hannaCrossed) {
+        setBoat(arrivedBoat);
+      }
+
       const arrivalGroup = [
         ...people.filter(
           (p) => p.side === nextSide
         ),
-        ...boat,
+        ...arrivedBoat,
       ];
 
       const death = getDeathReason(
@@ -472,7 +490,7 @@ export default function App() {
           departureSide,
           nextSide,
           allPeople,
-          boatGroup: [...boat],
+          boatGroup: [...arrivedBoat],
           levelId: currentLevel,
         }
       );
@@ -513,25 +531,6 @@ export default function App() {
             prev.map((p) =>
               p.id === "coco"
                 ? { ...p, sulking: false }
-                : p
-            )
-          );
-        }
-      }
-
-      if (usesLevel5HannaRules) {
-        const hannaCrossed = boat.some(
-          (p) => p.id === "hanna"
-        );
-        const emaCrossed = boat.some(
-          (p) => p.id === "ema"
-        );
-
-        if (hannaCrossed) {
-          setBoat((prev) =>
-            prev.map((p) =>
-              p.id === "hanna"
-                ? { ...p, tired: !emaCrossed }
                 : p
             )
           );

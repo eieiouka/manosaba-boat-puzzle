@@ -26,11 +26,11 @@ const nanokaKillsEma = () =>
     "桜羽エマ",
     <>
       <span className="yellow-text">黒部ホノカ</span>
-      の見張りも、
-      <span className="yellow-text">二階堂ヒロ</span>
-      の護衛もなかったため、
+      が見ていない隙に、
       <span className="yellow-text">黒部ナノカ</span>
-      が<span className="yellow-text">桜羽エマ</span>を
+      が
+      <span className="yellow-text">桜羽エマ</span>
+      を
       <span className="red-text">銃殺</span>しました。
     </>
   );
@@ -41,11 +41,12 @@ const nanokaKillsSherry = () =>
     "橘シェリー",
     <>
       <span className="yellow-text">黒部ホノカ</span>
-      に見張られていなかったため、
+      が見ていない隙に、
       <span className="yellow-text">黒部ナノカ</span>
       が近くにいた
       <span className="yellow-text">橘シェリー</span>を
-      <span className="red-text">銃殺</span>しました。
+      <span className="red-text">銃殺</span>
+      しました。
     </>
   );
 
@@ -57,7 +58,9 @@ const nanokaKillsSoloHiro = () =>
       <span className="yellow-text">二階堂ヒロ</span>
       が一人で船に乗った隙を突き、
       <span className="yellow-text">黒部ナノカ</span>
-      が<span className="red-text">銃殺</span>しました。
+      が
+      <span className="red-text">銃殺</span>
+      しました。
     </>
   );
 
@@ -66,9 +69,11 @@ const sherryBreaksBoat = () => ({
   message: (
     <>
       <span className="yellow-text">桜羽エマ</span>
-      も<span className="yellow-text">遠野ハンナ</span>
+      も
+      <span className="yellow-text">遠野ハンナ</span>
       も同乗していないため、橘シェリーが船を壊して
-      <span className="red-text">溺死</span>しました。
+      <span className="red-text">溺死</span>
+      しました。
     </>
   ),
   effect: "boat-break",
@@ -81,8 +86,11 @@ const hannaStabsNanoka = () => ({
   title: <span className="red-text">黒部ナノカ 死亡</span>,
   message: (
     <>
-      船で同席した<span className="yellow-text">遠野ハンナ</span>
-      が<span className="yellow-text">黒部ナノカ</span>を包丁で
+      船で同席した
+      <span className="yellow-text">遠野ハンナ</span>
+      が
+      <span className="yellow-text">黒部ナノカ</span>
+      を包丁で
       <span className="red-text">刺殺</span>しました。
     </>
   ),
@@ -97,9 +105,13 @@ const hannaStabsHonoka = () => ({
   title: <span className="red-text">黒部ホノカ 死亡</span>,
   message: (
     <>
-      船で同席した<span className="yellow-text">遠野ハンナ</span>
-      が<span className="yellow-text">黒部ホノカ</span>を包丁で
-      <span className="red-text">刺殺</span>しました。
+      船で同席した
+      <span className="yellow-text">遠野ハンナ</span>
+      が
+      <span className="yellow-text">黒部ホノカ</span>
+      を包丁で
+      <span className="red-text">刺殺</span>
+      しました。
     </>
   ),
   effect: "hanna-stab",
@@ -113,10 +125,13 @@ const hannaStabsHiro = () => ({
   title: <span className="red-text">二階堂ヒロ 死亡</span>,
   message: (
     <>
-      不機嫌な<span className="yellow-text">遠野ハンナ</span>
-      と向こう岸で二人きりになったため、
-      <span className="yellow-text">二階堂ヒロ</span>が衝動的に
-      <span className="red-text">刺殺</span>されました。
+      不機嫌な
+      <span className="yellow-text">遠野ハンナ</span>
+      と向こう岸で二人きりになったため、腹いせに
+      <span className="yellow-text">二階堂ヒロ</span>
+      が包丁で
+      <span className="red-text">刺殺</span>
+      されました。
     </>
   ),
   effect: "hanna-stab",
@@ -140,8 +155,11 @@ const honokaSlashes = (group, targetId) => {
     message: (
       <>
         <span className="yellow-text">黒部ホノカ</span>
-        が<span className="yellow-text">{targetName}</span>を鎌で
-        <span className="red-text">斬殺</span>しました。
+        が
+        <span className="yellow-text">{targetName}</span>
+        を鎌で
+        <span className="red-text">斬殺</span>
+        しました。
       </>
     ),
     effect: "honoka-slash",
@@ -157,16 +175,23 @@ const hiroKillsEma = (jealous = false) => ({
   message: jealous ? (
     <>
       <span className="yellow-text">橘シェリー</span>
-      といちゃつく<span className="yellow-text">桜羽エマ</span>
-      に嫉妬した<span className="yellow-text">二階堂ヒロ</span>
-      が、エマを<span className="red-text">撲殺</span>しました。
+      といちゃつく
+      <span className="yellow-text">桜羽エマ</span>
+      に嫉妬した
+      <span className="yellow-text">二階堂ヒロ</span>
+      が、エマを
+      <span className="red-text">撲殺</span>
+      しました。
     </>
   ) : (
     <>
-      船で<span className="yellow-text">桜羽エマ</span>
-      と同席した<span className="yellow-text">二階堂ヒロ</span>
+      船で
+      <span className="yellow-text">桜羽エマ</span>
+      と同席した
+      <span className="yellow-text">二階堂ヒロ</span>
       が殺人衝動を抑えきれず、エマを
-      <span className="red-text">撲殺</span>しました。
+      <span className="red-text">撲殺</span>
+      しました。
     </>
   ),
   effect: "hiro-smash",
