@@ -482,6 +482,10 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           船で<span className="yellow-text">黒部ナノカ</span>
           と同席すると、ナノカを
           <span className="red-text">刺殺</span>します。
+          <br />
+          船で<span className="yellow-text">黒部ホノカ</span>
+          と同席すると、ホノカを
+          <span className="red-text">刺殺</span>します。
         </>
       ),
     },
@@ -531,6 +535,10 @@ export const LEVEL_CHARACTER_OVERRIDES = {
           船で<span className="yellow-text">黒部ナノカ</span>
           以外と同席すると、同乗者を鎌で
           <span className="red-text">斬殺</span>します。
+          <br />
+          ただし<span className="yellow-text">遠野ハンナ</span>
+          と同乗した場合は、先にハンナから
+          <span className="red-text">刺殺</span>されます。
           <br />
           岸で<span className="yellow-text">二階堂ヒロ</span>
           と二人きりになると、ヒロを

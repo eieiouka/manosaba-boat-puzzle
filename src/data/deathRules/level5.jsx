@@ -13,6 +13,8 @@ const nanokaShoots = (targetId, targetName, message) => ({
       ? "/bad_voices/bad_nanoka_ema_kill.mp3"
       : targetId === "hiro"
         ? "/bad_voices/bad_nanoka_hiro_kill.mp3"
+        : targetId === "sherry"
+          ? "/bad_voices/bad_nanoka_sherry_kill.mp3"
         : undefined,
   badVoiceVolume: targetId === "hiro" ? 3.08 : 2.2,
   delay: 1200,
@@ -87,6 +89,22 @@ const hannaStabsNanoka = () => ({
   effect: "hanna-stab",
   stabTarget: "nanoka",
   badVoice: "/bad_voices/bad_hanna_nanoka_kill.mp3",
+  badVoiceVolume: 2.2,
+  delay: 1200,
+});
+
+const hannaStabsHonoka = () => ({
+  title: <span className="red-text">黒部ホノカ 死亡</span>,
+  message: (
+    <>
+      船で同席した<span className="yellow-text">遠野ハンナ</span>
+      が<span className="yellow-text">黒部ホノカ</span>を包丁で
+      <span className="red-text">刺殺</span>しました。
+    </>
+  ),
+  effect: "hanna-stab",
+  stabTarget: "honoka",
+  badVoice: "/bad_voices/bad_hanna_honoka_kill.mp3",
   badVoiceVolume: 2.2,
   delay: 1200,
 });
@@ -182,6 +200,10 @@ const checkBoat = (group) => {
 
   if (has(group, "hanna") && has(group, "nanoka")) {
     return hannaStabsNanoka();
+  }
+
+  if (has(group, "hanna") && has(group, "honoka")) {
+    return hannaStabsHonoka();
   }
 
   if (has(group, "ema") && has(group, "hiro")) {
