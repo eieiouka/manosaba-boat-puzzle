@@ -1900,8 +1900,8 @@ h1 {
   }
 
   .level-5 .bank {
-    height: auto;
-    min-height: 0;
+    height: 130px;
+    min-height: 130px;
     padding-bottom: 10px;
   }
 
